@@ -4,11 +4,9 @@ import TerraTech.BranchManagementBackend.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import TerraTech.BranchManagementBackend.dto.chart.chartData;
-import TerraTech.BranchManagementBackend.dto.chart.bigChartRequest;
+import TerraTech.BranchManagementBackend.dto.chart.ChartData;
+import TerraTech.BranchManagementBackend.dto.chart.BigChartRequest;
 
-import java.awt.print.Pageable;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,11 +18,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("SELECT SUM(revenue) " + "FROM (SELECT SUM(p.price * r.peopleSoldTo) as revenue " + "      FROM Product p " + "      LEFT JOIN p.reports r " + "      WHERE p.manager.id = :managerId AND YEAR(r.createDate) = YEAR(CURRENT_DATE) " + "      GROUP BY p.id) AS revenue_table")
     Long totalRevenueThisYear(@Param("managerId") Long managerId);
 
-    @Query("SELECT NEW TerraTech.BranchManagementBackend.dto.chart.chartData(product.name, SUM(product.price * report.peopleSoldTo)) " + "FROM Product product " + "LEFT JOIN product.reports report " + "WHERE product.manager.id = :id AND YEAR(product.addedAt)=YEAR(CURRENT_DATE)" + "GROUP BY product.id " + "ORDER BY COUNT(report) DESC")
-    List<chartData> findTop5Products(@Param("id") Long id);
+    @Query("SELECT NEW TerraTech.BranchManagementBackend.dto.chart.ChartData(product.name, SUM(product.price * report.peopleSoldTo)) " + "FROM Product product " + "LEFT JOIN product.reports report " + "WHERE product.manager.id = :id AND YEAR(product.addedAt)=YEAR(CURRENT_DATE)" + "GROUP BY product.id " + "ORDER BY COUNT(report) DESC")
+    List<ChartData> findTop5Products(@Param("id") Long id);
 
-    @Query("SELECT new TerraTech.BranchManagementBackend.dto.chart.bigChartRequest(p.name, SUM(p.price * r.peopleSoldTo) as totalProfit) " + "FROM Product p " + "JOIN p.reports r " + "WHERE MONTH(r.createDate) = :month " + "AND YEAR(r.createDate) = :year " + "AND p.manager.id = :id " + "GROUP BY p.id, p.name " + "ORDER BY totalProfit DESC")
-    List<bigChartRequest> findTop3ProductsThisMonth(@Param("month") Integer month, @Param("year") Integer year, @Param("id") Long id);
+    @Query("SELECT new TerraTech.BranchManagementBackend.dto.chart.BigChartRequest(p.name, SUM(p.price * r.peopleSoldTo) as totalProfit) " + "FROM Product p " + "JOIN p.reports r " + "WHERE MONTH(r.createDate) = :month " + "AND YEAR(r.createDate) = :year " + "AND p.manager.id = :id " + "GROUP BY p.id, p.name " + "ORDER BY totalProfit DESC")
+    List<BigChartRequest> findTop3ProductsThisMonth(@Param("month") Integer month, @Param("year") Integer year, @Param("id") Long id);
 
     @Query("SELECT SUM(product.price + report.peopleSoldTo) " + "FROM Product product " + "JOIN product.reports report " + "WHERE MONTH(product.addedAt) = :month " + "AND YEAR(product.addedAt) = :year " + "AND product.manager.id = :id")
     Long productsSpecificMonth(@Param("month") Integer month, @Param("year") Integer year, @Param("id") Long id);
