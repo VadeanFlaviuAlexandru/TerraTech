@@ -4,22 +4,21 @@ import TerraTech.BranchManagementBackend.models.Report;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import TerraTech.BranchManagementBackend.dto.chart.topDealUsersRequest;
-import TerraTech.BranchManagementBackend.dto.chart.user.reportRequest;
+import TerraTech.BranchManagementBackend.dto.chart.TopDealUsersRequest;
+import TerraTech.BranchManagementBackend.dto.chart.user.ReportRequest;
 
-import java.math.BigInteger;
 import java.util.List;
 
 public interface ReportRepository extends JpaRepository<Report, Long> {
 
-    @Query("SELECT NEW TerraTech.BranchManagementBackend.dto.chart.topDealUsersRequest(user.firstName, user.email, SUM(report.peopleSoldTo)) " + "FROM Report report INNER JOIN report.user user " + "WHERE user.manager.id = :id AND YEAR(user.createdAt) = YEAR(CURRENT_DATE) " + "GROUP BY user.id ORDER BY SUM(report.peopleSoldTo) DESC ")
-    List<topDealUsersRequest> findTopProfitUsers(@Param("id") Long id);
+    @Query("SELECT NEW TerraTech.BranchManagementBackend.dto.chart.TopDealUsersRequest(user.firstName, user.email, SUM(report.peopleSoldTo)) " + "FROM Report report INNER JOIN report.user user " + "WHERE user.manager.id = :id AND YEAR(user.createdAt) = YEAR(CURRENT_DATE) " + "GROUP BY user.id ORDER BY SUM(report.peopleSoldTo) DESC ")
+    List<TopDealUsersRequest> findTopProfitUsers(@Param("id") Long id);
 
-    @Query("SELECT NEW TerraTech.BranchManagementBackend.dto.chart.user.reportRequest(report.id, report.description, report.product.name, report.createDate, report.peopleNotifiedAboutProduct, report.peopleSoldTo) " +
+    @Query("SELECT NEW TerraTech.BranchManagementBackend.dto.chart.user.ReportRequest(report.id, report.description, report.product.name, report.createDate, report.peopleNotifiedAboutProduct, report.peopleSoldTo) " +
             "FROM Report report INNER JOIN report.user user " +
             "WHERE user.id = :id AND YEAR(user.createdAt) = YEAR(CURRENT_DATE) " +
             "GROUP BY user.id, report.id, report.description, report.product.name, report.createDate, report.peopleNotifiedAboutProduct, report.peopleSoldTo ORDER BY report.createDate DESC")
-    List<reportRequest> findReports(@Param("id") Long id);
+    List<ReportRequest> findReports(@Param("id") Long id);
 
     @Query("SELECT SUM(report.peopleNotifiedAboutProduct) " + "FROM Report report " + "WHERE YEAR(report.createDate) = YEAR(CURRENT_DATE) " + "AND report.product.manager.id = :id")
     Long totalNotifiedPeople(@Param("id") Long id);
