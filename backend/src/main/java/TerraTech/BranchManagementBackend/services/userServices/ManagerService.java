@@ -117,7 +117,6 @@ public class ManagerService {
         return UserResponse.builder().id(userRequest.getId()).role(userRequest.getRole()).createdAt(userRequest.getCreatedAt()).email(userRequest.getEmail()).status(userRequest.getStatus()).lastName(userRequest.getLastName()).firstName(userRequest.getFirstName()).phone(userRequest.getPhone()).build();
     }
 
-
     public List<UserResponse> getManagerEmployees(Long id) {
         List<User> users = userRepository.findByManagerId(id);
         return users.stream().map(user -> UserResponse.builder().firstName(user.getFirstName()).lastName(user.getLastName()).status(user.getStatus()).email(user.getEmail()).createdAt(user.getCreatedAt()).role(user.getRole()).build()).collect(Collectors.toList());
