@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductChartResponse {
-    Product product;
-    ChartRequest chartInfo;
+    private Product product;
+    private ChartRequest chartInfo;
 }

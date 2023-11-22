@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,10 +80,10 @@ public class ProductService {
 
     public ProductResponse editProduct(ProductUpdateRequest request, Long id) {
         Product productRequest = productRepository.findById(id).map(product -> {
-            request.getInStock().ifPresent(product::setInStock);
-            request.getName().ifPresent(product::setName);
-            request.getPrice().ifPresent(product::setPrice);
-            request.getProducer().ifPresent(product::setProducer);
+            product.setInStock(Optional.ofNullable(request.getInStock()).orElse(product.getInStock()));
+            product.setName(Optional.ofNullable(request.getName()).orElse(product.getName()));
+            product.setPrice(Optional.ofNullable(request.getPrice()).orElse(product.getPrice()));
+            product.setProducer(Optional.ofNullable(request.getProducer()).orElse(product.getProducer()));
             return productRepository.save(product);
         }).orElseThrow(ProductNotFoundException::new);
         return ProductResponse.builder().id(productRequest.getId()).inStock(productRequest.getInStock()).name(productRequest.getName()).price(productRequest.getPrice()).producer(productRequest.getProducer()).addedAt(productRequest.getAddedAt()).build();

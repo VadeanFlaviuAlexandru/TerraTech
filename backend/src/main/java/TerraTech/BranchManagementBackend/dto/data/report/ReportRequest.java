@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportRequest {
-    String product_id;
-    String description;
-    Integer peopleNotifiedAboutProduct;
-    Integer peopleSoldTo;
+    private String product_id;
+    private String description;
+    private Integer peopleNotifiedAboutProduct;
+    private Integer peopleSoldTo;
 }

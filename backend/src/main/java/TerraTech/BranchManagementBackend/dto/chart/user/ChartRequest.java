@@ -12,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChartRequest {
-    List<DataRequest> data;
-    List<DataKeyRequest> dataKeys;
+    private List<DataRequest> data;
+    private List<DataKeyRequest> dataKeys;
 }

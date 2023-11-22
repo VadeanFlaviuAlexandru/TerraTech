@@ -13,11 +13,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductResponse {
-    Long id;
-    String name;
-    Integer price;
-    String producer;
-    Integer inStock;
-    LocalDate addedAt;
-    User manager;
+    private Long id;
+    private String name;
+    private Integer price;
+    private String producer;
+    private Integer inStock;
+    private LocalDate addedAt;
+    private User manager;
 }

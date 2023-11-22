@@ -16,8 +16,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SearchEmployeeResponse {
-    User user;
-    List<User> listOfEmployees;
-    ChartRequest chartInfo;
-    List<ReportRequest> reports;
+    private User user;
+    private List<User> listOfEmployees;
+    private ChartRequest chartInfo;
+    private List<ReportRequest> reports;
 }

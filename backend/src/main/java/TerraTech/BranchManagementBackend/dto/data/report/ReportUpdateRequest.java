@@ -12,8 +12,8 @@ import java.util.Optional;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportUpdateRequest {
-    Optional<String> productId;
-    Optional<String> description;
-    Optional<Integer> peopleNotifiedAboutProduct;
-    Optional<Integer> peopleSoldTo;
+    private String productId;
+    private String description;
+    private Integer peopleNotifiedAboutProduct;
+    private Integer peopleSoldTo;
 }

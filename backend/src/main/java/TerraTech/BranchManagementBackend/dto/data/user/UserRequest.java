@@ -5,15 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Optional;
-
 @Data
 @Builder
 @AllArgsConstructor
 public class UserRequest {
-    Optional<String> firstName;
-    Optional<String> lastName;
-    Optional<String> email;
-    Optional<String> phone;
-    Optional<Role> role;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    private Role role;
 }

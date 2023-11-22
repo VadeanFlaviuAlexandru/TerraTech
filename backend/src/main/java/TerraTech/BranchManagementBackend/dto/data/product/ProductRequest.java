@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductRequest {
-    String name;
-    Integer price;
-    String producer;
-    Integer inStock;
+    private String name;
+    private Integer price;
+    private String producer;
+    private Integer inStock;
 }

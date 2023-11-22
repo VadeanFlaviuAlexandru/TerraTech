@@ -10,11 +10,11 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 public class ManagerRequest {
-    Long id;
-    String firstName;
-    String lastName;
-    String email;
-    String phone;
-    LocalDate createdAt;
-    Boolean status;
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    private LocalDate createdAt;
+    private Boolean status;
 }

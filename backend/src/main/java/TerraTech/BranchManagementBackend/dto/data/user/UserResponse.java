@@ -13,12 +13,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserResponse {
-    Long id;
-    String firstName;
-    String lastName;
-    LocalDate createdAt;
-    String email;
-    String phone;
-    Role role;
-    Boolean status;
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private LocalDate createdAt;
+    private String email;
+    private String phone;
+    private Role role;
+    private Boolean status;
 }

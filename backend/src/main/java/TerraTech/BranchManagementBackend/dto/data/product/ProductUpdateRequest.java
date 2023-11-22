@@ -12,8 +12,8 @@ import java.util.Optional;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductUpdateRequest {
-    Optional<String> name;
-    Optional<Integer> price;
-    Optional<String> producer;
-    Optional<Integer> inStock;
+    private String name;
+    private Integer price;
+    private String producer;
+    private Integer inStock;
 }

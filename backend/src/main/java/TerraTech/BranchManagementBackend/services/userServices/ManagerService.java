@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -90,16 +91,29 @@ public class ManagerService {
     }
 
     public UserResponse editEmployee(UserRequest request, Long id) {
-        User userRequest = userRepository.findById(id).map(user -> {
-            request.getEmail().ifPresent(user::setEmail);
-            request.getRole().ifPresent(user::setRole);
-            request.getFirstName().ifPresent(user::setFirstName);
-            request.getLastName().ifPresent(user::setLastName);
-            request.getPhone().ifPresent(user::setPhone);
-            return userRepository.save(user);
-        }).orElseThrow(() -> new NotFoundException(id));
-        return UserResponse.builder().id(userRequest.getId()).role(userRequest.getRole()).createdAt(userRequest.getCreatedAt()).email(userRequest.getEmail()).status(userRequest.getStatus()).lastName(userRequest.getLastName()).firstName(userRequest.getFirstName()).phone(userRequest.getPhone()).build();
+        User userRequest = userRepository.findById(id)
+                .map(user -> {
+                    user.setEmail(Optional.ofNullable(request.getEmail()).orElse(user.getEmail()));
+                    user.setRole(Optional.ofNullable(request.getRole()).orElse(user.getRole()));
+                    user.setFirstName(Optional.ofNullable(request.getFirstName()).orElse(user.getFirstName()));
+                    user.setLastName(Optional.ofNullable(request.getLastName()).orElse(user.getLastName()));
+                    user.setPhone(Optional.ofNullable(request.getPhone()).orElse(user.getPhone()));
+                    return userRepository.save(user);
+                })
+                .orElseThrow(() -> new NotFoundException(id));
+
+        return UserResponse.builder()
+                .id(userRequest.getId())
+                .role(userRequest.getRole())
+                .createdAt(userRequest.getCreatedAt())
+                .email(userRequest.getEmail())
+                .status(userRequest.getStatus())
+                .lastName(userRequest.getLastName())
+                .firstName(userRequest.getFirstName())
+                .phone(userRequest.getPhone())
+                .build();
     }
+
 
     public UserResponse changeStatus(Long id) {
         User userRequest = userRepository.findById(id).map(user -> {

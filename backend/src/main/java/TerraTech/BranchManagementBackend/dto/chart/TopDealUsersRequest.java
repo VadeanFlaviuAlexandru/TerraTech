@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TopDealUsersRequest {
-    String firstName;
-    String email;
-    Long amount;
+    private String firstName;
+    private String email;
+    private Long amount;
 }

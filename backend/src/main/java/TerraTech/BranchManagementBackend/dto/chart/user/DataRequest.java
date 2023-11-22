@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DataRequest {
-    String name;
-    Long peopleNotifiedAboutProduct;
-    Long peopleSoldTo;
+    private String name;
+    private Long peopleNotifiedAboutProduct;
+    private Long peopleSoldTo;
 }

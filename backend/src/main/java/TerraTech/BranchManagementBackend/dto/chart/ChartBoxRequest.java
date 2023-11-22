@@ -12,9 +12,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChartBoxRequest {
-    Long number;
-    String dataKey;
-    String title;
-    Double percentage;
-    List<ChartData> chartData;
+    private Long number;
+    private String dataKey;
+    private String title;
+    private Double percentage;
+    private List<ChartData> chartData;
 }

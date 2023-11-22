@@ -15,8 +15,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SignInResponse {
-    String token;
-    User user;
-    ChartRequest chartInfo;
-    List<ReportRequest> reports;
+    private String token;
+    private User user;
+    private ChartRequest chartInfo;
+    private List<ReportRequest> reports;
 }

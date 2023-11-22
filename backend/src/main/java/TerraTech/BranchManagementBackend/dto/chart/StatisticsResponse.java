@@ -12,11 +12,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class StatisticsResponse {
-    List<TopDealUsersRequest> topDealUsers;
-    ChartBoxRequest totalUsers;
-    ChartBoxRequest totalProducts;
-    List<ChartData> top5ProductsThisYear;
-    ChartBoxRequest totalRevenueThisYear;
-    ChartBoxRequest totalNotifiedPeople;
+    private List<TopDealUsersRequest> topDealUsers;
+    private ChartBoxRequest totalUsers;
+    private ChartBoxRequest totalProducts;
+    private List<ChartData> top5ProductsThisYear;
+    private ChartBoxRequest totalRevenueThisYear;
+    private ChartBoxRequest totalNotifiedPeople;
     //    List<bigChartRequest> top3ProductsThisMonth;
 }

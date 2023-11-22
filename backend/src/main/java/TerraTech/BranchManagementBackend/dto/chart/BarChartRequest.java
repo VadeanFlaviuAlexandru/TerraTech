@@ -12,8 +12,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BarChartRequest {
-    String title;
-    String color;
-    String dataKey;
-    List<ChartData> chartData;
+    private String title;
+    private String color;
+    private String dataKey;
+    private List<ChartData> chartData;
 }

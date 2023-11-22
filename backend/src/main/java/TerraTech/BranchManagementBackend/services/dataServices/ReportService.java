@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -54,16 +55,16 @@ public class ReportService {
 
     public ReportUpdateRequest editReport(ReportUpdateRequest request, Long id) {
         Report report = reportRepository.findById(id).orElseThrow(ReportNotFoundException::new);
-        request.getDescription().ifPresent(report::setDescription);
-        request.getProductId().ifPresent(productId -> {
-            Product product = productRepository.findById(Long.parseLong(productId)).orElseThrow(ProductNotFoundException::new);
-            report.setProduct(product);
-        });
-        request.getPeopleSoldTo().ifPresent(report::setPeopleSoldTo);
-        request.getPeopleNotifiedAboutProduct().ifPresent(report::setPeopleNotifiedAboutProduct);
+        report.setDescription(Optional.ofNullable(request.getDescription()).orElse(report.getDescription()));
+        Optional.ofNullable(request.getProductId()).map(productId -> productRepository.findById(Long.parseLong(productId)).orElseThrow(ProductNotFoundException::new)).ifPresent(report::setProduct);
+        report.setPeopleSoldTo(Optional.ofNullable(request.getPeopleSoldTo()).orElse(report.getPeopleSoldTo()));
+        report.setPeopleNotifiedAboutProduct(Optional.ofNullable(request.getPeopleNotifiedAboutProduct()).orElse(report.getPeopleNotifiedAboutProduct()));
+
         reportRepository.save(report);
+
         return request;
     }
+
 
     public List<ReportResponse> getEmployeesReports(Long id) {
         List<Report> reports = reportRepository.findByUserId(id);

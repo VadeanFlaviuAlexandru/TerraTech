@@ -11,5 +11,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GetAllManagersRequest {
-    List<ManagerRequest> managers;
+    private List<ManagerRequest> managers;
 }

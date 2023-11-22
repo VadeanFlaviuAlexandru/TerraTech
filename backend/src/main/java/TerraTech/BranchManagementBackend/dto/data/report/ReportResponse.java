@@ -12,9 +12,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportResponse {
-    Long id;
-    String description;
-    LocalDate createDate;
-    Integer peopleNotifiedAboutProduct;
-    Integer peopleSoldTo;
+    private Long id;
+    private String description;
+    private LocalDate createDate;
+    private Integer peopleNotifiedAboutProduct;
+    private Integer peopleSoldTo;
 }
