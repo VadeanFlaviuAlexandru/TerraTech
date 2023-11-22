@@ -2,10 +2,13 @@ package TerraTech.BranchManagementBackend.services.userServices;
 
 import TerraTech.BranchManagementBackend.dto.auth.SignUpRequest;
 import TerraTech.BranchManagementBackend.dto.chart.user.ChartRequest;
+import TerraTech.BranchManagementBackend.dto.chart.user.DataKeyRequest;
+import TerraTech.BranchManagementBackend.dto.chart.user.DataRequest;
+import TerraTech.BranchManagementBackend.dto.chart.user.ReportRequest;
 import TerraTech.BranchManagementBackend.dto.data.user.ManagerRequest;
+import TerraTech.BranchManagementBackend.dto.data.user.UserRequest;
 import TerraTech.BranchManagementBackend.dto.data.user.UserResponse;
 import TerraTech.BranchManagementBackend.dto.services.SearchEmployeeResponse;
-import TerraTech.BranchManagementBackend.dto.data.user.UserRequest;
 import TerraTech.BranchManagementBackend.enums.Role;
 import TerraTech.BranchManagementBackend.exceptions.manager.EmployeeRegistrationException;
 import TerraTech.BranchManagementBackend.exceptions.manager.ManagerNotFoundException;
@@ -17,14 +20,9 @@ import TerraTech.BranchManagementBackend.repositories.UserRepository;
 import TerraTech.BranchManagementBackend.services.jwtServices.JwtService;
 import TerraTech.BranchManagementBackend.utils.ExtractToken;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import TerraTech.BranchManagementBackend.dto.chart.user.DataRequest;
-import TerraTech.BranchManagementBackend.dto.chart.user.DataKeyRequest;
-import TerraTech.BranchManagementBackend.dto.chart.user.ReportRequest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -82,19 +80,13 @@ public class ManagerService {
         return listForManagers;
     }
 
-    public ResponseEntity<String> deleteEmployee(Long id) {
-        try {
-            List<Report> userReports = reportRepository.findByUserId(id);
-            for (Report report : userReports) {
-                report.setUser(null);
-            }
-            userRepository.deleteById(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Employee deleted successfully!");
-        } catch (EmptyResultDataAccessException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+    public ResponseEntity<?> deleteEmployee(Long id) {
+        List<Report> userReports = reportRepository.findByUserId(id);
+        for (Report report : userReports) {
+            report.setUser(null);
         }
+        userRepository.deleteById(id);
+        return ResponseEntity.ok("Employee deleted successfully");
     }
 
     public UserResponse editEmployee(UserRequest request, Long id) {

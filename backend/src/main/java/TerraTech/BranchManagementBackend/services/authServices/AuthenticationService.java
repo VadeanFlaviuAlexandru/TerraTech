@@ -15,6 +15,8 @@ import TerraTech.BranchManagementBackend.repositories.ReportRepository;
 import TerraTech.BranchManagementBackend.repositories.UserRepository;
 import TerraTech.BranchManagementBackend.services.jwtServices.JwtService;
 import TerraTech.BranchManagementBackend.services.userServices.UserService;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,6 +41,7 @@ public class AuthenticationService {
     private final ReportRepository reportRepository;
 
     public ResponseEntity<?> signup(SignUpRequest request) {
+
         userRepository.findByEmail(request.getEmail()).orElseThrow(()->new RegisterException("This email already exists!"));
         var user = User.builder().firstName(request.getFirstName()).lastName(request.getLastName()).email(request.getEmail()).phone(request.getPhone()).password(passwordEncoder.encode(request.getPassword())).role(Role.ROLE_MANAGER).createdAt(LocalDate.now()).status(true).build();
         userRepository.save(user);

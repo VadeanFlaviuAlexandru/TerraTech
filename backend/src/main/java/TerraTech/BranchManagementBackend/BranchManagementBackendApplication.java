@@ -9,5 +9,4 @@ public class BranchManagementBackendApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(BranchManagementBackendApplication.class, args);
 	}
-//test
 }

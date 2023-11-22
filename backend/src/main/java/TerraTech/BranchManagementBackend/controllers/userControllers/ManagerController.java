@@ -42,7 +42,7 @@ public class ManagerController {
 
     @DeleteMapping("/manager/deleteEmployee/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER') || hasRole('ROLE_ADMIN')")
-    public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
+    public ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
         return managerService.deleteEmployee(id);
     }
 

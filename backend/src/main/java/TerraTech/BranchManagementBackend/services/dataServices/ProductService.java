@@ -64,23 +64,17 @@ public class ProductService {
         return ProductChartResponse.builder().product(product).chartInfo(info).build();
     }
 
-    public ResponseEntity<String> deleteProduct(Long id) {
-        try {
-            Product product = productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
-            if (product != null) {
-                List<Report> productReports = product.getReports();
-                for (Report report : productReports) {
-                    report.setProduct(null);
-                    reportRepository.save(report);
-                }
-                productRepository.delete(product);
+    public ResponseEntity<?> deleteProduct(Long id) {
+        Product product = productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
+        if (product != null) {
+            List<Report> productReports = product.getReports();
+            for (Report report : productReports) {
+                report.setProduct(null);
+                reportRepository.save(report);
             }
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Product deleted successfully!");
-        } catch (EmptyResultDataAccessException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+            productRepository.delete(product);
         }
+        return ResponseEntity.ok("Product deleted successfully");
     }
 
     public ProductResponse editProduct(ProductUpdateRequest request, Long id) {

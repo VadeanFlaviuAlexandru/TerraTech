@@ -32,7 +32,7 @@ public class ReportController {
 
     @DeleteMapping("/report/deleteReport/{id}")
     @PreAuthorize("hasRole('ROLE_EMPLOYEE') || hasRole('ROLE_MANAGER') || hasRole('ROLE_ADMIN')")
-    public ResponseEntity<String> deleteReport(@PathVariable Long id) {
+    public ResponseEntity<?> deleteReport(@PathVariable Long id) {
         return reportService.deleteReport(id);
     }
 

@@ -46,29 +46,23 @@ public class ReportService {
         return ReportResponse.builder().createDate(report.getCreateDate()).peopleSoldTo(report.getPeopleSoldTo()).id(report.getId()).description(report.getDescription()).peopleNotifiedAboutProduct(report.getPeopleNotifiedAboutProduct()).build();
     }
 
-    public ResponseEntity<String> deleteReport(Long id) {
-        try {
-            reportRepository.deleteById(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Employee deleted successfully!");
-        } catch (EmptyResultDataAccessException ex) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Employee not found");
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
-        }
+    public ResponseEntity<?> deleteReport(Long id) {
+        reportRepository.findById(id).orElseThrow(ReportNotFoundException::new);
+        reportRepository.deleteById(id);
+        return ResponseEntity.ok("Report registered successfully");
     }
 
     public ReportUpdateRequest editReport(ReportUpdateRequest request, Long id) {
-        return reportRepository.findById(id).map(report -> {
-            request.getDescription().ifPresent(report::setDescription);
-            request.getProductId().ifPresent(productId -> {
-                Product product = productRepository.findById(Long.parseLong(request.getProductId().orElseThrow(ProductNotFoundException::new))).orElseThrow(ProductNotFoundException::new);
-                report.setProduct(product);
-            });
-            request.getPeopleSoldTo().ifPresent(report::setPeopleSoldTo);
-            request.getPeopleNotifiedAboutProduct().ifPresent(report::setPeopleNotifiedAboutProduct);
-            reportRepository.save(report);
-            return request;
-        }).orElseThrow(ReportNotFoundException::new);
+        Report report = reportRepository.findById(id).orElseThrow(ReportNotFoundException::new);
+        request.getDescription().ifPresent(report::setDescription);
+        request.getProductId().ifPresent(productId -> {
+            Product product = productRepository.findById(Long.parseLong(productId)).orElseThrow(ProductNotFoundException::new);
+            report.setProduct(product);
+        });
+        request.getPeopleSoldTo().ifPresent(report::setPeopleSoldTo);
+        request.getPeopleNotifiedAboutProduct().ifPresent(report::setPeopleNotifiedAboutProduct);
+        reportRepository.save(report);
+        return request;
     }
 
     public List<ReportResponse> getEmployeesReports(Long id) {
