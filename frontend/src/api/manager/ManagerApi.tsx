@@ -1,4 +1,4 @@
-import { successToast } from "../../utils/toasts/userToasts";
+import { errorToast, successToast } from "../../utils/toasts/userToasts";
 
 export const managerAddUser = async (payload = {}, token = "") => {
   let headers: { [key: string]: string } = {
@@ -19,8 +19,10 @@ export const managerAddUser = async (payload = {}, token = "") => {
     successToast("User added successfully!");
     return data;
   } else if (response.status === 403) {
+    errorToast("Invalid credentials and/or access level");
     throw new Error("Invalid credentials and/or access level");
   } else {
+    errorToast("Failed to fetch user data");
     throw new Error("Failed to fetch user data");
   }
 };
@@ -48,8 +50,10 @@ export const updateUserData = async (
     successToast("Updated successfully!");
     return data;
   } else if (response.status === 403) {
+    errorToast("Invalid credentials and/or access level");
     throw new Error("Invalid credentials and/or access level");
   } else {
+    errorToast("Failed to fetch user data");
     throw new Error("Failed to fetch user data");
   }
 };
@@ -70,8 +74,10 @@ export const fetchUserData = async (id: number | string, token = "") => {
     const data = await response.json();
     return data;
   } else if (response.status === 403) {
+    errorToast("Invalid credentials and/or access level");
     throw new Error("Invalid credentials and/or access level");
   } else {
+    errorToast("Failed to fetch user data");
     throw new Error("Failed to fetch user data");
   }
 };
@@ -95,8 +101,10 @@ export const fetchUserTableData = async (id: number | string, token = "") => {
     const data = await response.json();
     return data;
   } else if (response.status === 403) {
+    errorToast("Invalid credentials and/or access level");
     throw new Error("Invalid credentials and/or access level");
   } else {
+    errorToast("Failed to fetch user data");
     throw new Error("Failed to fetch user data");
   }
 };
@@ -116,8 +124,10 @@ export const deleteEmployee = async (id: number | string, token = "") => {
   if (response.ok) {
     return response;
   } else if (response.status === 403) {
+    errorToast("Invalid credentials and/or access level");
     throw new Error("Invalid credentials and/or access level");
   } else {
+    errorToast("Failed to fetch user data");
     throw new Error("Failed to fetch user data");
   }
 };
@@ -140,8 +150,10 @@ export const changeStatus = async (id: number | string, token = "") => {
     successToast("Updated successfully!");
     return data;
   } else if (response.status === 403) {
+    errorToast("Invalid credentials and/or access level");
     throw new Error("Invalid credentials and/or access level");
   } else {
+    errorToast("Failed to fetch user data");
     throw new Error("Failed to fetch user data");
   }
 };
@@ -159,10 +171,13 @@ export const deleteReport = async (id: number | string, token = "") => {
   });
 
   if (response.ok) {
+    successToast("Deleted successfully!");
     return response;
   } else if (response.status === 403) {
+    errorToast("Invalid credentials and/or access level");
     throw new Error("Invalid credentials and/or access level");
   } else {
+    errorToast("Failed to fetch user data");
     throw new Error("Failed to fetch user data");
   }
 };

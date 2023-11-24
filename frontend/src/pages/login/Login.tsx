@@ -1,11 +1,10 @@
 import Cookies from "js-cookie";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { useAppDispatch } from "../../store/hooks";
-import { useNavigate } from "react-router-dom";
-import "./login.scss";
+import { Link, useNavigate } from "react-router-dom";
 import { logInUser } from "../../api/auth/AuthApi";
 import { currentUserSetter } from "../../store/CurrentUser/CurrentUserSlice";
+import { useAppDispatch } from "../../store/hooks";
+import "./login.scss";
 
 const Login = () => {
   const dispatch = useAppDispatch();

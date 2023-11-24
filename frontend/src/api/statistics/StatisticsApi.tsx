@@ -1,3 +1,5 @@
+import { errorToast } from "../../utils/toasts/userToasts";
+
 export const fetchStatistics = async (id: number, token = "") => {
   let headers: { [key: string]: string } = {};
 
@@ -14,8 +16,10 @@ export const fetchStatistics = async (id: number, token = "") => {
     const data = await response.json();
     return data;
   } else if (response.status === 403) {
+    errorToast("Invalid credentials and/or access level");
     throw new Error("Invalid credentials and/or access level");
   } else {
+    errorToast("Failed to fetch user data");
     throw new Error("Failed to fetch user data");
   }
 };
@@ -36,8 +40,10 @@ export const fetchAllManagers = async (token = "") => {
     const data = await response.json();
     return data;
   } else if (response.status === 403) {
+    errorToast("Invalid credentials and/or access level");
     throw new Error("Invalid credentials and/or access level");
   } else {
+    errorToast("Failed to fetch user data");
     throw new Error("Failed to fetch user data");
   }
 };

@@ -86,6 +86,11 @@ export const currentUserSlice = createSlice({
       );
       state.reports = updatedReports;
     },
+    addReport: (state, action) => {
+      const reports = [...state.reports];
+      reports.push(action.payload);
+      state.reports = reports;
+    },
   },
 });
 
@@ -94,5 +99,6 @@ export const {
   resetUserSetter,
   updateCurrentReports,
   deleteCurrentReport,
+  addReport,
 } = currentUserSlice.actions;
 export default currentUserSlice.reducer;

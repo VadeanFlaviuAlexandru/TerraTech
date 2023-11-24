@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { useAppSelector } from "../../store/hooks";
 import { employeeAddReport } from "../../api/user/UserApi";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { addReport } from "../../store/CurrentUser/CurrentUserSlice";
 
-const Activity = () => {
+export default function Activity() {
   const products = useAppSelector((state) => state.productsTable.products);
   const token = useAppSelector((state) => state.currentUser.token);
+  const dispatch = useAppDispatch();
   const [report, setReport] = useState({
     product_id: "",
     description: "",
@@ -13,7 +15,7 @@ const Activity = () => {
   });
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setReport({ ...report, product_id: e.target.value }); // Update the product_id in the report state
+    setReport({ ...report, product_id: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -23,6 +25,7 @@ const Activity = () => {
     } else {
       try {
         const res = await employeeAddReport(report, token);
+        dispatch(addReport(res));
       } catch (err) {}
     }
   };
@@ -46,7 +49,12 @@ const Activity = () => {
         type="text"
         name="description"
         value={report.description}
-        onChange={(e) => setReport({ ...report, description: e.target.value })}
+        onChange={(e) =>
+          setReport((prevReport) => ({
+            ...prevReport,
+            description: e.target.value,
+          }))
+        }
       />
       <label htmlFor="peopleNotifiedAboutProduct">
         People Notified About Product
@@ -57,7 +65,10 @@ const Activity = () => {
         name="peopleNotifiedAboutProduct"
         value={report.peopleNotifiedAboutProduct}
         onChange={(e) =>
-          setReport({ ...report, peopleNotifiedAboutProduct: e.target.value })
+          setReport((prevReport) => ({
+            ...prevReport,
+            peopleNotifiedAboutProduct: e.target.value,
+          }))
         }
       />
       <label htmlFor="peopleSoldTo">People Sold To</label>
@@ -66,11 +77,14 @@ const Activity = () => {
         type="text"
         name="peopleSoldTo"
         value={report.peopleSoldTo}
-        onChange={(e) => setReport({ ...report, peopleSoldTo: e.target.value })}
+        onChange={(e) =>
+          setReport((prevReport) => ({
+            ...prevReport,
+            peopleSoldTo: e.target.value,
+          }))
+        }
       />
       <button type="submit">Add report</button>
     </form>
   );
-};
-
-export default Activity;
+}

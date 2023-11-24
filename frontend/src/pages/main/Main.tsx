@@ -6,9 +6,7 @@ export default function Main() {
     <div className="main">
       <div className="container center">
         <div className="companyTitle">
-          <h1>
-            <i>TerraTech Innovations</i>
-          </h1>
+          <img className="logo" src="./public/logo/logo.png" />
         </div>
         <div className="description">
           <h4>

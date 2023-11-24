@@ -1,4 +1,4 @@
-import { successToast } from "../../utils/toasts/userToasts";
+import { errorToast, successToast } from "../../utils/toasts/userToasts";
 
 export const employeeAddReport = async (payload = {}, token = "") => {
   let headers: { [key: string]: string } = {
@@ -19,8 +19,10 @@ export const employeeAddReport = async (payload = {}, token = "") => {
     successToast("Report added successfully!");
     return data;
   } else if (response.status === 403) {
+    errorToast("Invalid credentials and/or access level");
     throw new Error("Invalid credentials and/or access level");
   } else {
+    errorToast("Failed to fetch user data");
     throw new Error("Failed to fetch user data");
   }
 };

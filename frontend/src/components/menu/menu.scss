@@ -9,7 +9,7 @@
     .title {
       font-size: 12px;
       font-weight: 200;
-      color: $soft-color;
+      color: #ffffff
     }
     .listItem {
       display: flex;
@@ -19,7 +19,7 @@
       border-radius: 5px;
 
       &:hover {
-        background-color: $soft-bg;
+        background-color: $softLight-bg;
       }
 
       .icon {

@@ -20,7 +20,7 @@
     h1 {
       margin-bottom: 40px;
       font-size: 24px;
-      color: $soft-color;
+      color: $soft-bg;
     }
 
     .close {
@@ -52,7 +52,7 @@
           background-color: transparent;
           color: white;
           outline: none;
-          border: 1px solid $soft-color;
+          border: 1px solid $soft-bg;
           border-radius: 3px;
         }
       }

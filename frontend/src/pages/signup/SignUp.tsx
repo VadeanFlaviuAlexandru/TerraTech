@@ -1,19 +1,32 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import "./signup.scss";
+import { Link, useNavigate } from "react-router-dom";
 import { signUpUser } from "../../api/auth/AuthApi";
-import { useNavigate } from "react-router-dom";
+import "./signup.scss";
 
-const SignUp = () => {
+export default function SignUp() {
+  const navigate = useNavigate();
+  const passwordRegex =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
-  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [phoneToolTip, setphoneToolTip] = useState(false);
+  const [passwordToolTip, setPasswordToolTip] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
+  const [emailError, setEmailError] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!emailRegex.test(email)) {
+      return;
+    }
+    if (!passwordRegex.test(password)) {
+      return;
+    }
     const payload = {
       firstName: firstName,
       lastName: lastName,
@@ -21,12 +34,14 @@ const SignUp = () => {
       password: password,
       phone: phone,
     };
-    try {
-      const res = await signUpUser(payload);
-      if (res.ok) {
-        navigate("/login");
-      }
-    } catch (err) {}
+    if (!isLoading) {
+      signUpUser(payload).then((response) => {
+        if (response.ok) {
+          setIsLoading(true);
+          navigate("/login");
+        }
+      });
+    }
   };
 
   return (
@@ -35,57 +50,100 @@ const SignUp = () => {
         <h1>New branch?</h1>
         <h6>Sign up and start managing your branch!</h6>
         <form onSubmit={handleSubmit} className="form">
-          <input
-            className="input"
-            type="text"
-            value={firstName}
-            id="firstName"
-            name="firstName"
-            placeholder="First name"
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-          />
-          <input
-            className="input"
-            type="text"
-            id="lastName"
-            name="lastName"
-            value={lastName}
-            placeholder="Last name"
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
-          <input
-            className="input"
-            type="text"
-            value={email}
-            id="email"
-            name="email"
-            placeholder="E-mail"
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            className="input"
-            type="text"
-            value={phone}
-            id="phone"
-            name="phone"
-            placeholder="Phone"
-            max="10"
-            onChange={(e) => setPhone(e.target.value)}
-            required
-          />
-          <input
-            className="input"
-            type="password"
-            value={password}
-            id="password"
-            name="password"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div>
+            <label htmlFor="firstName">First Name:</label>
+            <input
+              className="input"
+              type="text"
+              id="firstName"
+              name="firstName"
+              maxLength={10}
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="lastName">Last Name:</label>
+            <input
+              className="input"
+              type="text"
+              id="lastName"
+              name="lastName"
+              maxLength={10}
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="email">E-mail:</label>
+            <input
+              className={emailError ? "inputError" : "input"}
+              type="text"
+              id="email"
+              name="email"
+              maxLength={40}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              onBlur={() => {
+                if (!emailRegex.test(email)) {
+                  setEmailError(true);
+                }
+              }}
+            />
+          </div>
+          <div>
+            <label htmlFor="phone">Phone:</label>
+            <input
+              className={phoneToolTip ? "inputError" : "input"}
+              type="text"
+              value={phone}
+              id="phone"
+              name="phone"
+              maxLength={40}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+              onBlur={() => {
+                if (phone.length !== 10) {
+                  setphoneToolTip(true);
+                }
+              }}
+            />
+            {phoneToolTip && (
+              <small className="helper-text">
+                The phone number must be 10 characters long.
+              </small>
+            )}
+          </div>
+          <div>
+            <label htmlFor="password">Password:</label>
+            <input
+              className={passwordError ? "inputError" : "input"}
+              type="password"
+              id="password"
+              name="password"
+              maxLength={40}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              onFocus={() => setPasswordToolTip(true)}
+              onBlur={() => {
+                setPasswordToolTip(false);
+                if (!passwordRegex.test(password)) {
+                  setPasswordError(true);
+                }
+              }}
+            />
+            {passwordToolTip && (
+              <small className="helper-text">
+                The password requires a minimum length of 6 characters, at least
+                one uppercase or lowercase letter, requires at least one digit
+                and a special character: @,$,!,%,*,#,?,&
+              </small>
+            )}
+          </div>
           <button className="button" type="submit">
             Register
           </button>{" "}
@@ -101,6 +159,4 @@ const SignUp = () => {
       </div>
     </div>
   );
-};
-
-export default SignUp;
+}
