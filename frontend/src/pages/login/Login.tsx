@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { logInUser } from "../../api/auth/AuthApi";
@@ -9,33 +8,32 @@ import "./login.scss";
 const Login = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [emailError, setEmailError] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+    if (!emailRegex.test(email)) {
+      return;
+    }
     const payload = {
       email: email,
       password: password,
     };
-
-    try {
-      await logInUser(payload).then((response) => {
+    if (!isLoading) {
+      logInUser(payload).then((response) => {
         dispatch(currentUserSetter(response));
-        Cookies.set("JWT_Token", response?.token, {
-          expires: 1,
-        });
-        if (
-          response.user.role === "ROLE_MANAGER" ||
-          response.user.role === "ROLE_ADMIN"
-        ) {
-          navigate("/dashboard/home");
-        } else {
+        if (response.user.role === "ROLE_EMPLOYEE") {
           navigate("/dashboard/activity");
+        } else {
+          navigate("/dashboard/home");
         }
       });
-    } catch (err) {}
+      setIsLoading(true);
+    }
   };
 
   return (
@@ -45,22 +43,38 @@ const Login = () => {
         <h6>Sign in and manage your branch!</h6>
         <form onSubmit={handleSubmit} className="form">
           <input
+            className={emailError ? "inputError" : "input"}
             type="text"
             id="email"
             name="email"
             placeholder="E-mail"
             value={email}
-            className="input"
+            maxLength={40}
             onChange={(e) => setEmail(e.target.value)}
             required
+            onBlur={() => {
+              if (!emailRegex.test(email)) {
+                setEmailError(true);
+              } else {
+                setEmailError(false);
+              }
+            }}
           />
+          <div
+            className="helperContainer"
+            style={{ display: emailError ? "" : "none" }}
+          >
+            {emailError && (
+              <small className="error-text">Please enter a valid e-mail.</small>
+            )}
+          </div>
           <input
+            className="input"
             type="password"
             id="password"
             name="password"
             placeholder="Password"
             value={password}
-            className="input"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
@@ -73,7 +87,7 @@ const Login = () => {
             Go back
           </Link>
           <Link className="button" to={`/signup`}>
-            Sign up as a branch manager
+            Sign up
           </Link>
         </div>
       </div>

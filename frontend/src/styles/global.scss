@@ -6,9 +6,8 @@ a {
 }
 
 .main {
-  font-family: "Inter", sans-serif;
-  background-color: $main-bg;
-  color: $soft-bg;
+  font-family: "Your Preferred Font", sans-serif;
+  background-image: url("./public/background/background.svg");
 }
 
 .container {
@@ -33,34 +32,15 @@ a {
 }
 
 .button {
-  display: inline-block;
-  padding: 0.9rem 1.8rem;
-  font-size: 16px;
+  padding: 0.8rem 2rem;
+  font-size: 20px;
   font-weight: 700;
-  color: white;
-  border: 3px solid #4db352;
-  cursor: pointer;
-  position: relative;
-  background-color: transparent;
-  text-decoration: none;
-  overflow: hidden;
-  z-index: 1;
-  font-family: inherit;
+  border: 2px solid $gray-color;
+  border-radius: 15px;
+  background-color: $text-color;
+  color: $gray-color;
 }
 
-.button::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #4db352;
-  transform: translateX(-100%);
-  transition: all 0.3s;
-  z-index: -1;
-}
-
-.button:hover::before {
-  transform: translateX(0);
+.button:hover {
+  background-color: $softLight-bg;
 }

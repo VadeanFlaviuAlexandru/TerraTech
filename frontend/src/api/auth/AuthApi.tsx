@@ -21,8 +21,8 @@ export const logInUser = async (payload = {}) => {
     errorToast("Invalid credentials and/or access level");
     throw new Error("Invalid credentials and/or access level");
   } else {
-    errorToast("Failed to fetch user data");
-    throw new Error("Failed to fetch user data");
+    longErrorToast("An error occured. Please try again!");
+    throw new Error("An error occured. Please try again!");
   }
 };
 
