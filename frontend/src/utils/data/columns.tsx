@@ -6,6 +6,7 @@ import { GridColDef } from "@mui/x-data-grid";
 import { useAppSelector } from "../../store/hooks";
 import { Link } from "react-router-dom";
 import DocumentIcon from "../../components/icons/DocumentIcon";
+import "../../components/menu/menu.scss";
 
 export const MenuList = () => {
   const user = useAppSelector((state) => state.currentUser.user);

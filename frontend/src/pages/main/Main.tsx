@@ -6,7 +6,7 @@ export default function Main() {
     <div className="main">
       <div className="container center">
         <div className="companyTitle">
-          <img className="logo" src="./public/logo/logo.png" />
+          <img className="logo" src="./logo/logo.png" />
         </div>
         <div className="description">
           <h4>

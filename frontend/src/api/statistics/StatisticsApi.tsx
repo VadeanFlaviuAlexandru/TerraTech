@@ -7,7 +7,7 @@ export const fetchStatistics = async (id: number, token = "") => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const response = await fetch(`/TerraTechInc/chart/statistics/${id}`, {
+  const response = await fetch(`/TerraTsechInc/chart/statistics/${id}`, {
     method: "GET",
     headers: headers,
   });

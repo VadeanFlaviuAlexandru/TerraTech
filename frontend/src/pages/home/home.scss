@@ -30,4 +30,20 @@
   display: flex;
   justify-content: center;
   align-content: center;
+  flex-direction: column;
+  height: 100%;
+  align-self: center;
+  justify-content: center;
+
+  .animations {
+    align-self: center;
+    justify-content: center;
+
+    span {
+      color: $text-color;
+      align-self: center;
+      justify-self: center;
+      margin-bottom: 20px;
+    }
+  }
 }

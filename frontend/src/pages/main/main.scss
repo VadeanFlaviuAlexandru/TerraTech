@@ -1,39 +1,43 @@
 @import "../../styles/variables.scss";
 
-.center {
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  text-align: center;
-  height: 100vh;
-  backdrop-filter: blur(3px);
+.main {
+  background-image: url("./background/background.svg");
 
-  .companyTitle {
-    font-size: xx-large;
-    text-align: center;
-  }
-
-  .logo {
-    max-width: 350px;
-  }
-
-  .description {
-    display: flex;
-    flex-direction: column;
+  .center {
     align-items: center;
     justify-content: center;
+    flex-direction: column;
     text-align: center;
-    padding: 0vh 10vh 5vh 10vh;
-    max-width: 1000px;
-    margin: 0 auto;
-    gap: 30px;
-    color: $text-color;
-    line-height: 1.5;
-    font-size: 20px;
-  }
+    height: 100vh;
+    backdrop-filter: blur(3px);
 
-  .buttons {
-    display: flex;
-    gap: 30px;
+    .companyTitle {
+      font-size: xx-large;
+      text-align: center;
+    }
+
+    .logo {
+      max-width: 350px;
+    }
+
+    .description {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0vh 10vh 5vh 10vh;
+      max-width: 1000px;
+      margin: 0 auto;
+      gap: 30px;
+      color: $text-color;
+      line-height: 1.5;
+      font-size: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 30px;
+    }
   }
 }

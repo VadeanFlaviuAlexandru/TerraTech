@@ -79,7 +79,7 @@ const Login = () => {
             required
           />
           <button className="button" type="submit">
-            authenticate
+            Authenticate
           </button>
         </form>
         <div className="buttons">

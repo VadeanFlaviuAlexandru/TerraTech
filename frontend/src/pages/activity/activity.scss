@@ -1,0 +1,46 @@
+@import "../../styles/variables.scss";
+
+.activityPage {
+  color: $text-color;
+  line-height: 1.5;
+  font-size: 20px;
+
+  h1 {
+    margin-bottom: 50px;
+  }
+  form {
+    gap: 30px;
+    display: flex;
+    flex-direction: column;
+    max-width: 50%;
+
+    .dropdownContainer {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 50px;
+      select {
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        border: none;
+      }
+    }
+
+    .inputContainer {
+      display: flex;
+      justify-content: space-between;
+    }
+    input {
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      border: none;
+    }
+
+    textarea {
+      resize: none;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      border: none;
+      height: 10rem;
+    }
+  }
+}

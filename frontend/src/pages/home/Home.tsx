@@ -111,8 +111,10 @@ const Home = () => {
           <div>There are no managers to show the statistics</div>
         ) : (
           <div className="gears">
-            Loading statistics...
-            <Loading />
+            <div className="animations">
+              <span>Loading statistics...</span>
+              <Loading />
+            </div>
           </div>
         )
       ) : (

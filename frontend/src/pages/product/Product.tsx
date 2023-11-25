@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import {
@@ -24,6 +23,7 @@ import "./product.scss";
 const Product = () => {
   const dispatch = useAppDispatch();
   const product = useAppSelector((state) => state.selectedProduct);
+  const token = useAppSelector((state) => state.currentUser.token);
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const id = location?.state?.id || useParams()?.id;
@@ -59,12 +59,10 @@ const Product = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        await fetchProductData(id, Cookies.get("JWT_Token")).then(
-          (response) => {
-            dispatch(selectedProductSetter(response));
-            console.log(response);
-          }
-        );
+        await fetchProductData(id, token).then((response) => {
+          dispatch(selectedProductSetter(response));
+          console.log(response);
+        });
       } catch (err: any) {
         warningToast(err.stringify);
       }

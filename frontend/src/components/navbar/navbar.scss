@@ -1,26 +1,16 @@
+@import "../../styles/variables.scss";
+
 .navbar {
   width: 100%;
-  padding: 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .user {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    img {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
+  background-color: $soft-bg;
+  border-bottom: 2px solid $softLight-bg;
+  padding: 10px 20px 10px 20px;
+  gap: 10px;
+  font-size: 20px;
+  span {
+    color: $text-color;
   }
 }

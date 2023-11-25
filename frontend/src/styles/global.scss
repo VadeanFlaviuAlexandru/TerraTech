@@ -7,22 +7,28 @@ a {
 
 .main {
   font-family: "Your Preferred Font", sans-serif;
-  background-image: url("./public/background/background.svg");
+  background-color: $main-bg;
 }
 
 .container {
   display: flex;
+  height: calc(100vh - 170px);
 }
 
 .menuContainer {
   width: 250px;
   padding: 5px 20px;
-  border-right: 2px solid $soft-bg;
+  background-color: $soft-bg;
+  border-right: 2px solid $softLight-bg;
 }
 
 .contentContainer {
   padding: 5px 20px;
   width: 100%;
+  background-color: $main-bg;
+  border-top: 1px solid $text-color;
+  border-left: 1px solid $text-color;
+  border-bottom: 1px solid $text-color;
 }
 
 * {
@@ -32,9 +38,10 @@ a {
 }
 
 .button {
+  cursor: pointer;
   padding: 0.8rem 2rem;
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 600;
   border: 2px solid $gray-color;
   border-radius: 15px;
   background-color: $text-color;
@@ -43,4 +50,18 @@ a {
 
 .button:hover {
   background-color: $softLight-bg;
+}
+
+.submitButton {
+  margin-top: 50px;
+  padding: 0.8rem 2rem;
+  font-size: 20px;
+  font-weight: 600;
+  border: 2px solid $gray-color;
+  border-radius: 15px;
+  background-color: $text-color;
+  color: $gray-color;
+  max-width: 20rem;
+  align-self: center;
+  cursor: pointer;
 }
