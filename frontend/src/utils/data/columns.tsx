@@ -132,6 +132,40 @@ export const MenuList = () => {
   );
 };
 
+export const columnsUserProfile: GridColDef[] = [
+  { field: "id", headerName: "ID", width: 90 },
+  {
+    field: "firstName",
+    headerName: "First name",
+    width: 150,
+    type: "string",
+  },
+  {
+    field: "lastName",
+    headerName: "Last name",
+    width: 150,
+    type: "string",
+  },
+  {
+    field: "email",
+    headerName: "E-mail",
+    width: 150,
+    type: "string",
+  },
+  {
+    field: "phone",
+    headerName: "Phone",
+    width: 100,
+    type: "string",
+  },
+  {
+    field: "phone",
+    headerName: "Phone",
+    width: 100,
+    type: "string",
+  },
+];
+
 export const columnsUser: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
   // {

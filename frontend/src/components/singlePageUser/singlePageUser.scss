@@ -1,5 +1,6 @@
 .single {
-  display: flex;
+  display: grid;
+  grid-template-rows: 1px 1px;
 
   .view {
     flex: 1;

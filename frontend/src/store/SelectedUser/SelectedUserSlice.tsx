@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface SelectedUserState {
+export interface SelectedUserState {
   user: {
     id: number;
     firstName: string;
