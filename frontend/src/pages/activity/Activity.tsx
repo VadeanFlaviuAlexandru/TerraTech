@@ -9,25 +9,25 @@ export default function Activity() {
   const products = useAppSelector((state) => state.productsTable.products);
   const token = useAppSelector((state) => state.currentUser.token);
   const [report, setReport] = useState({
-    product_id: "",
+    product_id: products[0]?.id?.toString(),
     description: "",
     peopleNotifiedAboutProduct: "",
     peopleSoldTo: "",
   });
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setReport({ ...report, product_id: e.target.value });
+    setReport({ ...report, product_id: e?.target?.value });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (report.product_id == "") {
+    if (report.product_id == "" || products.length == 0) {
       return;
     } else {
       employeeAddReport(report, token).then((response) => {
         dispatch(addReport(response));
         setReport({
-          product_id: "",
+          product_id: products[0]?.id?.toString(),
           description: "",
           peopleNotifiedAboutProduct: "",
           peopleSoldTo: "",
@@ -42,13 +42,19 @@ export default function Activity() {
       <form onSubmit={handleSubmit}>
         <div className="dropdownContainer">
           <label>Select a product associated with this report:</label>
-          <select value={report.product_id} onChange={handleSelectChange}>
-            {products.map((product) => (
-              <option key={product.id} value={product.id}>
-                {product.name}
-              </option>
-            ))}
-          </select>
+          {products.length > 0 ? (
+            <select value={report?.product_id} onChange={handleSelectChange}>
+              {products.map((product) => (
+                <option key={product?.id} value={product?.id}>
+                  {product?.name}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <span className="error-text">
+              No products available! Cannot submit a report.
+            </span>
+          )}
         </div>
         <div className="inputContainer">
           <label htmlFor="peopleNotifiedAboutProduct">
@@ -60,10 +66,10 @@ export default function Activity() {
             pattern="\d*"
             name="peopleNotifiedAboutProduct"
             required
-            value={report.peopleNotifiedAboutProduct}
-            maxLength={20}
+            value={report?.peopleNotifiedAboutProduct}
+            maxLength={9}
             onInput={(e) => {
-              const inputValue = (e.target as HTMLInputElement).value.replace(
+              const inputValue = (e.target as HTMLInputElement)?.value?.replace(
                 /\D/g,
                 ""
               );
@@ -84,13 +90,12 @@ export default function Activity() {
             pattern="\d*"
             name="peopleSoldTo"
             required
-            value={report.peopleSoldTo}
-            maxLength={20}
+            value={report?.peopleSoldTo}
+            maxLength={9}
             onInput={(e) => {
-              const inputValue = (e.target as HTMLInputElement).value.replace(
-                /\D/g,
-                ""
-              );
+              const inputValue = (
+                e?.target as HTMLInputElement
+              )?.value?.replace(/\D/g, "");
               setReport((prevReport) => ({
                 ...prevReport,
                 peopleSoldTo: inputValue,
@@ -104,15 +109,15 @@ export default function Activity() {
         <textarea
           id="description"
           name="description"
+          maxLength={255}
           required
-          value={report.description}
+          value={report?.description}
           onChange={(e) =>
             setReport((prevReport) => ({
               ...prevReport,
-              description: e.target.value,
+              description: e?.target?.value,
             }))
           }
-          maxLength={800}
         />
         <button className="submitButton" type="submit">
           Submit report

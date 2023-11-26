@@ -17,4 +17,5 @@ public class ReportResponse {
     private LocalDate createDate;
     private Integer peopleNotifiedAboutProduct;
     private Integer peopleSoldTo;
+    private String productName;
 }

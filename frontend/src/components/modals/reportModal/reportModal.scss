@@ -1,0 +1,104 @@
+@import "../../../styles/variables.scss";
+
+.add {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.724);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .modal {
+    padding: 50px;
+    border-radius: 7px;
+    background-color: $main-bg;
+    position: relative;
+
+    h1 {
+      margin-bottom: 40px;
+      font-size: 25px;
+      color: $text-color;
+    }
+
+    .close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 25px;
+      cursor: pointer;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      max-width: 500px;
+
+      .inputsContainer {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 500px;
+        justify-content: space-between;
+
+        .dropdownContainer {
+          margin-bottom: 20px;
+          justify-content: space-between;
+          select {
+            margin-left: 9px;
+            padding: 0.5rem 1rem;
+            border-radius: 7px;
+            border: none;
+            width: 180px;
+          }
+        }
+
+        .item {
+          width: 40%;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          margin-bottom: 20px;
+
+          .itemLabel {
+            font-size: 15px;
+          }
+
+          input {
+            padding: 10px;
+            background-color: transparent;
+            color: $gray-color;
+            outline: none;
+            border: 1px solid $text-color;
+            border-radius: 7px;
+            background-color: $text-color;
+          }
+        }
+      }
+
+      textarea {
+        resize: none;
+        padding: 0.5rem 1rem;
+        border-radius: 7px;
+        border: none;
+        height: 10rem;
+        width: 100%;
+        font-size: 20px;
+      }
+
+      .updateButton {
+        margin-top: 20px;
+        padding: 0.5rem 5rem;
+        font-size: 20px;
+        font-weight: 600;
+        border: 2px solid $gray-color;
+        border-radius: 7px;
+        background-color: $text-color;
+        color: $gray-color;
+        align-self: center;
+        cursor: pointer;
+      }
+    }
+  }
+}

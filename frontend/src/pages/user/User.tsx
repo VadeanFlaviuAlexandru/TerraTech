@@ -14,6 +14,9 @@ import {
   deleteReport,
   fetchUserData,
 } from "../../api/manager/ManagerApi";
+import DeleteIcon from "../../components/icons/DeleteIcon";
+import EditIcon from "../../components/icons/EditIcon";
+import SmallEditIcon from "../../components/icons/SmallEditIcon";
 import ReportModal from "../../components/modals/reportModal/ReportModal";
 import UserModal from "../../components/modals/userModal/UserModal";
 import {
@@ -32,18 +35,19 @@ import {
   columnsUserProfile,
 } from "../../utils/data/columns";
 import {
+  UserInfoMappings,
   getRandomColor,
   processedData,
   roleMapping,
 } from "../../utils/data/data";
 import "./user.scss";
-import { UserInfoMappings } from "../../utils/data/data";
+
 const User = () => {
   const dispatch = useAppDispatch();
-  const location = useLocation();
-  const id = location?.state?.id || useParams()?.id;
   const currentUser = useAppSelector((state) => state.currentUser);
   const selectedUser = useAppSelector((state) => state.selectedUser);
+  const location = useLocation();
+  const id = location?.state?.id || useParams()?.id;
   const [open, setOpen] = useState(false);
   const [openReport, setOpenReport] = useState(false);
   const [reportId, setReportId] = useState(0);
@@ -58,12 +62,15 @@ const User = () => {
 
   useEffect(() => {
     if (id != currentUser.user.id) {
-      const fetchData = () => {
-        fetchUserData(id, currentUser.token).then((response) => {
-          dispatch(selectedUserSetter(response));
-        });
-      };
-      fetchData();
+      fetchUserData(id, currentUser?.token).then((response) => {
+        dispatch(selectedUserSetter(response));
+      });
+    } else {
+      fetchUserData(currentUser?.user?.id, currentUser?.token).then(
+        (response) => {
+          dispatch(currentUserSetter(response));
+        }
+      );
     }
     return () => {
       resetSelectedUser();
@@ -76,17 +83,21 @@ const User = () => {
         <div className="leftContainer">
           <div className="topInfo">
             <h1>
-              {id == currentUser.user.id
-                ? `${currentUser.user.firstName} ${currentUser.user.lastName}`
-                : `${selectedUser.user.firstName} ${selectedUser.user.lastName}`}
+              {id == currentUser?.user?.id
+                ? `${currentUser?.user?.firstName} ${currentUser?.user?.lastName}`
+                : `${selectedUser?.user?.firstName} ${selectedUser?.user?.lastName}`}
             </h1>
-            {currentUser.user.role !== "ROLE_EMPLOYEE" && (
-              <button onClick={() => setOpen(true)}>Update</button>
+            {currentUser?.user?.role !== "ROLE_EMPLOYEE" && (
+              <button className="editButton" onClick={() => setOpen(true)}>
+                <EditIcon />
+              </button>
             )}
           </div>
           <div className="details">
             {Object.entries(
-              id === currentUser.user.id ? currentUser.user : selectedUser.user
+              id === currentUser?.user?.id
+                ? currentUser?.user
+                : selectedUser?.user
             )
               .filter(([key]) => key !== "password" && key !== "id")
               .map(([key, value]) => (
@@ -106,16 +117,17 @@ const User = () => {
                       : value}
                   </span>
                   {(value === false || value === true) &&
-                    currentUser.user.role !== "ROLE_EMPLOYEE" && (
+                    currentUser?.user?.role !== "ROLE_EMPLOYEE" && (
                       <button
+                        className="smallEditButton"
                         onClick={() => {
                           changeStatus(
-                            id == currentUser.user.id
-                              ? currentUser.user.id
-                              : selectedUser.user.id,
-                            currentUser.token
+                            id == currentUser?.user?.id
+                              ? currentUser?.user?.id
+                              : selectedUser?.user?.id,
+                            currentUser?.token
                           ).then((response) => {
-                            if (id == currentUser.user.id) {
+                            if (id == currentUser?.user?.id) {
                               dispatch(currentUserSetter(response));
                             } else {
                               dispatch(updateSelectedUser(response));
@@ -123,9 +135,7 @@ const User = () => {
                           });
                         }}
                       >
-                        {value === true
-                          ? "change status to inactive"
-                          : value === false && "change status to active"}
+                        <SmallEditIcon />
                       </button>
                     )}
                 </div>
@@ -138,8 +148,8 @@ const User = () => {
                 height={300}
                 data={
                   id === currentUser.user.id
-                    ? processedData(currentUser.chartInfo.data)
-                    : processedData(selectedUser.chartInfo.data)
+                    ? processedData(currentUser?.chartInfo?.data)
+                    : processedData(selectedUser?.chartInfo?.data)
                 }
                 margin={{
                   top: 5,
@@ -152,13 +162,13 @@ const User = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                {(id == currentUser.user.id
-                  ? currentUser.chartInfo
-                  : selectedUser.chartInfo
-                ).dataKeys.map((dataKey) => (
+                {(id == currentUser?.user?.id
+                  ? currentUser?.chartInfo
+                  : selectedUser?.chartInfo
+                ).dataKeys?.map((dataKey) => (
                   <Line
                     type="monotone"
-                    dataKey={dataKey.name}
+                    dataKey={dataKey?.name}
                     stroke={getRandomColor()}
                   />
                 ))}
@@ -167,49 +177,51 @@ const User = () => {
           </div>
         </div>
         <div className="rightContainer">
-          {(id == currentUser.user.id
+          {(id == currentUser?.user?.id
             ? currentUser?.reports
             : selectedUser?.reports
-          ).length > 0 ? (
+          )?.length > 0 ? (
             <>
               <h2>Latest reports</h2>
               <ul>
-                {(id == currentUser.user.id
+                {(id == currentUser?.user?.id
                   ? currentUser?.reports
                   : selectedUser?.reports
                 ).map((report, index) => (
                   <li key={index}>
                     <div className="reportCard">
-                      <p>{report.description}</p>
-                      <time>
-                        Created {report.createDate} for {report.productName}
-                      </time>
+                      <div>
+                        <p>Report for {report?.productName}</p>
+                        <time>Created {report?.createDate}</time>
+                      </div>
                       <div className="reportCardButtons">
                         <button
+                          className="editButton"
                           onClick={() => {
-                            setReportId(report.id);
+                            setReportId(report?.id);
                             setReport(report);
                             setOpenReport(true);
                           }}
                         >
-                          edit
+                          <EditIcon />
                         </button>
                         <button
+                          className="editButton"
                           onClick={() => {
-                            deleteReport(report.id, currentUser.token).then(
+                            deleteReport(report?.id, currentUser?.token).then(
                               (response) => {
                                 if (response.ok) {
-                                  if (id === currentUser.user.id) {
-                                    dispatch(deleteCurrentReport(report.id));
+                                  if (id === currentUser?.user?.id) {
+                                    dispatch(deleteCurrentReport(report?.id));
                                   } else {
-                                    dispatch(deleteSelectedReport(report.id));
+                                    dispatch(deleteSelectedReport(report?.id));
                                   }
                                 }
                               }
                             );
                           }}
                         >
-                          delete
+                          <DeleteIcon />
                         </button>
                       </div>
                     </div>
@@ -218,25 +230,25 @@ const User = () => {
               </ul>
             </>
           ) : (
-            "no reports made by this user"
+            "No reports made"
           )}
         </div>
       </div>
       {open && (
         <UserModal
           editableMode={true}
-          self={id === currentUser.user.id}
+          self={id === currentUser?.user?.id}
           headerText="Update credentials"
           buttonText="Update"
           columns={columnsUserProfile}
           setOpen={setOpen}
-          user={selectedUser.user}
-          id={selectedUser.user.id}
+          user={selectedUser?.user}
+          id={selectedUser?.user?.id}
         />
       )}
       {openReport && (
         <ReportModal
-          self={id === currentUser.user.id}
+          self={id === currentUser?.user?.id}
           headerText="Update report information"
           buttonText="Update"
           columns={columnsReportModal}

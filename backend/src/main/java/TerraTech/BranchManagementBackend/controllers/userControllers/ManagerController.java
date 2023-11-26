@@ -28,7 +28,7 @@ public class ManagerController {
     }
 
     @GetMapping("/manager/getEmployee/{id}")
-    @PreAuthorize("hasRole('ROLE_MANAGER') || hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MANAGER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_EMPLOYEE')")
     public SearchEmployeeResponse getEmployee(@PathVariable Long id) {
         return managerService.searchEmployee(id);
     }

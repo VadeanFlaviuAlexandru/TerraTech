@@ -286,11 +286,6 @@ export const columnsProductModal: GridColDef[] = [
 
 export const columnsReportModal: GridColDef[] = [
   {
-    field: "description",
-    headerName: "Description",
-    width: 200,
-  },
-  {
     field: "peopleNotifiedAboutProduct",
     headerName: "People notified to",
     width: 150,
@@ -299,6 +294,11 @@ export const columnsReportModal: GridColDef[] = [
     field: "peopleSoldTo",
     headerName: "People sold to",
     width: 150,
+  },
+  {
+    field: "description",
+    headerName: "Description",
+    width: 200,
   },
 ];
 

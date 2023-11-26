@@ -20,9 +20,13 @@
       margin-bottom: 50px;
       select {
         padding: 0.5rem 1rem;
-        border-radius: 5px;
+        border-radius: 7px;
         border: none;
         width: 180px;
+      }
+      .error-text {
+        color: $error-color;
+        font-size: 20px;
       }
     }
 
@@ -32,17 +36,23 @@
     }
     input {
       padding: 0.5rem 1rem;
-      border-radius: 5px;
+      border-radius: 7px;
       border: none;
       width: 180px;
+      color: $gray-color;
     }
 
     textarea {
       resize: none;
       padding: 0.5rem 1rem;
-      border-radius: 5px;
+      border-radius: 7px;
       border: none;
       height: 10rem;
+      font-size: 20px;
+    }
+
+    .submitButton {
+      border-radius: 7px;
     }
   }
 }

@@ -39,12 +39,12 @@ public class ReportService {
         var product = productRepository.findById(Long.parseLong(request.getProduct_id())).orElseThrow(ProductNotFoundException::new);
         var report = Report.builder().description(request.getDescription()).createDate(LocalDate.now()).peopleNotifiedAboutProduct(request.getPeopleNotifiedAboutProduct()).peopleSoldTo(request.getPeopleSoldTo()).user(user).product(product).build();
         report = reportRepository.save(report);
-        return ReportResponse.builder().createDate(report.getCreateDate()).description(report.getDescription()).id(report.getId()).peopleNotifiedAboutProduct(report.getPeopleNotifiedAboutProduct()).peopleSoldTo(report.getPeopleSoldTo()).build();
+        return ReportResponse.builder().createDate(report.getCreateDate()).description(report.getDescription()).productName(product.getName()).id(product.getId()).peopleNotifiedAboutProduct(report.getPeopleNotifiedAboutProduct()).peopleSoldTo(report.getPeopleSoldTo()).build();
     }
 
     public ReportResponse searchReport(Long id) {
         Report report = reportRepository.findById(id).orElseThrow(ReportNotFoundException::new);
-        return ReportResponse.builder().createDate(report.getCreateDate()).peopleSoldTo(report.getPeopleSoldTo()).id(report.getId()).description(report.getDescription()).peopleNotifiedAboutProduct(report.getPeopleNotifiedAboutProduct()).build();
+        return ReportResponse.builder().productName(report.getProduct().getName()).createDate(report.getCreateDate()).peopleSoldTo(report.getPeopleSoldTo()).id(report.getId()).description(report.getDescription()).peopleNotifiedAboutProduct(report.getPeopleNotifiedAboutProduct()).build();
     }
 
     public ResponseEntity<?> deleteReport(Long id) {
@@ -68,11 +68,11 @@ public class ReportService {
 
     public List<ReportResponse> getEmployeesReports(Long id) {
         List<Report> reports = reportRepository.findByUserId(id);
-        return reports.stream().map(report -> ReportResponse.builder().id(report.getId()).description(report.getDescription()).createDate(report.getCreateDate()).peopleSoldTo(report.getPeopleSoldTo()).peopleNotifiedAboutProduct(report.getPeopleNotifiedAboutProduct()).build()).collect(Collectors.toList());
+        return reports.stream().map(report -> ReportResponse.builder().productName(report.getProduct().getName()).id(report.getId()).description(report.getDescription()).createDate(report.getCreateDate()).peopleSoldTo(report.getPeopleSoldTo()).peopleNotifiedAboutProduct(report.getPeopleNotifiedAboutProduct()).build()).collect(Collectors.toList());
     }
 
     public List<ReportResponse> getProductReports(Long id) {
         List<Report> reports = reportRepository.findByProductId(id);
-        return reports.stream().map(report -> ReportResponse.builder().id(report.getId()).description(report.getDescription()).createDate(report.getCreateDate()).peopleSoldTo(report.getPeopleSoldTo()).peopleNotifiedAboutProduct(report.getPeopleNotifiedAboutProduct()).build()).collect(Collectors.toList());
+        return reports.stream().map(report -> ReportResponse.builder().productName(report.getProduct().getName()).id(report.getId()).description(report.getDescription()).createDate(report.getCreateDate()).peopleSoldTo(report.getPeopleSoldTo()).peopleNotifiedAboutProduct(report.getPeopleNotifiedAboutProduct()).build()).collect(Collectors.toList());
     }
 }

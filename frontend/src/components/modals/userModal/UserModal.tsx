@@ -6,10 +6,9 @@ import {
 } from "../../../api/manager/ManagerApi";
 import { currentUserSetter } from "../../../store/CurrentUser/CurrentUserSlice";
 import { updateSelectedUser } from "../../../store/SelectedUser/SelectedUserSlice";
+import { addEmployee } from "../../../store/UsersTable/UsersTableSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import "./userModal.scss";
-import { warningToast } from "../../../utils/toasts/userToasts";
-import { addEmployee } from "../../../store/UsersTable/UsersTableSlice";
 
 type Props = {
   editableMode: boolean;
@@ -29,9 +28,8 @@ type Props = {
 };
 
 export default function UserModal(props: Props) {
-  const token = useAppSelector((state) => state.currentUser.token);
   const dispatch = useAppDispatch();
-
+  const token = useAppSelector((state) => state.currentUser.token);
   const [user, setUser] = useState({
     id: props?.user?.id,
     firstName: props?.user?.firstName,
@@ -44,24 +42,20 @@ export default function UserModal(props: Props) {
     setUser({ ...user, [field]: value });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      if (props.editableMode) {
-        await updateUserData(props.id, user, token).then((response) => {
-          if (props.self) {
-            dispatch(currentUserSetter(response));
-          } else {
-            dispatch(updateSelectedUser(response));
-          }
-        });
-      } else {
-        await managerAddUser(user, token).then((response) => {
-          dispatch(addEmployee(response));
-        });
-      }
-    } catch (err: any) {
-      warningToast(err.stringify);
+    if (props.editableMode) {
+      updateUserData(props.id, user, token).then((response) => {
+        if (props.self) {
+          dispatch(currentUserSetter(response));
+        } else {
+          dispatch(updateSelectedUser(response));
+        }
+      });
+    } else {
+      managerAddUser(user, token).then((response) => {
+        dispatch(addEmployee(response));
+      });
     }
     props.setOpen(false);
   };
@@ -72,26 +66,30 @@ export default function UserModal(props: Props) {
         <span className="close" onClick={() => props.setOpen(false)}>
           X
         </span>
-        <h1>{props.headerText}</h1>
+        <h1>Update credentials</h1>
         <form onSubmit={handleSubmit}>
-          {props.columns
-            .filter((item) => item.field !== "id" && item.field !== "img")
-            .map((column, index) => (
-              <div className="item" key={index}>
-                <label htmlFor={column.field}>{column.headerName}</label>
-                <input
-                  id={column.field}
-                  type={column.type}
-                  placeholder={column.field}
-                  name={column.field}
-                  onChange={(e) => handleChange(column.field, e.target.value)}
-                  value={
-                    (user[column.field as keyof typeof user] ?? "") as string
-                  }
-                />
-              </div>
-            ))}
-          <button>{props.buttonText}</button>
+          <div className="inputsContainer">
+            {props.columns
+              .filter((item) => item.field !== "id")
+              .map((column, index) => (
+                <div className="item" key={index}>
+                  <label className="itemLabel" htmlFor={column.field}>
+                    {column.headerName}
+                  </label>
+                  <input
+                    id={column.field}
+                    type={column.type}
+                    placeholder={column.field}
+                    name={column.field}
+                    onChange={(e) => handleChange(column.field, e.target.value)}
+                    value={
+                      (user[column.field as keyof typeof user] ?? "") as string
+                    }
+                  />
+                </div>
+              ))}
+          </div>
+          <button className="updateButton">{props.buttonText}</button>
         </form>
       </div>
     </div>

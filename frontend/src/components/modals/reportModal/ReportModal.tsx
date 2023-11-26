@@ -1,10 +1,10 @@
 import { GridColDef } from "@mui/x-data-grid";
 import { useState } from "react";
+import { updateReport } from "../../../api/report/ReportApi";
+import { updateCurrentReports } from "../../../store/CurrentUser/CurrentUserSlice";
 import { updateSelectedReports } from "../../../store/SelectedUser/SelectedUserSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import "./reportModal.scss";
-import { updateReport } from "../../../api/report/ReportApi";
-import { updateCurrentReports } from "../../../store/CurrentUser/CurrentUserSlice";
 
 type Props = {
   id: number;
@@ -23,26 +23,28 @@ type Props = {
 };
 
 export default function ReportModal(props: Props) {
+  const dispatch = useAppDispatch();
   const token = useAppSelector((state) => state.currentUser.token);
   const products = useAppSelector((state) => state.productsTable.products);
-
-  const dispatch = useAppDispatch();
-
   const [report, setReport] = useState({
     id: props?.report?.id,
     productId: props?.report?.productId,
-    description: props?.report?.description,
     peopleNotifiedAboutProduct: props?.report?.peopleNotifiedAboutProduct,
     peopleSoldTo: props?.report?.peopleSoldTo,
+    description: props?.report?.description,
   });
 
   const handleChange = (field: string, value: string) => {
     setReport({ ...report, [field]: value });
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setReport({ ...report, productId: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await updateReport(props.id, report, token).then((response) => {
+    updateReport(props.id, report, token).then((response) => {
       if (props.self) {
         dispatch(updateCurrentReports({ ...response, id: props.id }));
       } else {
@@ -52,51 +54,65 @@ export default function ReportModal(props: Props) {
     props.setOpen(false);
   };
 
-  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setReport({ ...report, productId: e.target.value });
-  };
-
   return (
     <div className="add">
       <div className="modal">
         <span className="close" onClick={() => props.setOpen(false)}>
           X
         </span>
-        <h1>{props.headerText}</h1>
+        <h1>Update report details</h1>
         <form onSubmit={handleSubmit}>
-          {props.columns
-            .filter((item) => item.field !== "id" && item.field !== "img")
-            .map((column, index) => (
-              <div className="item" key={index}>
-                <label htmlFor={column.field}>{column.headerName}</label>
-                <input
-                  id={column.field}
-                  type={column.type}
-                  placeholder={column.field}
-                  name={column.field}
-                  value={
-                    (report[column.field as keyof typeof report] ??
-                      "") as string
-                  }
-                  onChange={(e) => handleChange(column.field, e.target.value)}
-                />
-              </div>
-            ))}
-          <label>
-            Select a product associated with this report:{" "}
-            <select
-              value={report.productId ?? report.id}
-              onChange={handleSelectChange}
-            >
-              <option value="">Select a product</option>
-              {products.map((product) => (
-                <option key={product.id} value={product.id}>
-                  {product.name}
-                </option>
+          <div className="inputsContainer">
+            <div className="dropdownContainer">
+              <label>Edit the product associated with this report: </label>
+              <select
+                value={report.productId ?? report.id}
+                onChange={handleSelectChange}
+              >
+                {products.map((product) => (
+                  <option key={product.id} value={product.id}>
+                    {product.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {props.columns
+              .filter(
+                (item) => item.field !== "id" && item.field !== "description"
+              )
+              .map((column, index) => (
+                <div className="item" key={index}>
+                  <label className="itemLabel" htmlFor={column.field}>
+                    {column.headerName}
+                  </label>
+                  <input
+                    id={column.field}
+                    type={column.type}
+                    placeholder={column.field}
+                    name={column.field}
+                    onChange={(e) => handleChange(column.field, e.target.value)}
+                    value={
+                      (report[column.field as keyof typeof report] ??
+                        "") as string
+                    }
+                  />
+                </div>
               ))}
-            </select>
-          </label>
-          <button>{props.buttonText}</button>
+            <textarea
+              id="description"
+              name="description"
+              required
+              value={report.description as string}
+              onChange={(e) =>
+                setReport((prevReport) => ({
+                  ...prevReport,
+                  description: e.target.value,
+                }))
+              }
+              maxLength={800}
+            />
+          </div>
+          <button className="updateButton">Update report</button>
         </form>
       </div>
     </div>
