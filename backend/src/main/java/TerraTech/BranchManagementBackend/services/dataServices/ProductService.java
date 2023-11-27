@@ -44,7 +44,7 @@ public class ProductService {
         productRepository.findByName(request.getName()).orElseThrow(ProductSameNameException::new);
         var product = Product.builder().name(request.getName()).price(request.getPrice()).producer(request.getProducer()).inStock(request.getInStock()).addedAt(LocalDate.now()).manager(manager).build();
         productRepository.save(product);
-        return ProductResponse.builder().name(product.getName()).price(product.getPrice()).producer(product.getProducer()).inStock(product.getInStock()).addedAt(product.getAddedAt()).manager(product.getManager()).build();
+        return ProductResponse.builder().id(product.getId()).numberOfReports(product.getReports().size()).name(product.getName()).price(product.getPrice()).producer(product.getProducer()).inStock(product.getInStock()).addedAt(product.getAddedAt()).manager(product.getManager()).build();
     }
 
     public ProductChartResponse searchProduct(Long id) {
@@ -86,11 +86,11 @@ public class ProductService {
             product.setProducer(Optional.ofNullable(request.getProducer()).orElse(product.getProducer()));
             return productRepository.save(product);
         }).orElseThrow(ProductNotFoundException::new);
-        return ProductResponse.builder().id(productRequest.getId()).inStock(productRequest.getInStock()).name(productRequest.getName()).price(productRequest.getPrice()).producer(productRequest.getProducer()).addedAt(productRequest.getAddedAt()).build();
+        return ProductResponse.builder().id(productRequest.getId()).numberOfReports(productRequest.getReports().size()).inStock(productRequest.getInStock()).name(productRequest.getName()).price(productRequest.getPrice()).producer(productRequest.getProducer()).addedAt(productRequest.getAddedAt()).build();
     }
 
     public List<ProductResponse> getManagerProducts(Long id) {
         List<Product> products = productRepository.findByManagerId(id);
-        return products.stream().map(product -> ProductResponse.builder().name(product.getName()).price(product.getPrice()).producer(product.getProducer()).inStock(product.getInStock()).addedAt(product.getAddedAt()).manager(product.getManager()).build()).collect(Collectors.toList());
+        return products.stream().map(product -> ProductResponse.builder().id(product.getId()).numberOfReports(product.getReports().size()).name(product.getName()).price(product.getPrice()).producer(product.getProducer()).inStock(product.getInStock()).addedAt(product.getAddedAt()).manager(product.getManager()).build()).collect(Collectors.toList());
     }
 }

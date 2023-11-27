@@ -1,0 +1,19 @@
+@import "../../styles/variables.scss";
+
+.products {
+  .info {
+    gap: 20px;
+    display: flex;
+
+    h1 {
+      color: $text-color;
+      margin: 20px 0px 20px 0px;
+    }
+
+    .addButton {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+  }
+}

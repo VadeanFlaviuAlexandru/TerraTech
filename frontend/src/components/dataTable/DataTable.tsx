@@ -16,7 +16,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import DeleteIcon from "../icons/DeleteIcon";
 import SmallEditIcon from "../icons/SmallEditIcon";
-import Users from "../icons/Users";
+import ManagerUsersIcon from "../icons/ManagerUsersIcon";
 import "./dataTable.scss";
 
 type Props = {
@@ -76,7 +76,7 @@ export default function DataTable(props: Props) {
               state={{ id: params.row.id }}
               to={`/dashboard/users/manager/${params.row.id}`}
             >
-              <Users color={"#242526"} />
+              <ManagerUsersIcon color={"#242526"} />
             </Link>
           )}
         </div>
@@ -93,7 +93,7 @@ export default function DataTable(props: Props) {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 8,
             },
           },
         }}

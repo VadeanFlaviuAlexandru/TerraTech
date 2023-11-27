@@ -46,7 +46,7 @@ public class ManagerService {
         User manager = userRepository.findByEmail(jwtService.extractUserName(tokenSubstring)).orElseThrow(ManagerNotFoundException::new);
         User user = User.builder().firstName(request.getFirstName()).lastName(request.getLastName()).status(true).phone(request.getPhone()).email(request.getEmail()).createdAt(LocalDate.now()).password(passwordEncoder.encode(request.getPassword())).manager(manager).role(Role.ROLE_EMPLOYEE).build();
         userRepository.save(user);
-        return UserResponse.builder().firstName(user.getFirstName()).lastName(user.getLastName()).status(user.getStatus()).email(user.getEmail()).createdAt(user.getCreatedAt()).role(user.getRole()).build();
+        return UserResponse.builder().id(user.getId()).firstName(user.getFirstName()).lastName(user.getLastName()).phone(user.getPhone()).status(user.getStatus()).email(user.getEmail()).createdAt(user.getCreatedAt()).role(user.getRole()).build();
     }
 
     public SearchEmployeeResponse searchEmployee(Long id) {
@@ -91,27 +91,16 @@ public class ManagerService {
     }
 
     public UserResponse editEmployee(UserRequest request, Long id) {
-        User userRequest = userRepository.findById(id)
-                .map(user -> {
-                    user.setEmail(Optional.ofNullable(request.getEmail()).orElse(user.getEmail()));
-                    user.setRole(Optional.ofNullable(request.getRole()).orElse(user.getRole()));
-                    user.setFirstName(Optional.ofNullable(request.getFirstName()).orElse(user.getFirstName()));
-                    user.setLastName(Optional.ofNullable(request.getLastName()).orElse(user.getLastName()));
-                    user.setPhone(Optional.ofNullable(request.getPhone()).orElse(user.getPhone()));
-                    return userRepository.save(user);
-                })
-                .orElseThrow(() -> new NotFoundException(id));
+        User userRequest = userRepository.findById(id).map(user -> {
+            user.setEmail(Optional.ofNullable(request.getEmail()).orElse(user.getEmail()));
+            user.setRole(Optional.ofNullable(request.getRole()).orElse(user.getRole()));
+            user.setFirstName(Optional.ofNullable(request.getFirstName()).orElse(user.getFirstName()));
+            user.setLastName(Optional.ofNullable(request.getLastName()).orElse(user.getLastName()));
+            user.setPhone(Optional.ofNullable(request.getPhone()).orElse(user.getPhone()));
+            return userRepository.save(user);
+        }).orElseThrow(() -> new NotFoundException(id));
 
-        return UserResponse.builder()
-                .id(userRequest.getId())
-                .role(userRequest.getRole())
-                .createdAt(userRequest.getCreatedAt())
-                .email(userRequest.getEmail())
-                .status(userRequest.getStatus())
-                .lastName(userRequest.getLastName())
-                .firstName(userRequest.getFirstName())
-                .phone(userRequest.getPhone())
-                .build();
+        return UserResponse.builder().id(userRequest.getId()).role(userRequest.getRole()).createdAt(userRequest.getCreatedAt()).email(userRequest.getEmail()).status(userRequest.getStatus()).lastName(userRequest.getLastName()).firstName(userRequest.getFirstName()).phone(userRequest.getPhone()).build();
     }
 
 
@@ -125,6 +114,6 @@ public class ManagerService {
 
     public List<UserResponse> getManagerEmployees(Long id) {
         List<User> users = userRepository.findByManagerId(id);
-        return users.stream().map(user -> UserResponse.builder().firstName(user.getFirstName()).lastName(user.getLastName()).status(user.getStatus()).email(user.getEmail()).createdAt(user.getCreatedAt()).role(user.getRole()).build()).collect(Collectors.toList());
+        return users.stream().map(user -> UserResponse.builder().phone(user.getPhone()).id(user.getId()).firstName(user.getFirstName()).lastName(user.getLastName()).status(user.getStatus()).email(user.getEmail()).createdAt(user.getCreatedAt()).role(user.getRole()).build()).collect(Collectors.toList());
     }
 }

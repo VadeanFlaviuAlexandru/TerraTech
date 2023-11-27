@@ -77,7 +77,6 @@ export default function UserModal(props: Props) {
                   <input
                     id={column.field}
                     type={column.type}
-                    placeholder={column.field}
                     name={column.field}
                     onChange={(e) => handleChange(column.field, e.target.value)}
                     value={

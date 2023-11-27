@@ -44,10 +44,10 @@ import "./user.scss";
 
 const User = () => {
   const dispatch = useAppDispatch();
-  const currentUser = useAppSelector((state) => state.currentUser);
-  const selectedUser = useAppSelector((state) => state.selectedUser);
   const location = useLocation();
   const id = location?.state?.id || useParams()?.id;
+  const currentUser = useAppSelector((state) => state.currentUser);
+  const selectedUser = useAppSelector((state) => state.selectedUser);
   const [open, setOpen] = useState(false);
   const [openReport, setOpenReport] = useState(false);
   const [reportId, setReportId] = useState(0);
@@ -59,6 +59,7 @@ const User = () => {
     peopleSoldTo: 0,
     peopleNotifiedAboutProduct: 0,
   });
+
   useEffect(() => {
     if (id != currentUser?.user?.id) {
       fetchUserData(id, currentUser?.token).then((response) => {

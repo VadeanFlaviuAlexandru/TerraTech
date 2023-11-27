@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import LogOut from "../../components/icons/LogOut";
+import LogOutIcon from "../../components/icons/LogOutIcon";
 import { resetUserSetter } from "../../store/CurrentUser/CurrentUserSlice";
 import { useAppDispatch } from "../../store/hooks";
 import { successToast } from "../toasts/userToasts";
@@ -14,7 +14,7 @@ export const SignOut = () => {
 
   return (
     <Link to="/" onClick={handleSignOut}>
-      <LogOut />
+      <LogOutIcon />
     </Link>
   );
 };

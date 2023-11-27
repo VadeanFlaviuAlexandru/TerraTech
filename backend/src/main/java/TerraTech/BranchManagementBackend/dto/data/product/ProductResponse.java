@@ -18,6 +18,7 @@ public class ProductResponse {
     private Integer price;
     private String producer;
     private Integer inStock;
+    private Integer numberOfReports;
     private LocalDate addedAt;
     private User manager;
 }

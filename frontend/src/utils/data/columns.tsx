@@ -202,15 +202,6 @@ export const columnsUser: GridColDef[] = [
 ];
 
 export const columnsProduct: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 50 },
-  // {
-  //   field: "img",
-  //   headerName: "Image",
-  //   width: 100,
-  //   renderCell: (params) => {
-  //     return <img src={params.row.img || "/noavatar.png"} alt="" />;
-  //   },
-  // },
   {
     field: "name",
     headerName: "Name",

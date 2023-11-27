@@ -22,7 +22,6 @@ type Props = {
     price: Number | null;
     producer: String | null;
     inStock: Number | null;
-    // numberOfReports: number;
   } | null;
 };
 
@@ -69,25 +68,28 @@ export default function ProductModal(props: Props) {
         </span>
         <h1>{props.headerText}</h1>
         <form onSubmit={handleSubmit}>
-          {props.columns
-            .filter((item) => item.field !== "id" && item.field !== "img")
-            .map((column, index) => (
-              <div className="item" key={index}>
-                <label htmlFor={column.field}>{column.headerName}</label>
-                <input
-                  id={column.field}
-                  type={column.type}
-                  placeholder={column.field}
-                  name={column.field}
-                  value={
-                    (product[column.field as keyof typeof product] ??
-                      "") as string
-                  }
-                  onChange={(e) => handleChange(column.field, e.target.value)}
-                />
-              </div>
-            ))}
-          <button>{props.buttonText}</button>
+          <div className="inputsContainer">
+            {props.columns
+              .filter((item) => item.field !== "id" && item.field !== "img")
+              .map((column, index) => (
+                <div className="item" key={index}>
+                  <label className="itemLabel" htmlFor={column.field}>
+                    {column.headerName}
+                  </label>
+                  <input
+                    id={column.field}
+                    type={column.type}
+                    name={column.field}
+                    value={
+                      (product[column.field as keyof typeof product] ??
+                        "") as string
+                    }
+                    onChange={(e) => handleChange(column.field, e.target.value)}
+                  />
+                </div>
+              ))}
+            <button className="updateButton">{props.buttonText}</button>
+          </div>
         </form>
       </div>
     </div>

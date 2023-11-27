@@ -1,0 +1,106 @@
+@import "../../styles/variables.scss";
+
+.productContainer {
+  color: $text-color;
+  margin: 20px;
+
+  .infoContainer {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    grid-column-gap: 100px;
+    grid-template-rows: 20px 20px;
+
+    .leftContainer {
+      .topInfo {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+        .editButton {
+          background: none;
+          border: none;
+          cursor: pointer;
+          margin-top: 8px;
+        }
+      }
+      .details {
+        .item {
+          margin-bottom: 10px;
+          .smallEditButton {
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+          }
+          .itemTitle {
+            margin-right: 20px;
+          }
+          .itemValueActive {
+            color: $active-color;
+          }
+          .itemValueInactive {
+            color: $error-color;
+          }
+        }
+      }
+      .chart {
+        margin-top: 50px;
+        width: 80%;
+        height: 400px;
+      }
+    }
+    .rightContainer {
+      .editButton {
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin-top: 8px;
+      }
+      h2 {
+        margin-bottom: 20px;
+      }
+
+      ul {
+        li {
+          list-style-type: none;
+          position: relative;
+          width: 1px;
+          padding-top: 50px;
+          background-color: #f45b69;
+
+          &::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #f45b69;
+            transform: translateX(-50%);
+          }
+
+          .reportCard {
+            min-width: 480px;
+            padding: 15px;
+            background-color: #f45b6810;
+            display: grid;
+            grid-template-columns: 80% 20%;
+
+            .reportCardButtons {
+              display: flex;
+              gap: 20px;
+            }
+
+            p {
+              margin-bottom: 5px;
+            }
+
+            time {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,15 +1,16 @@
-import "./products.scss";
-import DataTable from "../../components/dataTable/DataTable";
 import { useEffect, useState } from "react";
 import { fetchProductTableData } from "../../api/product/ProductApi";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import DataTable from "../../components/dataTable/DataTable";
+import AddProductIcon from "../../components/icons/AddProductIcon";
+import ProductModal from "../../components/modals/productModal/ProductModal";
 import {
   productTableSetter,
   resetProductTable,
 } from "../../store/ProductsTable/ProductTableSlice";
-import { warningToast } from "../../utils/toasts/userToasts";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { columnsProduct, columnsProductModal } from "../../utils/data/columns";
-import ProductModal from "../../components/modals/productModal/ProductModal";
+import { warningToast } from "../../utils/toasts/userToasts";
+import "./products.scss";
 
 export default function Products() {
   const [open, setOpen] = useState(false);
@@ -37,10 +38,12 @@ export default function Products() {
   }, [currentUser.user.id]);
 
   return (
-    <div className="users">
+    <div className="products">
       <div className="info">
         <h1>Products</h1>
-        <button onClick={() => setOpen(true)}>Add new products</button>
+        <button className="addButton" onClick={() => setOpen(true)}>
+          <AddProductIcon />
+        </button>
       </div>
       <DataTable
         userTable={false}

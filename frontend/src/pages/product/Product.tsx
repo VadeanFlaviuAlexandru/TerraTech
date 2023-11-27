@@ -10,6 +10,7 @@ import {
   YAxis,
 } from "recharts";
 import { fetchProductData } from "../../api/product/ProductApi";
+import EditIcon from "../../components/icons/EditIcon";
 import ProductModal from "../../components/modals/productModal/ProductModal";
 import {
   resetSelectedProduct,
@@ -17,91 +18,54 @@ import {
 } from "../../store/SelectedProduct/SelectedProductSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { columnsProductModal } from "../../utils/data/columns";
-import { warningToast } from "../../utils/toasts/userToasts";
+import {
+  ProductInfoMappings,
+  getRandomColor,
+  processedData,
+} from "../../utils/data/data";
 import "./product.scss";
 
 const Product = () => {
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const id = location?.state?.id || useParams()?.id;
   const product = useAppSelector((state) => state.selectedProduct);
   const token = useAppSelector((state) => state.currentUser.token);
   const [open, setOpen] = useState(false);
-  const location = useLocation();
-  const id = location?.state?.id || useParams()?.id;
-
-  const monthNameToNumber: { [key: string]: number } = {
-    JANUARY: 0,
-    FEBRUARY: 1,
-    MARCH: 2,
-    APRIL: 3,
-    MAY: 4,
-    JUNE: 5,
-    JULY: 6,
-    AUGUST: 7,
-    SEPTEMBER: 8,
-    OCTOBER: 9,
-    NOVEMBER: 10,
-    DECEMBER: 11,
-  };
-
-  const processedData = product?.chartInfo?.data?.map((dataPoint) => {
-    const monthNumber = monthNameToNumber[dataPoint.name];
-    const isFutureMonth = new Date().getMonth() < monthNumber;
-
-    return {
-      ...dataPoint,
-      peopleNotifiedAboutProduct: isFutureMonth
-        ? null
-        : dataPoint.peopleNotifiedAboutProduct || 0,
-      peopleSoldTo: isFutureMonth ? null : dataPoint.peopleSoldTo || 0,
-    };
-  });
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await fetchProductData(id, token).then((response) => {
-          dispatch(selectedProductSetter(response));
-        });
-      } catch (err: any) {
-        warningToast(err.stringify);
-      }
-    };
-    fetchData();
+    fetchProductData(id, token).then((response) => {
+      dispatch(selectedProductSetter(response));
+    });
     return () => {
       resetSelectedProduct();
     };
   }, [id]);
 
-  function getRandomColor() {
-    return "#" + Math.floor(Math.random() * 16777215).toString(16);
-  }
-
   return (
-    <div className="user">
-      <div className="single">
-        <div className="view">
-          <div className="info">
-            <div className="topInfo">
-              {/* {props.img && <img src={props.img} alt="" />} */}
-              <h1>{product.product.name}</h1>
-              <button onClick={() => setOpen(true)}>Update</button>
-            </div>
-            <div className="details">
-              {Object.entries(product.product).map(([key, value]) => (
-                <div className="item" key={key}>
-                  <span className="itemTitle">{key}</span>
-                  <span className="itemValue">{value}</span>
-                </div>
-              ))}
-            </div>
+    <div className="productContainer">
+      <div className="infoContainer">
+        <div className="leftContainer">
+          <div className="topInfo">
+            <h1>{product.product.name}</h1>
+            <button className="editButton" onClick={() => setOpen(true)}>
+              <EditIcon />
+            </button>
           </div>
-          <hr />
+          <div className="details">
+            {Object.entries(product.product).map(([key, value]) => (
+              <div className="item" key={key}>
+                <span className="itemTitle">{ProductInfoMappings[key]}:</span>
+                <span className="itemValue">{value}</span>
+              </div>
+            ))}
+          </div>
           <div className="chart">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 width={500}
                 height={300}
-                data={processedData}
+                data={processedData(product?.chartInfo?.data)}
                 margin={{
                   top: 5,
                   right: 30,

@@ -7,7 +7,7 @@ import {
 import ChartBox from "../../components/charts/chartBox/ChartBox";
 import PieChartBox from "../../components/charts/pieChartBox/PieChartBox";
 import TopBox from "../../components/charts/topBox/TopBox";
-import Loading from "../../components/icons/Loading";
+import LoadingIcon from "../../components/icons/LoadingIcon";
 import {
   allManagersSetter,
   resetAllManagers,
@@ -101,7 +101,7 @@ const Home = () => {
           <div className="gears">
             <div className="animations">
               <span>Loading statistics...</span>
-              <Loading />
+              <LoadingIcon />
             </div>
           </div>
         )

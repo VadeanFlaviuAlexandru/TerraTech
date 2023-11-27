@@ -2,7 +2,7 @@ interface Props {
   color: string;
 }
 
-export default function Users(props: Props) {
+export default function ManagerUsersIcon(props: Props) {
   return (
     <svg
       width="25px"

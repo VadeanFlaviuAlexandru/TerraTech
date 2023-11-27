@@ -1,4 +1,4 @@
-export default function LogOut() {
+export default function LogOutIcon() {
   return (
     <svg
       fill="#ffffff"

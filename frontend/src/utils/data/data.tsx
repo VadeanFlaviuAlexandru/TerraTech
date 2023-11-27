@@ -57,6 +57,14 @@ export const UserInfoMappings: Record<string, string> = {
   password: "Password",
 };
 
+export const ProductInfoMappings: Record<string, string> = {
+  id: "Unique id",
+  name: "Product Name",
+  producer: "Produced by",
+  addedAt: "Added at",
+  inStock: "In stock",
+  price: "Price",
+};
 export const roleMapping: Record<string, string> = {
   true: "Active",
   false: "Inactive",
