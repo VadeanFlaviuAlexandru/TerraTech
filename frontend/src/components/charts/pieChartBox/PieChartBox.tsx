@@ -1,15 +1,12 @@
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { useAppSelector } from "../../../store/hooks";
+import { getRandomColor } from "../../../utils/data/data";
 import "./pieChartBox.scss";
 
 const PieChartBox = () => {
   const statistics = useAppSelector(
     (state) => state.statistics.top5ProductsThisYear
   );
-
-  function getRandomColor() {
-    return "#" + Math.floor(Math.random() * 16777215).toString(16);
-  }
 
   return (
     <div className="pieChartBox">
@@ -28,7 +25,7 @@ const PieChartBox = () => {
               dataKey="value"
             >
               {statistics.map((item) => (
-                <Cell key={item.name} fill={getRandomColor()} />
+                <Cell key={item?.name} fill={getRandomColor()} />
               ))}
             </Pie>
           </PieChart>
@@ -36,15 +33,15 @@ const PieChartBox = () => {
       </div>
       <div className="options">
         {statistics.map((item) => (
-          <div className="option" key={item.name}>
+          <div className="option" key={item?.name}>
             <div className="title">
               <div
                 className="dot"
                 style={{ backgroundColor: getRandomColor() }}
               />
-              <span>{item.name}</span>
+              <span>{item?.name}</span>
             </div>
-            <span>{item.value}</span>
+            <span>{item?.value}</span>
           </div>
         ))}
       </div>

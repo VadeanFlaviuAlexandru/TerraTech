@@ -4,7 +4,7 @@ import {
   managerAddUser,
   updateUserData,
 } from "../../../api/manager/ManagerApi";
-import { currentUserSetter } from "../../../store/CurrentUser/CurrentUserSlice";
+import { updateCurrentUser } from "../../../store/CurrentUser/CurrentUserSlice";
 import { updateSelectedUser } from "../../../store/SelectedUser/SelectedUserSlice";
 import { addEmployee } from "../../../store/UsersTable/UsersTableSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
@@ -14,8 +14,6 @@ type Props = {
   editableMode: boolean;
   self: boolean;
   id: number;
-  headerText: string;
-  buttonText: string;
   columns: GridColDef[];
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   user: {
@@ -47,7 +45,7 @@ export default function UserModal(props: Props) {
     if (props.editableMode) {
       updateUserData(props.id, user, token).then((response) => {
         if (props.self) {
-          dispatch(currentUserSetter(response));
+          dispatch(updateCurrentUser(response));
         } else {
           dispatch(updateSelectedUser(response));
         }
@@ -89,7 +87,7 @@ export default function UserModal(props: Props) {
                 </div>
               ))}
           </div>
-          <button className="updateButton">{props.buttonText}</button>
+          <button className="updateButton">Update user information</button>
         </form>
       </div>
     </div>

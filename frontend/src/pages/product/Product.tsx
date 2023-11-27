@@ -61,7 +61,6 @@ const Product = () => {
       try {
         await fetchProductData(id, token).then((response) => {
           dispatch(selectedProductSetter(response));
-          console.log(response);
         });
       } catch (err: any) {
         warningToast(err.stringify);

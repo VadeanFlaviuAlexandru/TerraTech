@@ -59,9 +59,8 @@ const User = () => {
     peopleSoldTo: 0,
     peopleNotifiedAboutProduct: 0,
   });
-
   useEffect(() => {
-    if (id != currentUser.user.id) {
+    if (id != currentUser?.user?.id) {
       fetchUserData(id, currentUser?.token).then((response) => {
         dispatch(selectedUserSetter(response));
       });
@@ -95,7 +94,7 @@ const User = () => {
           </div>
           <div className="details">
             {Object.entries(
-              id === currentUser?.user?.id
+              id == currentUser?.user?.id
                 ? currentUser?.user
                 : selectedUser?.user
             )
@@ -135,7 +134,7 @@ const User = () => {
                           });
                         }}
                       >
-                        <SmallEditIcon />
+                        <SmallEditIcon color={"#ffffff"} />
                       </button>
                     )}
                 </div>
@@ -147,7 +146,7 @@ const User = () => {
                 width={500}
                 height={300}
                 data={
-                  id === currentUser.user.id
+                  id == currentUser.user.id
                     ? processedData(currentUser?.chartInfo?.data)
                     : processedData(selectedUser?.chartInfo?.data)
                 }
@@ -211,7 +210,7 @@ const User = () => {
                             deleteReport(report?.id, currentUser?.token).then(
                               (response) => {
                                 if (response.ok) {
-                                  if (id === currentUser?.user?.id) {
+                                  if (id == currentUser?.user?.id) {
                                     dispatch(deleteCurrentReport(report?.id));
                                   } else {
                                     dispatch(deleteSelectedReport(report?.id));
@@ -221,7 +220,7 @@ const User = () => {
                             );
                           }}
                         >
-                          <DeleteIcon />
+                          <DeleteIcon color={"#ffffff"} />
                         </button>
                       </div>
                     </div>
@@ -237,20 +236,22 @@ const User = () => {
       {open && (
         <UserModal
           editableMode={true}
-          self={id === currentUser?.user?.id}
-          headerText="Update credentials"
-          buttonText="Update"
+          self={id == currentUser?.user?.id}
           columns={columnsUserProfile}
           setOpen={setOpen}
-          user={selectedUser?.user}
-          id={selectedUser?.user?.id}
+          user={
+            id == currentUser?.user?.id ? currentUser.user : selectedUser?.user
+          }
+          id={
+            id == currentUser?.user?.id
+              ? currentUser.user.id
+              : selectedUser?.user?.id
+          }
         />
       )}
       {openReport && (
         <ReportModal
-          self={id === currentUser?.user?.id}
-          headerText="Update report information"
-          buttonText="Update"
+          self={id == currentUser?.user?.id}
           columns={columnsReportModal}
           setOpen={setOpenReport}
           report={report}

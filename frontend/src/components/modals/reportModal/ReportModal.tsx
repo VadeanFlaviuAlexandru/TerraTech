@@ -9,8 +9,6 @@ import "./reportModal.scss";
 type Props = {
   id: number;
   self: boolean;
-  headerText: string;
-  buttonText: string;
   columns: GridColDef[];
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   report: {
@@ -39,16 +37,35 @@ export default function ReportModal(props: Props) {
   };
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setReport({ ...report, productId: e.target.value });
+    handleChange("productId", e?.target?.value);
+  };
+
+  const findProductName = () => {
+    const matchedProduct = products.find(
+      (product) => product?.id?.toString() === report?.productId
+    );
+    return matchedProduct && matchedProduct?.name;
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    updateReport(props.id, report, token).then((response) => {
+    updateReport(props?.id, report, token).then((response) => {
       if (props.self) {
-        dispatch(updateCurrentReports({ ...response, id: props.id }));
+        dispatch(
+          updateCurrentReports({
+            ...response,
+            id: props.id,
+            productName: findProductName(),
+          })
+        );
       } else {
-        dispatch(updateSelectedReports({ ...response, id: props.id }));
+        dispatch(
+          updateSelectedReports({
+            ...response,
+            id: props.id,
+            productName: findProductName(),
+          })
+        );
       }
     });
     props.setOpen(false);
@@ -66,12 +83,12 @@ export default function ReportModal(props: Props) {
             <div className="dropdownContainer">
               <label>Edit the product associated with this report: </label>
               <select
-                value={report.productId ?? report.id}
+                value={report?.productId ?? report?.id}
                 onChange={handleSelectChange}
               >
                 {products.map((product) => (
-                  <option key={product.id} value={product.id}>
-                    {product.name}
+                  <option key={product?.id} value={product?.id}>
+                    {product?.name}
                   </option>
                 ))}
               </select>
@@ -112,7 +129,7 @@ export default function ReportModal(props: Props) {
               maxLength={800}
             />
           </div>
-          <button className="updateButton">Update report</button>
+          <button className="updateButton">Update report information</button>
         </form>
       </div>
     </div>

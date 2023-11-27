@@ -1,24 +1,23 @@
-import { Link } from "react-router-dom";
-import "./dataTable.scss";
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
+import { useEffect } from "react";
+import { Link } from "react-router-dom";
+import { deleteEmployee } from "../../api/manager/ManagerApi";
+import { deleteProduct } from "../../api/product/ProductApi";
+import { AllManagersState } from "../../store/AllManagers/AllManagersSlice";
+import {
+  ProductsTableState,
+  removeProduct,
+} from "../../store/ProductsTable/ProductTableSlice";
 import {
   UsersTableState,
   removeEmployee,
   resetUsersTable,
 } from "../../store/UsersTable/UsersTableSlice";
-import { deleteEmployee } from "../../api/manager/ManagerApi";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { warningToast } from "../../utils/toasts/userToasts";
-import { useEffect } from "react";
-import {
-  ProductsTableState,
-  removeProduct,
-} from "../../store/ProductsTable/ProductTableSlice";
-import { deleteProduct } from "../../api/product/ProductApi";
-import {
-  AllManagersState,
-  resetAllManagers,
-} from "../../store/AllManagers/AllManagersSlice";
+import DeleteIcon from "../icons/DeleteIcon";
+import SmallEditIcon from "../icons/SmallEditIcon";
+import Users from "../icons/Users";
+import "./dataTable.scss";
 
 type Props = {
   columns: GridColDef[];
@@ -35,24 +34,19 @@ export default function DataTable(props: Props) {
   const currentUser = useAppSelector((state) => state.currentUser);
 
   const handleDelete = (id: number) => {
-    const fetchData = async () => {
-      try {
-        if (props.userTable) {
-          const response = await deleteEmployee(id, currentUser.token);
-          if (response.ok) {
-            dispatch(removeEmployee(id));
-          }
-        } else {
-          const response = await deleteProduct(id, currentUser.token);
-          if (response.ok) {
-            dispatch(removeProduct(id));
-          }
+    if (props.userTable) {
+      deleteEmployee(id, currentUser.token).then((response) => {
+        if (response.ok) {
+          dispatch(removeEmployee(id));
         }
-      } catch (err: any) {
-        warningToast(err.stringify);
-      }
-    };
-    fetchData();
+      });
+    } else {
+      deleteProduct(id, currentUser.token).then((response) => {
+        if (response.ok) {
+          dispatch(removeProduct(id));
+        }
+      });
+    }
   };
 
   useEffect(() => {
@@ -63,7 +57,7 @@ export default function DataTable(props: Props) {
 
   const actionColumn: GridColDef = {
     field: "action",
-    headerName: "Action",
+    headerName: "Actions",
     width: 200,
     renderCell: (params) => {
       return (
@@ -72,17 +66,17 @@ export default function DataTable(props: Props) {
             state={{ id: params.row.id }}
             to={`/dashboard/${props.slug}/${params.row.id}`}
           >
-            <img src="../../../view.svg" alt="" />
+            <SmallEditIcon color={"#242526"} />
           </Link>
           <div className="delete" onClick={() => handleDelete(params.row.id)}>
-            <img src="../../../delete.svg" alt="" />
+            <DeleteIcon color={"#242526"} />
           </div>
           {currentUser.user.role === "ROLE_ADMIN" && (
             <Link
               state={{ id: params.row.id }}
               to={`/dashboard/users/manager/${params.row.id}`}
             >
-              <img src="../../../view.svg" alt="" />
+              <Users color={"#242526"} />
             </Link>
           )}
         </div>
@@ -104,7 +98,6 @@ export default function DataTable(props: Props) {
           },
         }}
         pageSizeOptions={[5]}
-        checkboxSelection
         disableRowSelectionOnClick
         slots={{ toolbar: GridToolbar }}
         slotProps={{
@@ -116,6 +109,7 @@ export default function DataTable(props: Props) {
         disableColumnFilter
         disableColumnSelector
         disableDensitySelector
+        checkboxSelection={false}
       />
     </div>
   );

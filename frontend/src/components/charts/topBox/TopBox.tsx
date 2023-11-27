@@ -17,11 +17,11 @@ const TopBox = (props: Props) => {
           <div className="listItem" key={index}>
             <div className="user">
               <div className="userTexts">
-                <span className="username">{user.firstName}</span>
-                <span className="email">{user.email}</span>
+                <span className="username">{user?.firstName}</span>
+                <span className="email">{user?.email}</span>
               </div>
             </div>
-            <span className="amount">${user.amount}</span>
+            <span className="amount">${user?.amount}</span>
           </div>
         ))}
       </div>

@@ -167,15 +167,6 @@ export const columnsUserProfile: GridColDef[] = [
 ];
 
 export const columnsUser: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
-  // {
-  //   field: "avatar",
-  //   headerName: "Avatar",
-  //   width: 100,
-  //   renderCell: (params) => {
-  //     return <img src={params.row.img || "/noavatar.png"} alt="" />;
-  //   },
-  // },
   {
     field: "status",
     headerName: "Status",

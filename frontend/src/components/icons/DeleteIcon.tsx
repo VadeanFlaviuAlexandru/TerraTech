@@ -1,9 +1,13 @@
-export default function DeleteIcon() {
+interface Props {
+  color: string;
+}
+
+export default function DeleteIcon(props: Props) {
   return (
     <svg
-      width="20px"
-      height="20px"
-      viewBox="0 -0.5 21 21"
+    width="25px"
+    height="25px"
+    viewBox="0 0 25 25"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -17,7 +21,7 @@ export default function DeleteIcon() {
         <g
           id="Dribbble-Light-Preview"
           transform="translate(-179.000000, -360.000000)"
-          fill="#ffffff"
+          fill={props.color}
         >
           <g id="icons" transform="translate(56.000000, 160.000000)">
             <path

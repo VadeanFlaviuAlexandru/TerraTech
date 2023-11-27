@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class ReportRequest {
     private Long id;
+    private Long productId;
     private String description;
     private String productName;
     private LocalDate createDate;

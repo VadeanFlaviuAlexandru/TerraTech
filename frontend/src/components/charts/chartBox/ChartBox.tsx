@@ -1,5 +1,6 @@
 import { Line, LineChart, ResponsiveContainer, Tooltip } from "recharts";
 import "./chartBox.scss";
+import { getRandomColor } from "../../../utils/data/data";
 
 type Props = {
   number: number;
@@ -13,10 +14,6 @@ type Props = {
 };
 
 const ChartBox = (props: Props) => {
-  function getRandomColor() {
-    return "#" + Math.floor(Math.random() * 16777215).toString(16);
-  }
-
   return (
     <div className="chartBox">
       <div className="boxInfo">

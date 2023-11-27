@@ -17,68 +17,51 @@ import {
   statisticsSetter,
 } from "../../store/Statistics/StatisticsSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { warningToast } from "../../utils/toasts/userToasts";
 import "./home.scss";
 
 const Home = () => {
+  const dispatch = useAppDispatch();
   const statistics = useAppSelector((state) => state.statistics);
   const currentUser = useAppSelector((state) => state.currentUser);
   const allManagers = useAppSelector((state) => state.allManagers.managers);
-  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState(-1);
   const [fetch, setFetch] = useState(false);
 
   useEffect(() => {
     if (selected !== -1) {
-      const fetchData = async () => {
-        try {
-          await fetchStatistics(selected, currentUser.token).then(
-            (response) => {
-              dispatch(statisticsSetter(response));
-              setLoading(false);
-            }
-          );
-        } catch (err: any) {
-          warningToast(err.stringify);
-        }
-      };
-      fetchData();
+      fetchStatistics(selected, currentUser?.token).then((response) => {
+        dispatch(statisticsSetter(response));
+        setLoading(false);
+      });
       setFetch(false);
     }
   }, [fetch]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (currentUser.user.role === "ROLE_ADMIN") {
-          if (allManagers?.length === 0) {
-            await fetchAllManagers(currentUser.token).then((response) => {
-              dispatch(allManagersSetter(response));
-              if (response.length !== 0) {
-                setSelected(response[0].id);
-              }
-            });
-          } else if (allManagers?.length !== 0) {
-            if (selected === -1) {
-              setSelected(allManagers[0].id);
-            }
-            setFetch(true);
-            setLoading(true);
+    if (currentUser?.user?.role === "ROLE_ADMIN") {
+      if (allManagers?.length === 0) {
+        fetchAllManagers(currentUser?.token).then((response) => {
+          dispatch(allManagersSetter(response));
+          if (response.length !== 0) {
+            setSelected(response[0].id);
           }
-        } else {
-          await fetchStatistics(currentUser.user.id, currentUser.token).then(
-            (response) => {
-              dispatch(statisticsSetter(response));
-              setLoading(false);
-            }
-          );
+        });
+      } else if (allManagers?.length !== 0) {
+        if (selected === -1) {
+          setSelected(allManagers[0].id);
         }
-      } catch (err: any) {
-        warningToast(err.stringify);
+        setFetch(true);
+        setLoading(true);
       }
-    };
-    fetchData();
+    } else {
+      fetchStatistics(currentUser?.user?.id, currentUser?.token).then(
+        (response) => {
+          dispatch(statisticsSetter(response));
+          setLoading(false);
+        }
+      );
+    }
     return () => {
       dispatch(resetStatistics());
       setLoading(true);
@@ -93,22 +76,27 @@ const Home = () => {
 
   return (
     <>
-      {allManagers.length > 0 && (
-        <select
-          value={1}
-          onChange={(e) => setSelected(parseInt(e.target.value))}
-        >
-          <option>Select a manager</option>
-          {allManagers.map(({ id, firstName }) => (
-            <option key={id} value={id}>
-              {firstName}
-            </option>
-          ))}
-        </select>
+      {!loading && allManagers.length > 0 && (
+        <div className="dropdownContainer">
+          <label>Select a manager:</label>
+          <select
+            value={selected}
+            onChange={(e) => setSelected(parseInt(e.target.value))}
+          >
+            {allManagers.map(({ id, firstName, lastName }) => (
+              <option key={id} value={id}>
+                {firstName}
+                {lastName}
+              </option>
+            ))}
+          </select>
+        </div>
       )}
       {loading ? (
         allManagers?.length === 0 && currentUser.user.role === "ROLE_ADMIN" ? (
-          <div>There are no managers to show the statistics</div>
+          <div className="noManagers">
+            There are no managers to show the statistics
+          </div>
         ) : (
           <div className="gears">
             <div className="animations">

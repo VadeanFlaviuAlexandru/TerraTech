@@ -1,12 +1,19 @@
+@import "../../styles/variables.scss";
+
 .users {
   .info {
-    display: flex;
-    align-items: center;
     gap: 20px;
-    margin-bottom: 20px;
+    display: flex;
+    align-items: end !important;
 
-    button {
-      padding: 5px;
+    h1 {
+      color: $text-color;
+      margin-top: 20px;
+    }
+
+    .addButton {
+      background: none;
+      border: none;
       cursor: pointer;
     }
   }

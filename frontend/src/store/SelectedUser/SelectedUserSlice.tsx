@@ -64,15 +64,12 @@ export const selectedUserSlice = createSlice({
       state.user = action.payload;
     },
     updateSelectedReports: (state, action) => {
+      const payload = { ...action.payload };
       const updatedReports = state.reports.map((report) => {
         if (report.id == action.payload.id) {
           return {
             ...report,
-            description: action.payload.description,
-            productId: action.payload.productId,
-            peopleNotifiedAboutProduct:
-              action.payload.peopleNotifiedAboutProduct,
-            peopleSoldTo: action.payload.peopleSoldTo,
+            ...payload,
           };
         }
         return report;

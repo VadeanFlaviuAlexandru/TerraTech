@@ -6,7 +6,6 @@ import TerraTech.BranchManagementBackend.dto.data.report.ReportResponse;
 import TerraTech.BranchManagementBackend.exceptions.data.product.ProductNotFoundException;
 import TerraTech.BranchManagementBackend.exceptions.data.report.ReportNotFoundException;
 import TerraTech.BranchManagementBackend.exceptions.manager.ManagerNotFoundException;
-import TerraTech.BranchManagementBackend.models.Product;
 import TerraTech.BranchManagementBackend.models.Report;
 import TerraTech.BranchManagementBackend.repositories.ProductRepository;
 import TerraTech.BranchManagementBackend.repositories.ReportRepository;
@@ -14,8 +13,6 @@ import TerraTech.BranchManagementBackend.repositories.UserRepository;
 import TerraTech.BranchManagementBackend.services.jwtServices.JwtService;
 import TerraTech.BranchManagementBackend.utils.ExtractToken;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

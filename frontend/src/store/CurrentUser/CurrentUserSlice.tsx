@@ -61,19 +61,19 @@ export const currentUserSlice = createSlice({
     currentUserSetter: (state, action) => {
       return { ...state, ...action.payload };
     },
+    updateCurrentUser: (state, action) => {
+      state.user = action.payload;
+    },
     resetUserSetter: () => {
       return initialState;
     },
     updateCurrentReports: (state, action) => {
+      const payload = { ...action.payload };
       const updatedReports = state.reports.map((report) => {
         if (report.id == action.payload.id) {
           return {
             ...report,
-            description: action.payload.description,
-            productId: action.payload.productId,
-            peopleNotifiedAboutProduct:
-              action.payload.peopleNotifiedAboutProduct,
-            peopleSoldTo: action.payload.peopleSoldTo,
+            ...payload,
           };
         }
         return report;
@@ -100,5 +100,6 @@ export const {
   updateCurrentReports,
   deleteCurrentReport,
   addReport,
+  updateCurrentUser,
 } = currentUserSlice.actions;
 export default currentUserSlice.reducer;
