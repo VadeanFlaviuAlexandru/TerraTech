@@ -15,10 +15,10 @@ import java.time.LocalDate;
 public class ProductResponse {
     private Long id;
     private String name;
-    private Integer price;
     private String producer;
-    private Integer inStock;
-    private Integer numberOfReports;
     private LocalDate addedAt;
+    private Integer inStock;
+    private Integer price;
+    private Integer numberOfReports;
     private User manager;
 }

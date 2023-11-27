@@ -92,7 +92,7 @@ const Product = () => {
       {open && (
         <ProductModal
           editableMode={true}
-          headerText="Update credentials"
+          headerText="Update product information"
           buttonText="Update"
           columns={columnsProductModal}
           setOpen={setOpen}

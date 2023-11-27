@@ -56,8 +56,8 @@ export default function Products() {
           product={null}
           editableMode={false}
           id={-1}
-          buttonText="add"
-          headerText="product"
+          buttonText="Add"
+          headerText="Add a new product"
           columns={columnsProductModal}
           setOpen={setOpen}
         />

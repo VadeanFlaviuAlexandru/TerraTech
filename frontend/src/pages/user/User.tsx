@@ -237,6 +237,8 @@ const User = () => {
       {open && (
         <UserModal
           editableMode={true}
+          buttonText="Update"
+          headerText="Update the credentials"
           self={id == currentUser?.user?.id}
           columns={columnsUserProfile}
           setOpen={setOpen}
