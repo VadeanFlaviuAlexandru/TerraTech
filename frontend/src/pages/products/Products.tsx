@@ -9,7 +9,6 @@ import {
 } from "../../store/ProductsTable/ProductTableSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { columnsProduct, columnsProductModal } from "../../utils/data/columns";
-import { warningToast } from "../../utils/toasts/userToasts";
 import "./products.scss";
 
 export default function Products() {
@@ -19,19 +18,11 @@ export default function Products() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await fetchProductTableData(
-          currentUser.user.id,
-          currentUser.token
-        ).then((response) => {
-          dispatch(productTableSetter(response));
-        });
-      } catch (err: any) {
-        warningToast(err.stringify);
+    fetchProductTableData(currentUser.user.id, currentUser.token).then(
+      (response) => {
+        dispatch(productTableSetter(response));
       }
-    };
-    fetchData();
+    );
     return () => {
       resetProductTable();
     };

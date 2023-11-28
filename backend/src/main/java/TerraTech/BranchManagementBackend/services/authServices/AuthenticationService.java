@@ -41,8 +41,10 @@ public class AuthenticationService {
     private final ReportRepository reportRepository;
 
     public ResponseEntity<?> signup(SignUpRequest request) {
+        userRepository.findByEmail(request.getEmail()).ifPresent(user -> {
+            throw new RegisterException("This email already exists!");
+        });
 
-        userRepository.findByEmail(request.getEmail()).orElseThrow(()->new RegisterException("This email already exists!"));
         var user = User.builder().firstName(request.getFirstName()).lastName(request.getLastName()).email(request.getEmail()).phone(request.getPhone()).password(passwordEncoder.encode(request.getPassword())).role(Role.ROLE_MANAGER).createdAt(LocalDate.now()).status(true).build();
         userRepository.save(user);
         return ResponseEntity.ok("User registered successfully");
@@ -55,7 +57,6 @@ public class AuthenticationService {
         }
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         var jwt = jwtService.generateToken(user);
-//        return jwtAuthenticationResponse.builder().token(jwt).build();
 
         List<DataKeyRequest> dataKeyRequestList = List.of(DataKeyRequest.builder().name("peopleNotifiedAboutProduct").build(), DataKeyRequest.builder().name("peopleSoldTo").build());
         List<DataRequest> dataList = new ArrayList<>();

@@ -3,11 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 interface SelectedProductState {
   product: {
     id: number;
+    inStock: number;
+    producer: string;
     name: string;
     price: number;
-    producer: string;
-    inStock: number;
-    // numberOfReports: number;
   };
   chartInfo: {
     dataKeys: {
@@ -28,7 +27,6 @@ const initialState: SelectedProductState = {
     price: NaN,
     producer: "",
     inStock: NaN,
-    // numberOfReports: NaN,
   },
   chartInfo: {
     dataKeys: [],

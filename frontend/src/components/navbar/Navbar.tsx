@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     <div className="navbar">
       <span>
-        Welcome, {currentUser.user.firstName} {currentUser.user.lastName}.
+        Welcome, {currentUser?.user?.firstName} {currentUser?.user?.lastName}.
       </span>
       <SignOut />
     </div>

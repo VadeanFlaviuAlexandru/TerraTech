@@ -15,8 +15,8 @@ import {
 } from "../../store/UsersTable/UsersTableSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import DeleteIcon from "../icons/DeleteIcon";
-import SmallEditIcon from "../icons/SmallEditIcon";
 import ManagerUsersIcon from "../icons/ManagerUsersIcon";
+import SmallEditIcon from "../icons/SmallEditIcon";
 import "./dataTable.scss";
 
 type Props = {

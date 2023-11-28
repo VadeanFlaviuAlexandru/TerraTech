@@ -13,6 +13,7 @@ import TerraTech.BranchManagementBackend.enums.Role;
 import TerraTech.BranchManagementBackend.exceptions.manager.EmployeeRegistrationException;
 import TerraTech.BranchManagementBackend.exceptions.manager.ManagerNotFoundException;
 import TerraTech.BranchManagementBackend.exceptions.manager.NotFoundException;
+import TerraTech.BranchManagementBackend.exceptions.manager.RegisterException;
 import TerraTech.BranchManagementBackend.models.Report;
 import TerraTech.BranchManagementBackend.models.User;
 import TerraTech.BranchManagementBackend.repositories.ReportRepository;
@@ -42,7 +43,9 @@ public class ManagerService {
 
     public UserResponse addEmployee(SignUpRequest request, String token) {
         String tokenSubstring = ExtractToken.extractToken(token);
-        userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new EmployeeRegistrationException("An employee already has that email address!"));
+        userRepository.findByEmail(request.getEmail()).ifPresent(userFound -> {
+            throw new EmployeeRegistrationException("An employee already has that email address!");
+        });
         User manager = userRepository.findByEmail(jwtService.extractUserName(tokenSubstring)).orElseThrow(ManagerNotFoundException::new);
         User user = User.builder().firstName(request.getFirstName()).lastName(request.getLastName()).status(true).phone(request.getPhone()).email(request.getEmail()).createdAt(LocalDate.now()).password(passwordEncoder.encode(request.getPassword())).manager(manager).role(Role.ROLE_EMPLOYEE).build();
         userRepository.save(user);

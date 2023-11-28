@@ -69,6 +69,8 @@ export default function Users() {
       />
       {open && (
         <UserModal
+          buttonText="Add employee"
+          headerText="Add a new Employee"
           editableMode={false}
           user={null}
           id={-1}

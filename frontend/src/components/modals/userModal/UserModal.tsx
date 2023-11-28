@@ -14,6 +14,8 @@ type Props = {
   editableMode: boolean;
   self: boolean;
   id: number;
+  headerText: string;
+  buttonText: string;
   columns: GridColDef[];
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   user: {
@@ -64,7 +66,7 @@ export default function UserModal(props: Props) {
         <span className="close" onClick={() => props.setOpen(false)}>
           X
         </span>
-        <h1>Update credentials</h1>
+        <h1>{props.headerText}</h1>
         <form onSubmit={handleSubmit}>
           <div className="inputsContainer">
             {props.columns
@@ -86,7 +88,7 @@ export default function UserModal(props: Props) {
                 </div>
               ))}
           </div>
-          <button className="updateButton">Update user information</button>
+          <button className="updateButton">{props.buttonText}</button>
         </form>
       </div>
     </div>

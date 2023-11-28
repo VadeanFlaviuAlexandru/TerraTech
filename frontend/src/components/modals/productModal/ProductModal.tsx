@@ -7,7 +7,6 @@ import {
 import { addProduct } from "../../../store/ProductsTable/ProductTableSlice";
 import { updateSelectedProduct } from "../../../store/SelectedProduct/SelectedProductSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { warningToast } from "../../../utils/toasts/userToasts";
 import "./productModal.scss";
 
 type Props = {
@@ -43,18 +42,14 @@ export default function ProductModal(props: Props) {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    try {
-      if (props.editableMode) {
-        await updateProductData(props.id, product, token).then((response) => {
-          dispatch(updateSelectedProduct(response));
-        });
-      } else {
-        await addProductInTable(product, token).then((response) => {
-          dispatch(addProduct(response));
-        });
-      }
-    } catch (err: any) {
-      warningToast(err.stringify);
+    if (props.editableMode) {
+      await updateProductData(props.id, product, token).then((response) => {
+        dispatch(updateSelectedProduct(response));
+      });
+    } else {
+      await addProductInTable(product, token).then((response) => {
+        dispatch(addProduct(response));
+      });
     }
 
     props.setOpen(false);
@@ -70,7 +65,7 @@ export default function ProductModal(props: Props) {
         <form onSubmit={handleSubmit}>
           <div className="inputsContainer">
             {props.columns
-              .filter((item) => item.field !== "id" && item.field !== "img")
+              .filter((item) => item?.field !== "id" && item?.field !== "img")
               .map((column, index) => (
                 <div className="item" key={index}>
                   <label className="itemLabel" htmlFor={column.field}>

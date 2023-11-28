@@ -1,8 +1,15 @@
+@import "../../../styles/variables.scss";
+
 .topBox {
   h1 {
     margin-bottom: 20px;
+    font-weight: bold;
   }
   .list {
+    .error-text {
+      color: $error-color;
+      font-size: 20px;
+    }
     .listItem {
       display: flex;
       align-items: center;

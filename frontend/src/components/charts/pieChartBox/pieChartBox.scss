@@ -1,3 +1,5 @@
+@import "../../../styles/variables.scss";
+
 .pieChartBox {
   height: 100%;
   display: flex;
@@ -5,8 +7,13 @@
   justify-content: space-between;
 
   h1 {
+    font-weight: bold;
   }
 
+  .error-text {
+    color: $error-color;
+    font-size: 20px;
+  }
   .chart {
     display: flex;
     align-items: center;

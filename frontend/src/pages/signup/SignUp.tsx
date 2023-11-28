@@ -95,7 +95,7 @@ export default function SignUp() {
             style={{ display: emailError ? "" : "none" }}
           >
             {emailError && (
-              <small className="error-text">Please enter a valid e-mail.</small>
+              <span className="error-text">Please enter a valid e-mail.</span>
             )}
           </div>
           <input
@@ -121,9 +121,9 @@ export default function SignUp() {
             style={{ display: phoneToolTip ? "" : "none" }}
           >
             {phoneToolTip && (
-              <small className="error-text">
+              <span className="error-text">
                 The phone number must be 10 characters long.
-              </small>
+              </span>
             )}
           </div>
           <input

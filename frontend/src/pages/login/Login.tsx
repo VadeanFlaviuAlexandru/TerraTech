@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { logInUser } from "../../api/auth/AuthApi";
 import { currentUserSetter } from "../../store/CurrentUser/CurrentUserSlice";
 import { useAppDispatch } from "../../store/hooks";
+import { longWarningToast } from "../../utils/toasts/userToasts";
 import "./login.scss";
 
 const Login = () => {
@@ -25,6 +26,12 @@ const Login = () => {
     };
     if (!isLoading) {
       logInUser(payload).then((response) => {
+        if (response.user.status == false) {
+          longWarningToast(
+            "Your status is set to inactive! Please talk to your superior."
+          );
+          return;
+        }
         dispatch(currentUserSetter(response));
         if (response.user.role === "ROLE_EMPLOYEE") {
           navigate("/dashboard/activity");
@@ -65,7 +72,7 @@ const Login = () => {
             style={{ display: emailError ? "" : "none" }}
           >
             {emailError && (
-              <small className="error-text">Please enter a valid e-mail.</small>
+              <span className="error-text">Please enter a valid e-mail.</span>
             )}
           </div>
           <input

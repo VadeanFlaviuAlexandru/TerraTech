@@ -39,8 +39,12 @@ export const signUpUser = async (payload = {}) => {
     shortSuccessToast("Success!");
     return response;
   } else if (response.status === 403) {
-    errorToast("Invalid credentials and/or access level");
-    throw new Error("Invalid credentials and/or access level");
+    longErrorToast(
+      "An account associated with this e-maill address already exists!"
+    );
+    throw new Error(
+      "An account associated with this e-maill address already exists!"
+    );
   } else {
     longErrorToast("An error occured. Please try again!");
     throw new Error("An error occured. Please try again!");
