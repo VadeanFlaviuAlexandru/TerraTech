@@ -23,6 +23,7 @@ import {
   getRandomColor,
   processedData,
 } from "../../utils/data/data";
+import { ForceSignOut } from "../../utils/userUtils/userUtils";
 import "./product.scss";
 
 const Product = () => {
@@ -30,17 +31,23 @@ const Product = () => {
   const location = useLocation();
   const id = location?.state?.id || useParams()?.id;
   const product = useAppSelector((state) => state.selectedProduct);
-  const token = useAppSelector((state) => state.currentUser.token);
+  const currentUser = useAppSelector((state) => state.currentUser);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    fetchProductData(id, token).then((response) => {
+    fetchProductData(id, currentUser.token).then((response) => {
       dispatch(selectedProductSetter(response));
     });
     return () => {
       resetSelectedProduct();
     };
   }, [id]);
+
+  useEffect(() => {
+    if (currentUser.token === "ROLE_EMPLOYEE") {
+      ForceSignOut();
+    }
+  }, []);
 
   return (
     <div className="productContainer">

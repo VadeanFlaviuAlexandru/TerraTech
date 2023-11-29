@@ -16,6 +16,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { columnsUser, columnsUserModal } from "../../utils/data/columns";
 import "./users.scss";
+import { ForceSignOut } from "../../utils/userUtils/userUtils";
 
 export default function Users() {
   const dispatch = useAppDispatch();
@@ -49,9 +50,15 @@ export default function Users() {
     };
   }, [currentUser.user.id]);
 
+  useEffect(() => {
+    if (currentUser.token === "ROLE_EMPLOYEE") {
+      ForceSignOut();
+    }
+  }, []);
+
   return (
     <div className="users">
-      <div className="info">
+      <div className="infoUsers">
         <h1>Users</h1>
         <button className="addButton" onClick={() => setOpen(true)}>
           <AddUserIcon />

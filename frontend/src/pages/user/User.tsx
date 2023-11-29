@@ -41,6 +41,7 @@ import {
   roleMapping,
 } from "../../utils/data/data";
 import "./user.scss";
+import { ForceSignOut } from "../../utils/userUtils/userUtils";
 
 const User = () => {
   const dispatch = useAppDispatch();
@@ -76,6 +77,15 @@ const User = () => {
       resetSelectedUser();
     };
   }, [id]);
+
+  useEffect(() => {
+    if (
+      id != currentUser?.user?.id &&
+      currentUser.user.role === "ROLE_EMPLOYEE"
+    ) {
+      ForceSignOut();
+    }
+  }, []);
 
   return (
     <div className="userContainer">
@@ -117,7 +127,8 @@ const User = () => {
                       : value}
                   </span>
                   {(value === false || value === true) &&
-                    currentUser?.user?.role !== "ROLE_EMPLOYEE" && (
+                    currentUser?.user?.role !== "ROLE_EMPLOYEE" &&
+                    id === currentUser?.user?.id && (
                       <button
                         className="smallEditButton"
                         onClick={() => {

@@ -75,6 +75,7 @@ export default function ProductModal(props: Props) {
                     id={column.field}
                     type={column.type}
                     name={column.field}
+                    required={!props.editableMode}
                     value={
                       (product[column.field as keyof typeof product] ??
                         "") as string

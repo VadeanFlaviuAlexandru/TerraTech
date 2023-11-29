@@ -10,6 +10,7 @@ import TerraTech.BranchManagementBackend.dto.data.product.ProductResponse;
 import TerraTech.BranchManagementBackend.exceptions.data.product.ProductNotFoundException;
 import TerraTech.BranchManagementBackend.exceptions.data.product.ProductSameNameException;
 import TerraTech.BranchManagementBackend.exceptions.manager.ManagerNotFoundException;
+import TerraTech.BranchManagementBackend.exceptions.manager.RegisterException;
 import TerraTech.BranchManagementBackend.models.Product;
 import TerraTech.BranchManagementBackend.models.Report;
 import TerraTech.BranchManagementBackend.repositories.ProductRepository;
@@ -41,10 +42,12 @@ public class ProductService {
     public ProductResponse addProduct(ProductRequest request, String token) {
         var tokenSubstring = ExtractToken.extractToken(token);
         var manager = userRepository.findByEmail(jwtService.extractUserName(tokenSubstring)).orElseThrow(ManagerNotFoundException::new);
-        productRepository.findByName(request.getName()).orElseThrow(ProductSameNameException::new);
+        productRepository.findByName(request.getName()).ifPresent(user -> {
+            throw new ProductSameNameException();
+        });
         var product = Product.builder().name(request.getName()).price(request.getPrice()).producer(request.getProducer()).inStock(request.getInStock()).addedAt(LocalDate.now()).manager(manager).build();
         productRepository.save(product);
-        return ProductResponse.builder().id(product.getId()).numberOfReports(product.getReports().size()).name(product.getName()).price(product.getPrice()).producer(product.getProducer()).inStock(product.getInStock()).addedAt(product.getAddedAt()).manager(product.getManager()).build();
+        return ProductResponse.builder().id(product.getId()).numberOfReports(Optional.ofNullable(product.getReports()).map(List::size).orElse(0)).name(product.getName()).price(product.getPrice()).producer(product.getProducer()).inStock(product.getInStock()).addedAt(product.getAddedAt()).manager(product.getManager()).build();
     }
 
     public ProductChartResponse searchProduct(Long id) {

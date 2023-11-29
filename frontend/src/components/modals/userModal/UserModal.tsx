@@ -9,6 +9,10 @@ import { updateSelectedUser } from "../../../store/SelectedUser/SelectedUserSlic
 import { addEmployee } from "../../../store/UsersTable/UsersTableSlice";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import "./userModal.scss";
+import {
+  longWarningToast,
+  warningToast,
+} from "../../../utils/toasts/userToasts";
 
 type Props = {
   editableMode: boolean;
@@ -20,9 +24,9 @@ type Props = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   user: {
     id: Number | null;
-    firstName: String | null;
-    lastName: String | null;
-    email: String | null;
+    firstName: string | null;
+    lastName: string | null;
+    email: string | null;
     phone: String | null;
   } | null;
 };
@@ -30,6 +34,9 @@ type Props = {
 export default function UserModal(props: Props) {
   const dispatch = useAppDispatch();
   const token = useAppSelector((state) => state.currentUser.token);
+  const passwordRegex =
+    /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [user, setUser] = useState({
     id: props?.user?.id,
     firstName: props?.user?.firstName,
@@ -37,6 +44,7 @@ export default function UserModal(props: Props) {
     email: props?.user?.email,
     phone: props?.user?.phone,
   });
+  const [password, setPassword] = useState("");
 
   const handleChange = (field: string, value: string) => {
     setUser({ ...user, [field]: value });
@@ -44,6 +52,19 @@ export default function UserModal(props: Props) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(user.phone?.length !== 10)
+    if (!emailRegex.test(user.email!)) {
+      warningToast("Please type a valid e-mail address.");
+      return;
+    } else if (!props.editableMode && !passwordRegex.test(password!)) {
+      longWarningToast(
+        "The password requires a minimum length of 6 characters, at least one uppercase or lowercase letter, requires at least one digit and a special character: @,$,!,%,*,#,?,&"
+      );
+      return;
+    } else if (user.phone?.length !== 10) {
+      longWarningToast("The phone number must be 10 characters long.");
+      return;
+    }
     if (props.editableMode) {
       updateUserData(props.id, user, token).then((response) => {
         if (props.self) {
@@ -53,9 +74,11 @@ export default function UserModal(props: Props) {
         }
       });
     } else {
-      managerAddUser(user, token).then((response) => {
-        dispatch(addEmployee(response));
-      });
+      managerAddUser({ ...user, password: password }, token).then(
+        (response) => {
+          dispatch(addEmployee(response));
+        }
+      );
     }
     props.setOpen(false);
   };
@@ -80,13 +103,39 @@ export default function UserModal(props: Props) {
                     id={column.field}
                     type={column.type}
                     name={column.field}
-                    onChange={(e) => handleChange(column.field, e.target.value)}
+                    required={!props.editableMode}
+                    onChange={(e) =>
+                      column.field === "Password"
+                        ? (() => {
+                            const inputValue = (
+                              e?.target as HTMLInputElement
+                            )?.value?.replace(/\D/g, "");
+                            handleChange(column.field, inputValue);
+                          })()
+                        : handleChange(column.field, e.target.value)
+                    }
                     value={
                       (user[column.field as keyof typeof user] ?? "") as string
                     }
+                    maxLength={column.field === "phone" ? 10 : 20}
                   />
                 </div>
               ))}
+            {!props.editableMode && (
+              <div className="item" key={5}>
+                <label className="itemLabel" htmlFor={"password"}>
+                  Password
+                </label>
+                <input
+                  id={"password"}
+                  type={"text"}
+                  name={"Password"}
+                  required={!props.editableMode}
+                  onChange={(e) => setPassword(e.target.value)}
+                  maxLength={20}
+                />
+              </div>
+            )}
           </div>
           <button className="updateButton">{props.buttonText}</button>
         </form>

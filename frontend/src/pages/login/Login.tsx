@@ -12,7 +12,7 @@ const Login = () => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [emailError, setEmailError] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -24,7 +24,9 @@ const Login = () => {
       email: email,
       password: password,
     };
-    if (!isLoading) {
+    console.log(isLoading);
+    if (isLoading) {
+      setIsLoading(false);
       logInUser(payload).then((response) => {
         if (response.user.status == false) {
           longWarningToast(

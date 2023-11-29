@@ -158,12 +158,6 @@ export const columnsUserProfile: GridColDef[] = [
     width: 100,
     type: "string",
   },
-  {
-    field: "phone",
-    headerName: "Phone",
-    width: 100,
-    type: "string",
-  },
 ];
 
 export const columnsUser: GridColDef[] = [
@@ -286,14 +280,6 @@ export const columnsReportModal: GridColDef[] = [
 
 export const columnsUserModal: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
-  // {
-  //   field: "avatar",
-  //   headerName: "Avatar",
-  //   width: 100,
-  //   renderCell: (params) => {
-  //     return <img src={params.row.img || "/noavatar.png"} alt="" />;
-  //   },
-  // },
   {
     field: "firstName",
     headerName: "First name",
@@ -308,11 +294,6 @@ export const columnsUserModal: GridColDef[] = [
     field: "email",
     headerName: "E-mail",
     width: 250,
-  },
-  {
-    field: "password",
-    headerName: "Password",
-    width: 150,
   },
   {
     field: "phone",

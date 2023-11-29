@@ -10,6 +10,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { columnsProduct, columnsProductModal } from "../../utils/data/columns";
 import "./products.scss";
+import { ForceSignOut } from "../../utils/userUtils/userUtils";
 
 export default function Products() {
   const [open, setOpen] = useState(false);
@@ -27,6 +28,12 @@ export default function Products() {
       resetProductTable();
     };
   }, [currentUser.user.id]);
+
+  useEffect(() => {
+    if (currentUser.token === "ROLE_EMPLOYEE") {
+      ForceSignOut();
+    }
+  }, []);
 
   return (
     <div className="products">

@@ -1,14 +1,14 @@
 @import "../../styles/variables.scss";
 
 .users {
-  .info {
+  .infoUsers {
     gap: 20px;
     display: flex;
-    align-items: end !important;
+    align-items: center !important;
 
     h1 {
       color: $text-color;
-      margin-top: 20px;
+      margin: 20px 0px 20px 0px;
     }
 
     .addButton {

@@ -106,7 +106,12 @@ export default function SignUp() {
             name="phone"
             placeholder="Phone"
             maxLength={10}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(e) => {
+              const inputValue = (
+                e?.target as HTMLInputElement
+              )?.value?.replace(/\D/g, "");
+              setPhone(inputValue);
+            }}
             required
             onBlur={() => {
               if (phone.length !== 10) {

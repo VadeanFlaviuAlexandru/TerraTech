@@ -1,7 +1,6 @@
 import {
-  errorToast,
   longErrorToast,
-  shortSuccessToast,
+  shortSuccessToast
 } from "../../utils/toasts/userToasts";
 
 export const logInUser = async (payload = {}) => {
@@ -18,8 +17,8 @@ export const logInUser = async (payload = {}) => {
     shortSuccessToast("Welcome!");
     return data;
   } else if (response.status === 403) {
-    errorToast("Invalid credentials and/or access level");
-    throw new Error("Invalid credentials and/or access level");
+    longErrorToast("Failed to log in. Please re-enter your credentials.");
+    throw new Error("Failed to log in. Please re-enter your credentials.");
   } else {
     longErrorToast("An error occured. Please try again!");
     throw new Error("An error occured. Please try again!");

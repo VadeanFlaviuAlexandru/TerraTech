@@ -17,6 +17,7 @@ import {
   statisticsSetter,
 } from "../../store/Statistics/StatisticsSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { ForceSignOut } from "../../utils/userUtils/userUtils";
 import "./home.scss";
 
 const Home = () => {
@@ -69,6 +70,9 @@ const Home = () => {
   }, [selected]);
 
   useEffect(() => {
+    if (currentUser.token === "ROLE_EMPLOYEE") {
+      ForceSignOut();
+    }
     return () => {
       dispatch(resetAllManagers());
     };

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { fetchUserTableData } from "../../api/manager/ManagerApi";
 import DataTable from "../../components/dataTable/DataTable";
+import GoBackIcon from "../../components/icons/GoBackIcon";
 import UserModal from "../../components/modals/userModal/UserModal";
 import { resetAllManagers } from "../../store/AllManagers/AllManagersSlice";
 import {
@@ -10,8 +11,8 @@ import {
 } from "../../store/UsersTable/UsersTableSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { columnsUser, columnsUserModal } from "../../utils/data/columns";
+import { ForceSignOut } from "../../utils/userUtils/userUtils";
 import "./managerUsers.scss";
-import GoBackIcon from "../../components/icons/GoBackIcon";
 
 export default function ManagerUsers() {
   const dispatch = useAppDispatch();
@@ -22,6 +23,9 @@ export default function ManagerUsers() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    if (currentUser.token === "ROLE_EMPLOYEE") {
+      ForceSignOut();
+    }
     resetUsersTable();
     resetAllManagers();
     if (currentUser.user.role === "ROLE_ADMIN") {
@@ -37,7 +41,7 @@ export default function ManagerUsers() {
   return (
     <div className="users">
       <div className="info">
-        <Link className="button" to={`/dashboard/users`}>
+        <Link className="backButton" to={`/dashboard/users`}>
           <GoBackIcon />
         </Link>
       </div>
