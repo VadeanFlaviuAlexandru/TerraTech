@@ -22,7 +22,7 @@ type Props = {
 
 export default function ReportModal(props: Props) {
   const dispatch = useAppDispatch();
-  const token = useAppSelector((state) => state.currentUser.token);
+  const currentUser = useAppSelector((state) => state.currentUser);
   const products = useAppSelector((state) => state.productsTable.products);
   const [report, setReport] = useState({
     id: props?.report?.id,
@@ -31,6 +31,7 @@ export default function ReportModal(props: Props) {
     peopleSoldTo: props?.report?.peopleSoldTo,
     description: props?.report?.description,
   });
+  const [changedReport, setChangedReport] = useState(report);
 
   const handleChange = (field: string, value: string) => {
     setReport({ ...report, [field]: value });
@@ -49,7 +50,11 @@ export default function ReportModal(props: Props) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    updateReport(props?.id, report, token).then((response) => {
+    if (changedReport === report) {
+      props.setOpen(false);
+      return;
+    }
+    updateReport(props?.id, report, currentUser.token).then((response) => {
       if (props.self) {
         dispatch(
           updateCurrentReports({
@@ -107,6 +112,7 @@ export default function ReportModal(props: Props) {
                     type={column.type}
                     placeholder={column.field}
                     name={column.field}
+                    maxLength={column.maxWidth}
                     onChange={(e) => handleChange(column.field, e.target.value)}
                     value={
                       (report[column.field as keyof typeof report] ??

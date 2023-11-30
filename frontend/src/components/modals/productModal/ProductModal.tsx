@@ -64,26 +64,34 @@ export default function ProductModal(props: Props) {
         <h1>{props.headerText}</h1>
         <form onSubmit={handleSubmit}>
           <div className="inputsContainer">
-            {props.columns
-              .filter((item) => item?.field !== "id" && item?.field !== "img")
-              .map((column, index) => (
-                <div className="item" key={index}>
-                  <label className="itemLabel" htmlFor={column.field}>
-                    {column.headerName}
-                  </label>
-                  <input
-                    id={column.field}
-                    type={column.type}
-                    name={column.field}
-                    required={!props.editableMode}
-                    value={
-                      (product[column.field as keyof typeof product] ??
-                        "") as string
-                    }
-                    onChange={(e) => handleChange(column.field, e.target.value)}
-                  />
-                </div>
-              ))}
+            {props.columns.map((column, index) => (
+              <div className="item" key={index}>
+                <label className="itemLabel" htmlFor={column.field}>
+                  {column.headerName}
+                </label>
+                <input
+                  id={column.field}
+                  type={column.type}
+                  name={column.field}
+                  required={!props.editableMode}
+                  maxLength={column.maxWidth}
+                  value={
+                    (product[column.field as keyof typeof product] ??
+                      "") as string
+                  }
+                  onChange={(e) =>
+                    column.field === "price" || column.field === "inStock"
+                      ? (() => {
+                          const inputValue = (
+                            e?.target as HTMLInputElement
+                          )?.value?.replace(/\D/g, "");
+                          handleChange(column.field, inputValue);
+                        })()
+                      : handleChange(column.field, e.target.value)
+                  }
+                />
+              </div>
+            ))}
             <button className="updateButton">{props.buttonText}</button>
           </div>
         </form>

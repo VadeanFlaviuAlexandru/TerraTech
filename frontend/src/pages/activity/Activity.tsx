@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchProductTableData } from "../../api/product/ProductApi";
 import { employeeAddReport } from "../../api/user/UserApi";
 import { addReport } from "../../store/CurrentUser/CurrentUserSlice";
+import {
+  productTableSetter,
+  resetProductTable,
+} from "../../store/ProductsTable/ProductTableSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import "./activity.scss";
 
 export default function Activity() {
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.productsTable.products);
-  const token = useAppSelector((state) => state.currentUser.token);
+  const currentUser = useAppSelector((state) => state.currentUser);
   const [report, setReport] = useState({
     product_id: products[0]?.id?.toString(),
     description: "",
@@ -19,19 +24,31 @@ export default function Activity() {
     setReport({ ...report, product_id: e?.target?.value });
   };
 
+  useEffect(() => {
+    setReport({ ...report, product_id: products[0]?.id?.toString() });
+  }, [products]);
+
+  useEffect(() => {
+    fetchProductTableData(
+      currentUser.user.role === "ROLE_EMPLOYEE"
+        ? currentUser.managerId
+        : currentUser.user.id,
+      currentUser.token
+    ).then((response) => {
+      dispatch(productTableSetter(response));
+    });
+    return () => {
+      resetProductTable();
+    };
+  }, [currentUser.user.id]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (report.product_id == "" || products.length == 0) {
       return;
     } else {
-      employeeAddReport(report, token).then((response) => {
+      employeeAddReport(report, currentUser.token).then((response) => {
         dispatch(addReport(response));
-        setReport({
-          product_id: products[0]?.id?.toString(),
-          description: "",
-          peopleNotifiedAboutProduct: "",
-          peopleSoldTo: "",
-        });
       });
     }
   };

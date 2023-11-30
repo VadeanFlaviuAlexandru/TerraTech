@@ -17,6 +17,7 @@ import java.util.List;
 public class SignInResponse {
     private String token;
     private User user;
+    private Long managerId;
     private ChartRequest chartInfo;
     private List<ReportRequest> reports;
 }

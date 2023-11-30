@@ -28,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -71,6 +72,6 @@ public class AuthenticationService {
         List<ReportRequest> reportsList = (reportRepository.findReports(user.getId())).subList(0, Math.min(reportRepository.findReports(user.getId()).size(), 5));
         ChartRequest info = ChartRequest.builder().data(dataList).dataKeys(dataKeyRequestList.subList(0, Math.min(5, dataKeyRequestList.size()))).build();
 
-        return new SignInResponse(jwt, user, info, reportsList);
+        return new SignInResponse(jwt, user, Optional.ofNullable(user.getManager()).map(User::getId).orElse(0L), info, reportsList);
     }
 }

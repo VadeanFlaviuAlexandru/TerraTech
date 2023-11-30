@@ -229,34 +229,29 @@ export const columnsProduct: GridColDef[] = [
 ];
 
 export const columnsProductModal: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 50 },
-  // {
-  //   field: "img",
-  //   headerName: "Image",
-  //   width: 100,
-  //   renderCell: (params) => {
-  //     return <img src={params.row.img || "/noavatar.png"} alt="" />;
-  //   },
-  // },
   {
     field: "name",
     headerName: "Name",
     width: 200,
+    maxWidth: 20,
   },
   {
     field: "producer",
     headerName: "Producer",
     width: 150,
+    maxWidth: 20,
   },
   {
     field: "price",
     headerName: "Price",
     width: 100,
+    maxWidth: 9,
   },
   {
     field: "inStock",
     headerName: "In stock",
     width: 110,
+    maxWidth: 9,
   },
 ];
 
@@ -265,11 +260,13 @@ export const columnsReportModal: GridColDef[] = [
     field: "peopleNotifiedAboutProduct",
     headerName: "People notified to",
     width: 150,
+    maxWidth: 7,
   },
   {
     field: "peopleSoldTo",
     headerName: "People sold to",
     width: 150,
+    maxWidth: 7,
   },
   {
     field: "description",
@@ -279,25 +276,28 @@ export const columnsReportModal: GridColDef[] = [
 ];
 
 export const columnsUserModal: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
   {
     field: "firstName",
     headerName: "First name",
     width: 150,
+    maxWidth: 20,
   },
   {
     field: "lastName",
     headerName: "Last name",
     width: 150,
+    maxWidth: 20,
   },
   {
     field: "email",
     headerName: "E-mail",
     width: 250,
+    maxWidth: 20,
   },
   {
     field: "phone",
     headerName: "Phone",
     width: 150,
+    maxWidth: 10,
   },
 ];

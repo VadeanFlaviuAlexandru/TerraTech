@@ -14,6 +14,7 @@ import {
   deleteReport,
   fetchUserData,
 } from "../../api/manager/ManagerApi";
+import { fetchProductTableData } from "../../api/product/ProductApi";
 import DeleteIcon from "../../components/icons/DeleteIcon";
 import EditIcon from "../../components/icons/EditIcon";
 import SmallEditIcon from "../../components/icons/SmallEditIcon";
@@ -23,6 +24,10 @@ import {
   currentUserSetter,
   deleteCurrentReport,
 } from "../../store/CurrentUser/CurrentUserSlice";
+import {
+  productTableSetter,
+  resetProductTable,
+} from "../../store/ProductsTable/ProductTableSlice";
 import {
   deleteSelectedReport,
   resetSelectedUser,
@@ -40,8 +45,8 @@ import {
   processedData,
   roleMapping,
 } from "../../utils/data/data";
-import "./user.scss";
 import { ForceSignOut } from "../../utils/userUtils/userUtils";
+import "./user.scss";
 
 const User = () => {
   const dispatch = useAppDispatch();
@@ -85,7 +90,18 @@ const User = () => {
     ) {
       ForceSignOut();
     }
-  }, []);
+    fetchProductTableData(
+      currentUser.user.role === "ROLE_EMPLOYEE"
+        ? currentUser.managerId
+        : currentUser.user.id,
+      currentUser.token
+    ).then((response) => {
+      dispatch(productTableSetter(response));
+    });
+    return () => {
+      resetProductTable();
+    };
+  }, [currentUser.user.id]);
 
   return (
     <div className="userContainer">

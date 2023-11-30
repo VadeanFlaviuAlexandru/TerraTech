@@ -52,7 +52,6 @@ export default function UserModal(props: Props) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(user.phone?.length !== 10)
     if (!emailRegex.test(user.email!)) {
       warningToast("Please type a valid e-mail address.");
       return;
@@ -105,7 +104,7 @@ export default function UserModal(props: Props) {
                     name={column.field}
                     required={!props.editableMode}
                     onChange={(e) =>
-                      column.field === "Password"
+                      column.field === "phone"
                         ? (() => {
                             const inputValue = (
                               e?.target as HTMLInputElement
@@ -117,7 +116,7 @@ export default function UserModal(props: Props) {
                     value={
                       (user[column.field as keyof typeof user] ?? "") as string
                     }
-                    maxLength={column.field === "phone" ? 10 : 20}
+                    maxLength={column.maxWidth}
                   />
                 </div>
               ))}

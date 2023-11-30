@@ -44,7 +44,7 @@ public class ProductController {
     }
 
     @GetMapping("/product/getManagerProducts/{id}")
-    @PreAuthorize("hasRole('ROLE_MANAGER') || hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_MANAGER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_EMPLOYEE')")
     public List<ProductResponse> getManagerProducts(@PathVariable Long id) {
         return productService.getManagerProducts(id);
     }

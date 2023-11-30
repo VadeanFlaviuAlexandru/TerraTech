@@ -24,7 +24,6 @@ const Login = () => {
       email: email,
       password: password,
     };
-    console.log(isLoading);
     if (isLoading) {
       setIsLoading(false);
       logInUser(payload).then((response) => {
