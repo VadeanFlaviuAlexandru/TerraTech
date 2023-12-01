@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="logo">
         <img src="../../../logo/logo.png" className="logo" />
       </div>
-      <span>© TerraTech Innovations Admin Dashboard</span>
+      <span>© TerraTech Innovations Dashboard</span>
     </div>
   );
 }

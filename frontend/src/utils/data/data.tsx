@@ -23,10 +23,10 @@ export const processedData = (data: SelectedUserState["chartInfo"]["data"]) =>
 
     return {
       ...dataPoint,
-      peopleNotifiedAboutProduct: isFutureMonth
+      peopleNotified: isFutureMonth
         ? null
-        : dataPoint.peopleNotifiedAboutProduct || 0,
-      peopleSoldTo: isFutureMonth ? null : dataPoint.peopleSoldTo || 0,
+        : dataPoint.peopleNotified || 0,
+        peopleSold: isFutureMonth ? null : dataPoint.peopleSold || 0,
     };
   });
 

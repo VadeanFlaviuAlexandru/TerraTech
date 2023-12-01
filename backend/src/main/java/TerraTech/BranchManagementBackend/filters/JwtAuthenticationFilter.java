@@ -1,7 +1,7 @@
 package TerraTech.BranchManagementBackend.filters;
 
-import TerraTech.BranchManagementBackend.services.jwtServices.JwtService;
-import TerraTech.BranchManagementBackend.services.userServices.UserService;
+import TerraTech.BranchManagementBackend.services.jwt.JwtService;
+import TerraTech.BranchManagementBackend.services.user.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

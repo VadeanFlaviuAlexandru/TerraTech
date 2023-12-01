@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DataRequest {
     private String name;
-    private Long peopleNotifiedAboutProduct;
-    private Long peopleSoldTo;
+    private Long peopleNotified;
+    private Long peopleSold;
 }

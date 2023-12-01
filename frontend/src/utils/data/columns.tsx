@@ -133,30 +133,33 @@ export const MenuList = () => {
 };
 
 export const columnsUserProfile: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
   {
     field: "firstName",
     headerName: "First name",
     width: 150,
     type: "string",
+    maxWidth: 20,
   },
   {
     field: "lastName",
     headerName: "Last name",
     width: 150,
     type: "string",
+    maxWidth: 20,
   },
   {
     field: "email",
     headerName: "E-mail",
     width: 150,
     type: "string",
+    maxWidth: 20,
   },
   {
     field: "phone",
     headerName: "Phone",
     width: 100,
     type: "string",
+    maxWidth: 10,
   },
 ];
 
@@ -257,13 +260,13 @@ export const columnsProductModal: GridColDef[] = [
 
 export const columnsReportModal: GridColDef[] = [
   {
-    field: "peopleNotifiedAboutProduct",
+    field: "peopleNotified",
     headerName: "People notified to",
     width: 150,
     maxWidth: 7,
   },
   {
-    field: "peopleSoldTo",
+    field: "peopleSold",
     headerName: "People sold to",
     width: 150,
     maxWidth: 7,

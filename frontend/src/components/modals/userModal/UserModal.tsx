@@ -92,7 +92,6 @@ export default function UserModal(props: Props) {
         <form onSubmit={handleSubmit}>
           <div className="inputsContainer">
             {props.columns
-              .filter((item) => item.field !== "id")
               .map((column, index) => (
                 <div className="item" key={index}>
                   <label className="itemLabel" htmlFor={column.field}>

@@ -1,13 +1,12 @@
 package TerraTech.BranchManagementBackend.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDate;
 
@@ -26,9 +25,9 @@ public class Report {
     @Column(nullable = false)
     LocalDate createDate;
     @Column(nullable = false)
-    Integer peopleNotifiedAboutProduct;
+    Integer peopleNotified;
     @Column(nullable = false)
-    Integer peopleSoldTo;
+    Integer peopleSold;
     @JsonIgnore
     @ManyToOne
     User user;

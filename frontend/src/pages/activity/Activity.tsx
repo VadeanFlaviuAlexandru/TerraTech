@@ -14,18 +14,18 @@ export default function Activity() {
   const products = useAppSelector((state) => state.productsTable.products);
   const currentUser = useAppSelector((state) => state.currentUser);
   const [report, setReport] = useState({
-    product_id: products[0]?.id?.toString(),
+    productId: products[0]?.id?.toString(),
     description: "",
-    peopleNotifiedAboutProduct: "",
-    peopleSoldTo: "",
+    peopleNotified: "",
+    peopleSold: "",
   });
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setReport({ ...report, product_id: e?.target?.value });
+    setReport({ ...report, productId: e?.target?.value });
   };
 
   useEffect(() => {
-    setReport({ ...report, product_id: products[0]?.id?.toString() });
+    setReport({ ...report, productId: products[0]?.id?.toString() });
   }, [products]);
 
   useEffect(() => {
@@ -44,11 +44,17 @@ export default function Activity() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (report.product_id == "" || products.length == 0) {
+    if (report.productId == "" || products.length == 0) {
       return;
     } else {
       employeeAddReport(report, currentUser.token).then((response) => {
         dispatch(addReport(response));
+        setReport({
+          productId: products[0]?.id?.toString(),
+          description: "",
+          peopleNotified: "",
+          peopleSold: "",
+        });
       });
     }
   };
@@ -60,7 +66,7 @@ export default function Activity() {
         <div className="dropdownContainer">
           <label>Select a product associated with this report:</label>
           {products.length > 0 ? (
-            <select value={report?.product_id} onChange={handleSelectChange}>
+            <select value={report?.productId} onChange={handleSelectChange}>
               {products.map((product) => (
                 <option key={product?.id} value={product?.id}>
                   {product?.name}
@@ -74,16 +80,16 @@ export default function Activity() {
           )}
         </div>
         <div className="inputContainer">
-          <label htmlFor="peopleNotifiedAboutProduct">
+          <label htmlFor="peopleNotified">
             Specify the number of people informed about this product:
           </label>
           <input
-            id="peopleNotifiedAboutProduct"
+            id="peopleNotified"
             type="text"
             pattern="\d*"
-            name="peopleNotifiedAboutProduct"
+            name="peopleNotified"
             required
-            value={report?.peopleNotifiedAboutProduct}
+            value={report?.peopleNotified}
             maxLength={9}
             onInput={(e) => {
               const inputValue = (e.target as HTMLInputElement)?.value?.replace(
@@ -92,22 +98,22 @@ export default function Activity() {
               );
               setReport((prevReport) => ({
                 ...prevReport,
-                peopleNotifiedAboutProduct: inputValue,
+                peopleNotified: inputValue,
               }));
             }}
           />
         </div>
         <div className="inputContainer">
-          <label htmlFor="peopleSoldTo">
+          <label htmlFor="peopleSold">
             Input the quantity of items successfully sold:
           </label>
           <input
-            id="peopleSoldTo"
+            id="peopleSold"
             type="text"
             pattern="\d*"
-            name="peopleSoldTo"
+            name="peopleSold"
             required
-            value={report?.peopleSoldTo}
+            value={report?.peopleSold}
             maxLength={9}
             onInput={(e) => {
               const inputValue = (
@@ -115,7 +121,7 @@ export default function Activity() {
               )?.value?.replace(/\D/g, "");
               setReport((prevReport) => ({
                 ...prevReport,
-                peopleSoldTo: inputValue,
+                peopleSold: inputValue,
               }));
             }}
           />

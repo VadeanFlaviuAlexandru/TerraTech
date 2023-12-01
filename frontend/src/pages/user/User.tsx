@@ -62,8 +62,8 @@ const User = () => {
     productId: "",
     description: "",
     productName: "",
-    peopleSoldTo: 0,
-    peopleNotifiedAboutProduct: 0,
+    peopleSold: 0,
+    peopleNotified: 0,
   });
 
   useEffect(() => {

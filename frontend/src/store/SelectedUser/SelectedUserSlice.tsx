@@ -17,8 +17,8 @@ export interface SelectedUserState {
     }[];
     data: {
       name: string;
-      peopleNotifiedAboutProduct: number;
-      peopleSoldTo: number;
+      peopleNotified: number;
+      peopleSold: number;
     }[];
   };
   reports: {
@@ -27,8 +27,8 @@ export interface SelectedUserState {
     description: string;
     productName: string;
     createDate: string;
-    peopleSoldTo: number;
-    peopleNotifiedAboutProduct: number;
+    peopleSold: number;
+    peopleNotified: number;
   }[];
 }
 
@@ -78,7 +78,7 @@ export const selectedUserSlice = createSlice({
     },
     deleteSelectedReport: (state, action) => {
       const updatedReports = state.reports.filter(
-        (report) => report.id !== action.payload.id
+        (report) => report.id != action.payload
       );
       state.reports = updatedReports;
     },

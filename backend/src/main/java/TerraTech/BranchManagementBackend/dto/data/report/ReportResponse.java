@@ -15,7 +15,7 @@ public class ReportResponse {
     private Long id;
     private String description;
     private LocalDate createDate;
-    private Integer peopleNotifiedAboutProduct;
-    private Integer peopleSoldTo;
+    private Integer peopleNotified;
+    private Integer peopleSold;
     private String productName;
 }

@@ -14,8 +14,8 @@ interface SelectedProductState {
     }[];
     data: {
       name: string;
-      peopleNotifiedAboutProduct: number;
-      peopleSoldTo: number;
+      peopleNotified: number;
+      peopleSold: number;
     }[];
   };
 }

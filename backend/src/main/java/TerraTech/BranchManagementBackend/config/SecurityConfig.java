@@ -1,7 +1,7 @@
 package TerraTech.BranchManagementBackend.config;
 
 import TerraTech.BranchManagementBackend.filters.JwtAuthenticationFilter;
-import TerraTech.BranchManagementBackend.services.userServices.UserService;
+import TerraTech.BranchManagementBackend.services.user.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

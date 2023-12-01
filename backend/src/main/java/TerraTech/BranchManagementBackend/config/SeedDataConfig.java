@@ -7,7 +7,7 @@ import TerraTech.BranchManagementBackend.models.User;
 import TerraTech.BranchManagementBackend.repositories.ProductRepository;
 import TerraTech.BranchManagementBackend.repositories.ReportRepository;
 import TerraTech.BranchManagementBackend.repositories.UserRepository;
-import TerraTech.BranchManagementBackend.services.userServices.UserService;
+import TerraTech.BranchManagementBackend.services.user.UserService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -97,8 +97,8 @@ public class SeedDataConfig implements CommandLineRunner {
                 Report report = Report.builder()
                         .description("Employee " + i + "'s report")
                         .createDate(localDate)
-                        .peopleNotifiedAboutProduct(i * 20)
-                        .peopleSoldTo(i * 20)
+                        .peopleNotified(i * 20)
+                        .peopleSold(i * 20)
                         .user(employee)
                         .product(product)
                         .build();
@@ -150,8 +150,8 @@ public class SeedDataConfig implements CommandLineRunner {
                 Report report = Report.builder()
                         .description("~Employee " + i + "'s report M2")
                         .createDate(localDate)
-                        .peopleNotifiedAboutProduct(9)
-                        .peopleSoldTo(9)
+                        .peopleNotified(9)
+                        .peopleSold(9)
                         .user(employee)
                         .product(product)
                         .build();

@@ -17,6 +17,6 @@ public class ReportRequest {
     private String description;
     private String productName;
     private LocalDate createDate;
-    private Integer peopleNotifiedAboutProduct;
-    private Integer peopleSoldTo;
+    private Integer peopleNotified;
+    private Integer peopleSold;
 }

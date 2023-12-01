@@ -15,8 +15,8 @@ type Props = {
     id: number;
     productId: string;
     description: String;
-    peopleNotifiedAboutProduct: number;
-    peopleSoldTo: number;
+    peopleNotified: number;
+    peopleSold: number;
   };
 };
 
@@ -27,8 +27,8 @@ export default function ReportModal(props: Props) {
   const [report, setReport] = useState({
     id: props?.report?.id,
     productId: props?.report?.productId,
-    peopleNotifiedAboutProduct: props?.report?.peopleNotifiedAboutProduct,
-    peopleSoldTo: props?.report?.peopleSoldTo,
+    peopleNotified: props?.report?.peopleNotified,
+    peopleSold: props?.report?.peopleSold,
     description: props?.report?.description,
   });
   const [changedReport, setChangedReport] = useState(report);

@@ -25,7 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    long id;
     @Column(nullable = false)
     String firstName;
     @Column(nullable = false)

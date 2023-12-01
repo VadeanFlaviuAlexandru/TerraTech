@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportRequest {
-    private String product_id;
+    private String productId;
     @Column(length = 500)
     private String description;
-    private Integer peopleNotifiedAboutProduct;
-    private Integer peopleSoldTo;
+    private Integer peopleNotified;
+    private Integer peopleSold;
 }
