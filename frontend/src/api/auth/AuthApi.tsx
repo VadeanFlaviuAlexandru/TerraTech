@@ -1,7 +1,8 @@
 import {
   longErrorToast,
-  shortSuccessToast
+  shortSuccessToast,
 } from "../../utils/toasts/userToasts";
+import Cookies from "js-cookie";
 
 export const logInUser = async (payload = {}) => {
   const headers: { [key: string]: string } = {
@@ -14,7 +15,7 @@ export const logInUser = async (payload = {}) => {
   });
   if (response.ok) {
     const data = await response.json();
-    shortSuccessToast("Welcome!");
+    Cookies.set("TerraTech_Access_Token", data.token, { expires: 7 });
     return data;
   } else if (response.status === 403) {
     longErrorToast("Failed to log in. Please re-enter your credentials.");

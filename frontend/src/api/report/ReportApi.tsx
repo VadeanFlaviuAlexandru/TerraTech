@@ -1,9 +1,9 @@
 import { errorToast, successToast } from "../../utils/toasts/userToasts";
+import { token } from "../../utils/userUtils/userUtils";
 
 export const updateReport = async (
   id: number | string,
   payload = {},
-  token = ""
 ) => {
   let headers: { [key: string]: string } = {
     "Content-type": "application/json",

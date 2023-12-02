@@ -9,28 +9,26 @@ import {
 } from "../../store/ProductsTable/ProductTableSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { columnsProduct, columnsProductModal } from "../../utils/data/columns";
-import "./products.scss";
 import { ForceSignOut } from "../../utils/userUtils/userUtils";
+import "./products.scss";
 
 export default function Products() {
-  const [open, setOpen] = useState(false);
+  const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.currentUser);
   const currentProducts = useAppSelector((state) => state.productsTable);
-  const dispatch = useAppDispatch();
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    fetchProductTableData(currentUser.user.id, currentUser.token).then(
-      (response) => {
-        dispatch(productTableSetter(response));
-      }
-    );
+    fetchProductTableData(currentUser.user.id).then((response) => {
+      dispatch(productTableSetter(response));
+    });
     return () => {
       resetProductTable();
     };
   }, [currentUser.user.id]);
 
   useEffect(() => {
-    if (currentUser.token === "ROLE_EMPLOYEE") {
+    if (currentUser.user.role === "ROLE_EMPLOYEE") {
       ForceSignOut();
     }
   }, []);

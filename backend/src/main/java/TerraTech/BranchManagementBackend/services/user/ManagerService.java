@@ -10,21 +10,20 @@ import TerraTech.BranchManagementBackend.dto.data.user.UserRequest;
 import TerraTech.BranchManagementBackend.dto.data.user.UserResponse;
 import TerraTech.BranchManagementBackend.dto.services.SearchEmployeeResponse;
 import TerraTech.BranchManagementBackend.enums.Role;
-import TerraTech.BranchManagementBackend.exceptions.manager.EmployeeRegistrationException;
 import TerraTech.BranchManagementBackend.exceptions.manager.ManagerNotFoundException;
 import TerraTech.BranchManagementBackend.exceptions.manager.NotFoundException;
+import TerraTech.BranchManagementBackend.models.Product;
 import TerraTech.BranchManagementBackend.models.Report;
 import TerraTech.BranchManagementBackend.models.User;
+import TerraTech.BranchManagementBackend.repositories.ProductRepository;
 import TerraTech.BranchManagementBackend.repositories.ReportRepository;
 import TerraTech.BranchManagementBackend.repositories.UserRepository;
 import TerraTech.BranchManagementBackend.services.jwt.JwtService;
 import TerraTech.BranchManagementBackend.utils.ExtractToken;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.Month;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -36,6 +35,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ManagerService {
 
+    private final ProductRepository productRepository;
     private final ReportRepository reportRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
@@ -96,9 +96,18 @@ public class ManagerService {
     }
 
     public long deleteEmployee(long id) {
-        List<Report> userReports = reportRepository.findByUserId(id);
-        for (Report report : userReports) {
-            report.setUser(null);
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+        List<Report> userReports = user.getReport();
+        if (!userReports.isEmpty()) {
+            reportRepository.deleteAll(userReports);
+        }
+        if (Role.ROLE_MANAGER.equals(user.getRole())) {
+            List<User> managerUsers = userRepository.findEmployeesByManagerId(user.getId());
+            List<Product> managerProducts = productRepository.findByManagerId(user.getId());
+            for (User managerUser : managerUsers) {
+                deleteEmployee(managerUser.getId());
+            }
+            productRepository.deleteAll(managerProducts);
         }
         userRepository.deleteById(id);
         return id;
@@ -123,6 +132,15 @@ public class ManagerService {
             user.setStatus(!user.isStatus());
             return userRepository.save(user);
         }).orElseThrow(() -> new NotFoundException(id));
+        if (Role.ROLE_MANAGER.equals(userRequest.getRole())) {
+            List<User> managerUsers = userRepository.findEmployeesByManagerId(id);
+            if (!managerUsers.isEmpty()) {
+                for (User user : managerUsers) {
+                    user.setStatus(!user.isStatus());
+                    userRepository.save(user);
+                }
+            }
+        }
         return new UserResponse(userRequest.getId(), userRequest.getFirstName(), userRequest.getLastName(),
                 userRequest.getPhone(), userRequest.isStatus(), userRequest.getEmail(), userRequest.getCreatedAt(),
                 userRequest.getRole());

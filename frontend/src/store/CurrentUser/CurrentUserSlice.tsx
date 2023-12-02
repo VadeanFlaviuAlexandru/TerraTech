@@ -13,7 +13,6 @@ interface CurrentUserState {
     status: boolean;
   };
   managerId: number;
-  token: string;
   chartInfo: {
     dataKeys: {
       name: string;
@@ -48,7 +47,6 @@ const initialState: CurrentUserState = {
     status: false,
   },
   managerId: NaN,
-  token: "",
   chartInfo: {
     dataKeys: [],
     data: [],

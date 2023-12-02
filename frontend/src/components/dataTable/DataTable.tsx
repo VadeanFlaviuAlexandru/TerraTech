@@ -1,6 +1,6 @@
 import { DataGrid, GridColDef, GridToolbar } from "@mui/x-data-grid";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { deleteEmployee } from "../../api/manager/ManagerApi";
 import { deleteProduct } from "../../api/product/ProductApi";
 import { AllManagersState } from "../../store/AllManagers/AllManagersSlice";
@@ -15,6 +15,7 @@ import {
 } from "../../store/UsersTable/UsersTableSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import DeleteIcon from "../icons/DeleteIcon";
+import ManagerProductsIcon from "../icons/ManagerProductsIcon";
 import ManagerUsersIcon from "../icons/ManagerUsersIcon";
 import SmallEditIcon from "../icons/SmallEditIcon";
 import "./dataTable.scss";
@@ -32,16 +33,17 @@ type Props = {
 export default function DataTable(props: Props) {
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.currentUser);
+  const location = useLocation();
 
   const handleDelete = (id: number) => {
     if (props.userTable) {
-      deleteEmployee(id, currentUser.token).then((response) => {
+      deleteEmployee(id).then((response) => {
         if (response.ok) {
           dispatch(removeEmployee(id));
         }
       });
     } else {
-      deleteProduct(id, currentUser.token).then((response) => {
+      deleteProduct(id).then((response) => {
         if (response.ok) {
           dispatch(removeProduct(id));
         }
@@ -71,14 +73,23 @@ export default function DataTable(props: Props) {
           <div className="delete" onClick={() => handleDelete(params.row.id)}>
             <DeleteIcon color={"#242526"} />
           </div>
-          {currentUser.user.role === "ROLE_ADMIN" && (
-            <Link
-              state={{ id: params.row.id }}
-              to={`/dashboard/users/manager/${params.row.id}`}
-            >
-              <ManagerUsersIcon color={"#242526"} />
-            </Link>
-          )}
+          {currentUser.user.role === "ROLE_ADMIN" &&
+            !location.pathname.includes("manager") && (
+              <>
+                <Link
+                  state={{ id: params.row.id }}
+                  to={`/dashboard/users/manager/${params.row.id}`}
+                >
+                  <ManagerUsersIcon color={"#242526"} />
+                </Link>
+                <Link
+                  state={{ id: params.row.id }}
+                  to={`/dashboard/products/manager/${params.row.id}`}
+                >
+                  <ManagerProductsIcon color={"#242526"} />
+                </Link>
+              </>
+            )}
         </div>
       );
     },

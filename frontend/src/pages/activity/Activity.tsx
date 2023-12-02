@@ -32,8 +32,7 @@ export default function Activity() {
     fetchProductTableData(
       currentUser.user.role === "ROLE_EMPLOYEE"
         ? currentUser.managerId
-        : currentUser.user.id,
-      currentUser.token
+        : currentUser.user.id
     ).then((response) => {
       dispatch(productTableSetter(response));
     });
@@ -47,7 +46,7 @@ export default function Activity() {
     if (report.productId == "" || products.length == 0) {
       return;
     } else {
-      employeeAddReport(report, currentUser.token).then((response) => {
+      employeeAddReport(report).then((response) => {
         dispatch(addReport(response));
         setReport({
           productId: products[0]?.id?.toString(),

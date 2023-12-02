@@ -1,6 +1,7 @@
 import { errorToast, successToast } from "../../utils/toasts/userToasts";
+import { token } from "../../utils/userUtils/userUtils";
 
-export const managerAddUser = async (payload = {}, token = "") => {
+export const managerAddUser = async (payload = {}) => {
   let headers: { [key: string]: string } = {
     "Content-type": "application/json",
   };
@@ -27,11 +28,7 @@ export const managerAddUser = async (payload = {}, token = "") => {
   }
 };
 
-export const updateUserData = async (
-  id: number | string,
-  payload = {},
-  token = ""
-) => {
+export const updateUserData = async (id: number | string, payload = {}) => {
   let headers: { [key: string]: string } = {
     "Content-type": "application/json",
   };
@@ -58,7 +55,7 @@ export const updateUserData = async (
   }
 };
 
-export const fetchUserData = async (id: number | string, token = "") => {
+export const fetchUserData = async (id: number | string) => {
   let headers: { [key: string]: string } = {};
 
   if (token !== "") {
@@ -82,7 +79,7 @@ export const fetchUserData = async (id: number | string, token = "") => {
   }
 };
 
-export const fetchUserTableData = async (id: number | string, token = "") => {
+export const fetchUserTableData = async (id: number | string) => {
   let headers: { [key: string]: string } = {};
 
   if (token !== "") {
@@ -109,7 +106,7 @@ export const fetchUserTableData = async (id: number | string, token = "") => {
   }
 };
 
-export const deleteEmployee = async (id: number | string, token = "") => {
+export const deleteEmployee = async (id: number | string) => {
   let headers: { [key: string]: string } = {};
 
   if (token !== "") {
@@ -132,7 +129,7 @@ export const deleteEmployee = async (id: number | string, token = "") => {
   }
 };
 
-export const changeStatus = async (id: number | string, token = "") => {
+export const changeStatus = async (id: number | string) => {
   let headers: { [key: string]: string } = {
     "Content-type": "application/json",
   };
@@ -158,7 +155,7 @@ export const changeStatus = async (id: number | string, token = "") => {
   }
 };
 
-export const deleteReport = async (id: number | string, token = "") => {
+export const deleteReport = async (id: number | string) => {
   let headers: { [key: string]: string } = {};
 
   if (token !== "") {

@@ -6,7 +6,7 @@ import {
 } from "../../../api/product/ProductApi";
 import { addProduct } from "../../../store/ProductsTable/ProductTableSlice";
 import { updateSelectedProduct } from "../../../store/SelectedProduct/SelectedProductSlice";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { useAppDispatch } from "../../../store/hooks";
 import "./productModal.scss";
 
 type Props = {
@@ -25,7 +25,6 @@ type Props = {
 };
 
 export default function ProductModal(props: Props) {
-  const token = useAppSelector((state) => state.currentUser.token);
   const dispatch = useAppDispatch();
 
   const [product, setProduct] = useState({
@@ -43,11 +42,11 @@ export default function ProductModal(props: Props) {
     e.preventDefault();
 
     if (props.editableMode) {
-      await updateProductData(props.id, product, token).then((response) => {
+      await updateProductData(props.id, product).then((response) => {
         dispatch(updateSelectedProduct(response));
       });
     } else {
-      await addProductInTable(product, token).then((response) => {
+      await addProductInTable(product).then((response) => {
         dispatch(addProduct(response));
       });
     }

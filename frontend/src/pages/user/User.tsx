@@ -68,15 +68,13 @@ const User = () => {
 
   useEffect(() => {
     if (id != currentUser?.user?.id) {
-      fetchUserData(id, currentUser?.token).then((response) => {
+      fetchUserData(id).then((response) => {
         dispatch(selectedUserSetter(response));
       });
     } else {
-      fetchUserData(currentUser?.user?.id, currentUser?.token).then(
-        (response) => {
-          dispatch(currentUserSetter(response));
-        }
-      );
+      fetchUserData(currentUser?.user?.id).then((response) => {
+        dispatch(currentUserSetter(response));
+      });
     }
     return () => {
       resetSelectedUser();
@@ -93,8 +91,7 @@ const User = () => {
     fetchProductTableData(
       currentUser.user.role === "ROLE_EMPLOYEE"
         ? currentUser.managerId
-        : currentUser.user.id,
-      currentUser.token
+        : currentUser.user.id
     ).then((response) => {
       dispatch(productTableSetter(response));
     });
@@ -144,15 +141,14 @@ const User = () => {
                   </span>
                   {(value === false || value === true) &&
                     currentUser?.user?.role !== "ROLE_EMPLOYEE" &&
-                    id === currentUser?.user?.id && (
+                    id != currentUser?.user?.id && (
                       <button
                         className="smallEditButton"
                         onClick={() => {
                           changeStatus(
                             id == currentUser?.user?.id
                               ? currentUser?.user?.id
-                              : selectedUser?.user?.id,
-                            currentUser?.token
+                              : selectedUser?.user?.id
                           ).then((response) => {
                             if (id == currentUser?.user?.id) {
                               dispatch(currentUserSetter(response));
@@ -235,17 +231,15 @@ const User = () => {
                         <button
                           className="editButton"
                           onClick={() => {
-                            deleteReport(report?.id, currentUser?.token).then(
-                              (response) => {
-                                if (response.ok) {
-                                  if (id == currentUser?.user?.id) {
-                                    dispatch(deleteCurrentReport(report?.id));
-                                  } else {
-                                    dispatch(deleteSelectedReport(report?.id));
-                                  }
+                            deleteReport(report?.id).then((response) => {
+                              if (response.ok) {
+                                if (id == currentUser?.user?.id) {
+                                  dispatch(deleteCurrentReport(report?.id));
+                                } else {
+                                  dispatch(deleteSelectedReport(report?.id));
                                 }
                               }
-                            );
+                            });
                           }}
                         >
                           <DeleteIcon color={"#ffffff"} />

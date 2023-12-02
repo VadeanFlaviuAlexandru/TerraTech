@@ -3,7 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { logInUser } from "../../api/auth/AuthApi";
 import { currentUserSetter } from "../../store/CurrentUser/CurrentUserSlice";
 import { useAppDispatch } from "../../store/hooks";
-import { longWarningToast } from "../../utils/toasts/userToasts";
+import {
+  longWarningToast,
+  shortSuccessToast,
+} from "../../utils/toasts/userToasts";
 import "./login.scss";
 
 const Login = () => {
@@ -34,6 +37,7 @@ const Login = () => {
           return;
         }
         dispatch(currentUserSetter(response));
+        shortSuccessToast("Welcome!");
         if (response.user.role === "ROLE_EMPLOYEE") {
           navigate("/dashboard/activity");
         } else {

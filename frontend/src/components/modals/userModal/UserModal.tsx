@@ -7,12 +7,12 @@ import {
 import { updateCurrentUser } from "../../../store/CurrentUser/CurrentUserSlice";
 import { updateSelectedUser } from "../../../store/SelectedUser/SelectedUserSlice";
 import { addEmployee } from "../../../store/UsersTable/UsersTableSlice";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import "./userModal.scss";
+import { useAppDispatch } from "../../../store/hooks";
 import {
   longWarningToast,
   warningToast,
 } from "../../../utils/toasts/userToasts";
+import "./userModal.scss";
 
 type Props = {
   editableMode: boolean;
@@ -33,7 +33,6 @@ type Props = {
 
 export default function UserModal(props: Props) {
   const dispatch = useAppDispatch();
-  const token = useAppSelector((state) => state.currentUser.token);
   const passwordRegex =
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -65,7 +64,7 @@ export default function UserModal(props: Props) {
       return;
     }
     if (props.editableMode) {
-      updateUserData(props.id, user, token).then((response) => {
+      updateUserData(props.id, user).then((response) => {
         if (props.self) {
           dispatch(updateCurrentUser(response));
         } else {
@@ -73,11 +72,9 @@ export default function UserModal(props: Props) {
         }
       });
     } else {
-      managerAddUser({ ...user, password: password }, token).then(
-        (response) => {
-          dispatch(addEmployee(response));
-        }
-      );
+      managerAddUser({ ...user, password: password }).then((response) => {
+        dispatch(addEmployee(response));
+      });
     }
     props.setOpen(false);
   };
@@ -91,34 +88,33 @@ export default function UserModal(props: Props) {
         <h1>{props.headerText}</h1>
         <form onSubmit={handleSubmit}>
           <div className="inputsContainer">
-            {props.columns
-              .map((column, index) => (
-                <div className="item" key={index}>
-                  <label className="itemLabel" htmlFor={column.field}>
-                    {column.headerName}
-                  </label>
-                  <input
-                    id={column.field}
-                    type={column.type}
-                    name={column.field}
-                    required={!props.editableMode}
-                    onChange={(e) =>
-                      column.field === "phone"
-                        ? (() => {
-                            const inputValue = (
-                              e?.target as HTMLInputElement
-                            )?.value?.replace(/\D/g, "");
-                            handleChange(column.field, inputValue);
-                          })()
-                        : handleChange(column.field, e.target.value)
-                    }
-                    value={
-                      (user[column.field as keyof typeof user] ?? "") as string
-                    }
-                    maxLength={column.maxWidth}
-                  />
-                </div>
-              ))}
+            {props.columns.map((column, index) => (
+              <div className="item" key={index}>
+                <label className="itemLabel" htmlFor={column.field}>
+                  {column.headerName}
+                </label>
+                <input
+                  id={column.field}
+                  type={column.type}
+                  name={column.field}
+                  required={!props.editableMode}
+                  onChange={(e) =>
+                    column.field === "phone"
+                      ? (() => {
+                          const inputValue = (
+                            e?.target as HTMLInputElement
+                          )?.value?.replace(/\D/g, "");
+                          handleChange(column.field, inputValue);
+                        })()
+                      : handleChange(column.field, e.target.value)
+                  }
+                  value={
+                    (user[column.field as keyof typeof user] ?? "") as string
+                  }
+                  maxLength={column.maxWidth}
+                />
+              </div>
+            ))}
             {!props.editableMode && (
               <div className="item" key={5}>
                 <label className="itemLabel" htmlFor={"password"}>

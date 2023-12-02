@@ -22,7 +22,6 @@ type Props = {
 
 export default function ReportModal(props: Props) {
   const dispatch = useAppDispatch();
-  const currentUser = useAppSelector((state) => state.currentUser);
   const products = useAppSelector((state) => state.productsTable.products);
   const [report, setReport] = useState({
     id: props?.report?.id,
@@ -54,7 +53,7 @@ export default function ReportModal(props: Props) {
       props.setOpen(false);
       return;
     }
-    updateReport(props?.id, report, currentUser.token).then((response) => {
+    updateReport(props?.id, report).then((response) => {
       if (props.self) {
         dispatch(
           updateCurrentReports({

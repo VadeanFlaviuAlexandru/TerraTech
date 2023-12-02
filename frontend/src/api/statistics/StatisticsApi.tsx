@@ -1,6 +1,7 @@
 import { errorToast } from "../../utils/toasts/userToasts";
+import { token } from "../../utils/userUtils/userUtils";
 
-export const fetchStatistics = async (id: number, token = "") => {
+export const fetchStatistics = async (id: number) => {
   let headers: { [key: string]: string } = {};
 
   if (token !== "") {
@@ -24,7 +25,7 @@ export const fetchStatistics = async (id: number, token = "") => {
   }
 };
 
-export const fetchAllManagers = async (token = "") => {
+export const fetchAllManagers = async () => {
   let headers: { [key: string]: string } = {};
 
   if (token !== "") {

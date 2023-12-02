@@ -9,18 +9,23 @@ import { resetStatistics } from "../../store/Statistics/StatisticsSlice";
 import { resetUsersTable } from "../../store/UsersTable/UsersTableSlice";
 import { useAppDispatch } from "../../store/hooks";
 import { longWarningToast, successToast } from "../toasts/userToasts";
+import Cookies from "js-cookie";
+
+const dispatching = () => {
+  const dispatch = useAppDispatch();
+  dispatch(resetUserSetter());
+  dispatch(resetAllManagers());
+  dispatch(resetProductTable());
+  dispatch(resetSelectedProduct());
+  dispatch(resetSelectedUser());
+  dispatch(resetStatistics());
+  dispatch(resetUsersTable());
+  Cookies.remove("TerraTech_Access_Token");
+};
 
 export const SignOut = () => {
-  const dispatch = useAppDispatch();
-
   const handleSignOut = () => {
-    dispatch(resetUserSetter());
-    dispatch(resetAllManagers());
-    dispatch(resetProductTable());
-    dispatch(resetSelectedProduct());
-    dispatch(resetSelectedUser());
-    dispatch(resetStatistics());
-    dispatch(resetUsersTable());
+    dispatching();
     successToast("Goodbye!");
   };
 
@@ -32,17 +37,12 @@ export const SignOut = () => {
 };
 
 export const ForceSignOut = () => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  dispatch(resetUserSetter());
-  dispatch(resetAllManagers());
-  dispatch(resetProductTable());
-  dispatch(resetSelectedProduct());
-  dispatch(resetSelectedUser());
-  dispatch(resetStatistics());
-  dispatch(resetUsersTable());
+  dispatching();
   longWarningToast(
     "You're accessing unauthorized content! If there's a mistake, please contant your superior."
   );
   navigate("/");
 };
+
+export const token = Cookies.get("TerraTech_Access_Token");

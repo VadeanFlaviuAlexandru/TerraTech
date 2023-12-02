@@ -74,10 +74,7 @@ public class ProductService {
 
     public long deleteProduct(Product product, long id) {
         List<Report> productReports = product.getReports();
-        for (Report report : productReports) {
-            report.setProduct(null);
-            reportRepository.save(report);
-        }
+        reportRepository.deleteAll(productReports);
         productRepository.delete(product);
         return id;
     }

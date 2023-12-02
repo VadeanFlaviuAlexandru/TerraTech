@@ -35,7 +35,7 @@ const Product = () => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    fetchProductData(id, currentUser.token).then((response) => {
+    fetchProductData(id).then((response) => {
       dispatch(selectedProductSetter(response));
     });
     return () => {
@@ -44,7 +44,7 @@ const Product = () => {
   }, [id]);
 
   useEffect(() => {
-    if (currentUser.token === "ROLE_EMPLOYEE") {
+    if (currentUser.user.role === "ROLE_EMPLOYEE") {
       ForceSignOut();
     }
   }, []);

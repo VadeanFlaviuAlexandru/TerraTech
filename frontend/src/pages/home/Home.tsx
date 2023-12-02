@@ -28,10 +28,10 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState(-1);
   const [fetch, setFetch] = useState(false);
-  console.log(statistics)
+  console.log(statistics);
   useEffect(() => {
     if (selected !== -1) {
-      fetchStatistics(selected, currentUser?.token).then((response) => {
+      fetchStatistics(selected).then((response) => {
         dispatch(statisticsSetter(response));
         setLoading(false);
       });
@@ -42,7 +42,7 @@ const Home = () => {
   useEffect(() => {
     if (currentUser?.user?.role === "ROLE_ADMIN") {
       if (allManagers?.length === 0) {
-        fetchAllManagers(currentUser?.token).then((response) => {
+        fetchAllManagers().then((response) => {
           dispatch(allManagersSetter(response));
           if (response.length !== 0) {
             setSelected(response[0].id);
@@ -56,12 +56,10 @@ const Home = () => {
         setLoading(true);
       }
     } else {
-      fetchStatistics(currentUser?.user?.id, currentUser?.token).then(
-        (response) => {
-          dispatch(statisticsSetter(response));
-          setLoading(false);
-        }
-      );
+      fetchStatistics(currentUser?.user?.id).then((response) => {
+        dispatch(statisticsSetter(response));
+        setLoading(false);
+      });
     }
     return () => {
       dispatch(resetStatistics());
@@ -70,7 +68,7 @@ const Home = () => {
   }, [selected]);
 
   useEffect(() => {
-    if (currentUser.token === "ROLE_EMPLOYEE") {
+    if (currentUser.user.role === "ROLE_EMPLOYEE") {
       ForceSignOut();
     }
     return () => {

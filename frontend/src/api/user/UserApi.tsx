@@ -1,6 +1,7 @@
 import { errorToast, successToast } from "../../utils/toasts/userToasts";
+import { token } from "../../utils/userUtils/userUtils";
 
-export const employeeAddReport = async (payload = {}, token = "") => {
+export const employeeAddReport = async (payload = {}) => {
   let headers: { [key: string]: string } = {
     "Content-type": "application/json",
   };
@@ -14,6 +15,7 @@ export const employeeAddReport = async (payload = {}, token = "") => {
     body: JSON.stringify(payload),
     headers: headers,
   });
+  
   if (response.ok) {
     const data = await response.json();
     successToast("Report added successfully!");

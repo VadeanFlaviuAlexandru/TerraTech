@@ -15,8 +15,8 @@ import {
 } from "../../store/UsersTable/UsersTableSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { columnsUser, columnsUserModal } from "../../utils/data/columns";
-import "./users.scss";
 import { ForceSignOut } from "../../utils/userUtils/userUtils";
+import "./users.scss";
 
 export default function Users() {
   const dispatch = useAppDispatch();
@@ -29,20 +29,18 @@ export default function Users() {
   useEffect(() => {
     if (currentUser.user.role === "ROLE_ADMIN") {
       if (id) {
-        fetchUserTableData(id, currentUser?.token).then((response) => {
+        fetchUserTableData(id).then((response) => {
           dispatch(usersTableSetter(response));
         });
       } else {
-        fetchAllManagers(currentUser?.token).then((response) => {
+        fetchAllManagers().then((response) => {
           dispatch(allManagersSetter(response));
         });
       }
     } else {
-      fetchUserTableData(currentUser?.user?.id, currentUser?.token).then(
-        (response) => {
-          dispatch(usersTableSetter(response));
-        }
-      );
+      fetchUserTableData(currentUser?.user?.id).then((response) => {
+        dispatch(usersTableSetter(response));
+      });
     }
     return () => {
       resetUsersTable();
@@ -51,7 +49,7 @@ export default function Users() {
   }, [currentUser.user.id]);
 
   useEffect(() => {
-    if (currentUser.token === "ROLE_EMPLOYEE") {
+    if (currentUser.user.role === "ROLE_EMPLOYEE") {
       ForceSignOut();
     }
   }, []);

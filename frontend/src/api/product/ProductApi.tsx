@@ -1,9 +1,7 @@
 import { errorToast, successToast } from "../../utils/toasts/userToasts";
+import { token } from "../../utils/userUtils/userUtils";
 
-export const fetchProductTableData = async (
-  id: number | string,
-  token = ""
-) => {
+export const fetchProductTableData = async (id: number | string) => {
   let headers: { [key: string]: string } = {};
 
   if (token !== "") {
@@ -30,7 +28,7 @@ export const fetchProductTableData = async (
   }
 };
 
-export const deleteProduct = async (id: number | string, token = "") => {
+export const deleteProduct = async (id: number | string) => {
   let headers: { [key: string]: string } = {};
 
   if (token !== "") {
@@ -54,7 +52,7 @@ export const deleteProduct = async (id: number | string, token = "") => {
   }
 };
 
-export const fetchProductData = async (id: number | string, token = "") => {
+export const fetchProductData = async (id: number | string) => {
   let headers: { [key: string]: string } = {};
 
   if (token !== "") {
@@ -78,11 +76,7 @@ export const fetchProductData = async (id: number | string, token = "") => {
   }
 };
 
-export const updateProductData = async (
-  id: number | string,
-  payload = {},
-  token = ""
-) => {
+export const updateProductData = async (id: number | string, payload = {}) => {
   let headers: { [key: string]: string } = {
     "Content-type": "application/json",
   };
@@ -110,7 +104,7 @@ export const updateProductData = async (
   }
 };
 
-export const addProductInTable = async (payload = {}, token = "") => {
+export const addProductInTable = async (payload = {}) => {
   let headers: { [key: string]: string } = {
     "Content-type": "application/json",
   };

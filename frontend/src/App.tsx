@@ -17,6 +17,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { ToastContainer } from "react-toastify";
 import Activity from "./pages/activity/Activity";
 import ManagerUsers from "./pages/managerUsers/ManagerUsers";
+import ManagerProducts from "./pages/managerProducts/managerProducts";
 
 function App() {
   const Layout = () => {
@@ -68,6 +69,10 @@ function App() {
         {
           path: "users/manager/:id",
           element: <ManagerUsers />,
+        },
+        {
+          path: "products/manager/:id",
+          element: <ManagerProducts />,
         },
       ],
     },
