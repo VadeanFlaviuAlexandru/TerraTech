@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class ChartData {
     private String name;
-    private Long value;
+    private long value;
 
     public ChartData(String name, Long value) {
         this.name = name;

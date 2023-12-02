@@ -41,7 +41,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     Role role;
     @Column(nullable = false)
-    Boolean status;
+    boolean status;
     @JsonIgnore
     @ManyToOne
     User manager;

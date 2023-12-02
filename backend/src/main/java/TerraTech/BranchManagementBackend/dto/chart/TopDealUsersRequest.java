@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class TopDealUsersRequest {
     private String firstName;
     private String email;
-    private Long amount;
+    private long amount;
 }

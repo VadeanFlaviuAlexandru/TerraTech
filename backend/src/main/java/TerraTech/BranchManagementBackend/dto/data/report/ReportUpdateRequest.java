@@ -14,6 +14,6 @@ import java.util.Optional;
 public class ReportUpdateRequest {
     private String productId;
     private String description;
-    private Integer peopleNotified;
-    private Integer peopleSold;
+    private int peopleNotified;
+    private int peopleSold;
 }

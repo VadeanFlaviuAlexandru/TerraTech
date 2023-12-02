@@ -14,6 +14,6 @@ public class ReportRequest {
     private String productId;
     @Column(length = 500)
     private String description;
-    private Integer peopleNotified;
-    private Integer peopleSold;
+    private int peopleNotified;
+    private int peopleSold;
 }

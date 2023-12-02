@@ -63,7 +63,7 @@ public class ManagerService {
                     .peopleSold(soldCount).peopleNotified(notifiedCount).build();
             data.add(monthReport);
         }
-        return ChartRequest.builder().data(data).dataKeys(dataKey()).build();
+        return new ChartRequest(data, dataKey());
     }
 
     public UserResponse addEmployee(SignUpRequest request, String token) {
@@ -74,10 +74,10 @@ public class ManagerService {
                 .build();
         userRepository.save(user);
         return new UserResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getPhone(),
-                user.getStatus(), user.getEmail(), user.getCreatedAt(), user.getRole());
+                user.isStatus(), user.getEmail(), user.getCreatedAt(), user.getRole());
     }
 
-    public SearchEmployeeResponse searchEmployee( User user,long id) {
+    public SearchEmployeeResponse searchEmployee(User user, long id) {
         List<User> employees = userRepository.findEmployeesByManagerId(id);
         List<ReportRequest> reports = reportRepository.findReports((id));
         List<ReportRequest> latestReports = reports.subList(0, Math.min(reports.size(), 5));
@@ -89,13 +89,13 @@ public class ManagerService {
         for (User manager : userRepository.getAllManagers()) {
             ManagerRequest currentManager = new ManagerRequest(manager.getId(), manager.getFirstName(),
                     manager.getLastName(), manager.getEmail(), manager.getPhone(), manager.getCreatedAt(),
-                    manager.getStatus());
+                    manager.isStatus());
             managers.add(currentManager);
         }
         return managers;
     }
 
-    public Long deleteEmployee(Long id) {
+    public long deleteEmployee(long id) {
         List<Report> userReports = reportRepository.findByUserId(id);
         for (Report report : userReports) {
             report.setUser(null);
@@ -104,7 +104,7 @@ public class ManagerService {
         return id;
     }
 
-    public UserResponse editEmployee(UserRequest request, Long id) {
+    public UserResponse editEmployee(UserRequest request, long id) {
         User userRequest = userRepository.findById(id).map(user -> {
             user.setEmail(Optional.ofNullable(request.getEmail()).orElse(user.getEmail()));
             user.setRole(Optional.ofNullable(request.getRole()).orElse(user.getRole()));
@@ -114,23 +114,23 @@ public class ManagerService {
             return userRepository.save(user);
         }).orElseThrow(() -> new NotFoundException(id));
         return new UserResponse(userRequest.getId(), userRequest.getFirstName(), userRequest.getLastName(),
-                userRequest.getPhone(), userRequest.getStatus(), userRequest.getEmail(), userRequest.getCreatedAt(),
+                userRequest.getPhone(), userRequest.isStatus(), userRequest.getEmail(), userRequest.getCreatedAt(),
                 userRequest.getRole());
     }
 
-    public UserResponse changeStatus(Long id) {
+    public UserResponse changeStatus(long id) {
         User userRequest = userRepository.findById(id).map(user -> {
-            user.setStatus(!user.getStatus());
+            user.setStatus(!user.isStatus());
             return userRepository.save(user);
         }).orElseThrow(() -> new NotFoundException(id));
         return new UserResponse(userRequest.getId(), userRequest.getFirstName(), userRequest.getLastName(),
-                userRequest.getPhone(), userRequest.getStatus(), userRequest.getEmail(), userRequest.getCreatedAt(),
+                userRequest.getPhone(), userRequest.isStatus(), userRequest.getEmail(), userRequest.getCreatedAt(),
                 userRequest.getRole());
     }
 
     public List<UserResponse> getManagerEmployees(List<User> users) {
         return users.stream().map(user -> new UserResponse(user.getId(), user.getFirstName(), user.getLastName(),
-                user.getPhone(), user.getStatus(), user.getEmail(), user.getCreatedAt(), user.getRole()))
+                        user.getPhone(), user.isStatus(), user.getEmail(), user.getCreatedAt(), user.getRole()))
                 .collect(Collectors.toList());
     }
 }

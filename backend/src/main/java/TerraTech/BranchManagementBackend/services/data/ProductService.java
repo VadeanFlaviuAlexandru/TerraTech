@@ -68,11 +68,11 @@ public class ProductService {
                 .name("peopleNotified").build(), DataKeyRequest.builder()
                 .name("peopleSold").build());
         List<DataRequest> data = chartInfo(id);
-        ChartRequest info = ChartRequest.builder().data(data).dataKeys(dataKeys).build();
+        ChartRequest info = new ChartRequest(data, dataKeys);
         return new ProductChartResponse(product, info);
     }
 
-    public Long deleteProduct(Product product, Long id) {
+    public long deleteProduct(Product product, long id) {
         List<Report> productReports = product.getReports();
         for (Report report : productReports) {
             report.setProduct(null);
@@ -82,7 +82,7 @@ public class ProductService {
         return id;
     }
 
-    public ProductResponse editProduct(ProductUpdateRequest request, Long id) {
+    public ProductResponse editProduct(ProductUpdateRequest request, long id) {
         Product productRequest = productRepository.findById(id).map(product -> {
             product.setInStock(Optional.ofNullable(request.getInStock()).orElse(product.getInStock()));
             product.setName(Optional.ofNullable(request.getName()).orElse(product.getName()));

@@ -13,7 +13,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ProductUpdateRequest {
     private String name;
-    private Integer price;
+    private int price;
     private String producer;
-    private Integer inStock;
+    private int inStock;
 }

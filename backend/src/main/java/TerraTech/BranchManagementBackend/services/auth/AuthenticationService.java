@@ -12,7 +12,6 @@ import TerraTech.BranchManagementBackend.repositories.ReportRepository;
 import TerraTech.BranchManagementBackend.repositories.UserRepository;
 import TerraTech.BranchManagementBackend.services.jwt.JwtService;
 import TerraTech.BranchManagementBackend.services.user.ManagerService;
-import TerraTech.BranchManagementBackend.services.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,12 +30,11 @@ public class AuthenticationService {
     private final ReportRepository reportRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
-    private final UserService userService;
     private final JwtService jwtService;
     private final ManagerService managerService;
 
     public User signUp(SignUpRequest request) {
-        var user = User.builder().firstName(request.getFirstName())
+        User user = User.builder().firstName(request.getFirstName())
                 .lastName(request.getLastName()).email(request.getEmail()).phone(request.getPhone())
                 .password(passwordEncoder.encode(request.getPassword())).role(Role.ROLE_MANAGER)
                 .createdAt(LocalDate.now()).status(true)

@@ -5,7 +5,7 @@ import TerraTech.BranchManagementBackend.enums.Role;
 import java.time.LocalDate;
 
 public record UserResponse(
-        Long id,
+        long id,
         String firstName,
         String lastName,
         String phone,

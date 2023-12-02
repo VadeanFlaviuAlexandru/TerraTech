@@ -12,11 +12,11 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportRequest {
-    private Long id;
-    private Long productId;
+    private long id;
+    private long productId;
     private String description;
     private String productName;
     private LocalDate createDate;
-    private Integer peopleNotified;
-    private Integer peopleSold;
+    private int peopleNotified;
+    private int peopleSold;
 }

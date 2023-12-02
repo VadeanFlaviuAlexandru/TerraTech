@@ -35,28 +35,28 @@ public class ProductController {
 
     @GetMapping("/product/searchProduct/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER') || hasRole('ROLE_ADMIN')")
-    public ProductChartResponse searchProduct(@PathVariable Long id) {
+    public ProductChartResponse searchProduct(@PathVariable long id) {
         Product product = productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
         return productService.searchProduct(product, id);
     }
 
     @DeleteMapping("/product/deleteProduct/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER') || hasRole('ROLE_ADMIN')")
-    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<String> deleteProduct(@PathVariable long id) {
         Product product = productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
-        Long deletedId = productService.deleteProduct(product, id);
+        long deletedId = productService.deleteProduct(product, id);
         return ResponseEntity.ok("Product with id: " + deletedId + "deleted successfully");
     }
 
     @PutMapping("/product/editProduct/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER') || hasRole('ROLE_ADMIN')")
-    public ProductResponse editProduct(@RequestBody ProductUpdateRequest request, @PathVariable Long id) {
+    public ProductResponse editProduct(@RequestBody ProductUpdateRequest request, @PathVariable long id) {
         return productService.editProduct(request, id);
     }
 
     @GetMapping("/product/getManagerProducts/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER') || hasRole('ROLE_ADMIN') || hasRole('ROLE_EMPLOYEE')")
-    public List<ProductResponse> getManagerProducts(@PathVariable Long id) {
+    public List<ProductResponse> getManagerProducts(@PathVariable long id) {
         List<Product> products = productRepository.findByManagerId(id);
         return productService.getManagerProducts(products);
     }

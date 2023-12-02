@@ -8,13 +8,11 @@ import TerraTech.BranchManagementBackend.repositories.ProductRepository;
 import TerraTech.BranchManagementBackend.repositories.ReportRepository;
 import TerraTech.BranchManagementBackend.repositories.UserRepository;
 import TerraTech.BranchManagementBackend.services.user.UserService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -78,7 +76,7 @@ public class SeedDataConfig implements CommandLineRunner {
                         .email("dummyEmployee" + i + "@admin.com")
                         .password(passwordEncoder.encode("admin"))
                         .role(Role.ROLE_EMPLOYEE)
-                        .createdAt(LocalDate.now())//.minusMonths(2)
+                        .createdAt(LocalDate.now())
                         .manager(manager1)
                         .status(true)
                         .build();

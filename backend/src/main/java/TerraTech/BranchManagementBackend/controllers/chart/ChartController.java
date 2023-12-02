@@ -15,7 +15,7 @@ public class ChartController {
 
     @GetMapping("/chart/statistics/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER') || hasRole('ROLE_ADMIN')")
-    public StatisticsResponse fetchStatistics(@PathVariable Long id) {
+    public StatisticsResponse fetchStatistics(@PathVariable long id) {
         return chartService.fetchStatistics(id);
     }
 }

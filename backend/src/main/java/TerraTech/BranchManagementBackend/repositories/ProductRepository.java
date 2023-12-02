@@ -24,8 +24,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             """)
     List<Object[]> productMonthlyReport(@Param("year") int year, @Param("id") long id);
 
-
-    //------------------------------------------------------------------------------
     @Query("""
             SELECT SUM(p.price * r.peopleSold) * 100.0 / (SELECT SUM(p2.price * r2.peopleSold)
             FROM Product p2 JOIN p2.reports r2 
@@ -33,38 +31,67 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             JOIN p.reports r WHERE YEAR(r.createDate) = YEAR(CURRENT_DATE) AND p.manager.id = :managerId 
             AND MONTH(r.createDate) = MONTH(CURRENT_DATE)
             """)
-    Double totalRevenueThisMonthPercentage(@Param("managerId") Long managerId);
+    double totalRevenueThisMonthPercentage(@Param("managerId") long managerId);
 
-    @Query("SELECT SUM(revenue) " + "FROM (SELECT SUM(p.price * r.peopleSold) as revenue " + "      FROM Product p " + "      LEFT JOIN p.reports r " + "      WHERE p.manager.id = :managerId AND YEAR(r.createDate) = YEAR(CURRENT_DATE) " + "      GROUP BY p.id) AS revenue_table")
-    Long totalRevenueThisYear(@Param("managerId") Long managerId);
+    @Query("""
+            SELECT SUM(revenue) FROM (SELECT SUM(p.price * r.peopleSold) as revenue FROM Product p 
+            LEFT JOIN p.reports r WHERE p.manager.id = :managerId AND YEAR(r.createDate) = YEAR(CURRENT_DATE)
+            GROUP BY p.id) AS revenue_table
+            """)
+    long totalRevenueThisYear(@Param("managerId") long managerId);
 
-    @Query("SELECT NEW TerraTech.BranchManagementBackend.dto.chart.ChartData(product.name, SUM(product.price * report.peopleSold)) " + "FROM Product product " + "LEFT JOIN product.reports report " + "WHERE product.manager.id = :id AND YEAR(product.addedAt)=YEAR(CURRENT_DATE)" + "GROUP BY product.id " + "ORDER BY COUNT(report) DESC")
-    List<ChartData> findTop5Products(@Param("id") Long id);
+    @Query("""
+            SELECT NEW TerraTech.BranchManagementBackend.dto.chart.ChartData(product.name, 
+            SUM(product.price * report.peopleSold)) FROM Product product LEFT JOIN product.reports report 
+            WHERE product.manager.id = :id AND YEAR(product.addedAt)=YEAR(CURRENT_DATE) GROUP BY product.id 
+            ORDER BY COUNT(report) DESC
+            """)
+    List<ChartData> findTop5Products(@Param("id") long id);
 
-    @Query("SELECT new TerraTech.BranchManagementBackend.dto.chart.BigChartRequest(p.name, SUM(p.price * r.peopleSold) as totalProfit) " + "FROM Product p " + "JOIN p.reports r " + "WHERE MONTH(r.createDate) = :month " + "AND YEAR(r.createDate) = :year " + "AND p.manager.id = :id " + "GROUP BY p.id, p.name " + "ORDER BY totalProfit DESC")
-    List<BigChartRequest> findTop3ProductsThisMonth(@Param("month") Integer month, @Param("year") Integer year, @Param("id") Long id);
+    @Query("""
+            SELECT MONTHS.month as month, COALESCE(SUM(product.price + report.peopleSold), 0) as totalValue
+            FROM (SELECT 1 as month UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5
+            UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10
+            UNION SELECT 11 UNION SELECT 12) as MONTHS
+            LEFT JOIN Product product
+            ON MONTH(product.addedAt) = MONTHS.month AND YEAR(product.addedAt) = :year AND product.manager.id = :id
+            LEFT JOIN product.reports report
+            GROUP BY MONTHS.month
+            ORDER BY MONTHS.month
+            """)
+    List<Object[]> productsSumByMonth(@Param("year") int year, @Param("id") long id);
 
-    @Query("SELECT SUM(product.price + report.peopleSold) " + "FROM Product product " + "JOIN product.reports report " + "WHERE MONTH(product.addedAt) = :month " + "AND YEAR(product.addedAt) = :year " + "AND product.manager.id = :id")
-    Long productsSpecificMonth(@Param("month") Integer month, @Param("year") Integer year, @Param("id") Long id);
 
-    @Query("SELECT SUM(p.price * r.peopleSold) * 100.0 / (SELECT SUM(p2.price * r2.peopleSold) " + "FROM Product p2 JOIN p2.reports r2 WHERE YEAR(r2.createDate) = YEAR(CURRENT_DATE) AND p2.manager.id = :id) " + "FROM Product p JOIN p.reports r WHERE YEAR(r.createDate) = YEAR(CURRENT_DATE) AND p.manager.id = :id " + "AND MONTH(r.createDate) = MONTH(CURRENT_DATE)")
-    Double newProductThisMonthPercentage(@Param("id") Long id);
+    @Query("""
+    SELECT SUM(p.price * r.peopleSold) * 100.0 / (SELECT SUM(p2.price * r2.peopleSold) FROM Product p2 
+    JOIN p2.reports r2 WHERE YEAR(r2.createDate) = YEAR(CURRENT_DATE) AND p2.manager.id = :id) 
+    FROM Product p JOIN p.reports r WHERE YEAR(r.createDate) = YEAR(CURRENT_DATE) AND p.manager.id = :id 
+    AND MONTH(r.createDate) = MONTH(CURRENT_DATE)
+    """)
+    Double newProductThisMonthPercentage(@Param("id") long id);
 
-    @Query("SELECT SUM(p.price * r.peopleSold) " + "FROM Product p " + "JOIN p.reports r " + "WHERE MONTH(p.addedAt) = :month " + "AND YEAR(p.addedAt) = :year " + "AND p.manager.id = :id")
-    Long totalRevenueForMonth(@Param("month") Integer month, @Param("year") Integer year, @Param("id") Long id);
+    @Query("""
+            SELECT MONTHS.month as month, COALESCE(SUM(product.price * report.peopleSold), 0) as totalRevenue
+            FROM (SELECT 1 as month UNION SELECT 2 UNION SELECT 3 UNION SELECT 4 UNION SELECT 5
+            UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 UNION SELECT 10
+            UNION SELECT 11 UNION SELECT 12) as MONTHS
+            LEFT JOIN Product product
+            ON MONTH(product.addedAt) = MONTHS.month AND YEAR(product.addedAt) = :year AND product.manager.id = :id
+            LEFT JOIN product.reports report
+            GROUP BY MONTHS.month
+            ORDER BY MONTHS.month
+            """)
+    List<Object[]> totalRevenueForMonth(@Param("year") int year, @Param("id") long id);
 
-    @Query("SELECT COUNT(p) FROM Product p WHERE p.manager.id = :id")
-    Long productsCount(@Param("id") Long id);
 
-    @Query("SELECT SUM(r.peopleNotified) FROM Product p JOIN p.reports r WHERE MONTH(r.createDate) = :month AND YEAR(r.createDate) = :year AND p.id = :id")
-    Long productNotifiedPeopleSpecificMonth(@Param("month") Integer month, @Param("year") Integer year, @Param("id") Long id);
+    @Query("""
+            SELECT COUNT(p) FROM Product p WHERE p.manager.id = :id
+            """)
+    long productsCount(@Param("id") long id);
 
-    @Query("SELECT SUM(r.peopleSold) FROM Product p JOIN p.reports r WHERE MONTH(r.createDate) = :month AND YEAR(r.createDate) = :year AND p.id = :id")
-    Long productPeopleSoldToSpecificMonth(@Param("month") Integer month, @Param("year") Integer year, @Param("id") Long id);
-
-    Optional<Product> findById(Long id);
+    Optional<Product> findById(long id);
 
     Optional<Product> findByName(String name);
 
-    List<Product> findByManagerId(Long id);
+    List<Product> findByManagerId(long id);
 }

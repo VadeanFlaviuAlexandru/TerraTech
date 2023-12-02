@@ -46,27 +46,27 @@ public class ManagerController {
 
     @GetMapping("/manager/getEmployeesOfManager/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER') || hasRole('ROLE_ADMIN')")
-    public List<UserResponse> getEmployeesOfManager(@PathVariable Long id) {
+    public List<UserResponse> getEmployeesOfManager(@PathVariable long id) {
         List<User> users = userRepository.findByManagerId(id);
         return managerService.getManagerEmployees(users);
     }
 
     @DeleteMapping("/manager/deleteEmployee/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER') || hasRole('ROLE_ADMIN')")
-    public ResponseEntity<String> deleteEmployee(@PathVariable Long id) {
-        Long deletedId = managerService.deleteEmployee(id);
+    public ResponseEntity<String> deleteEmployee(@PathVariable long id) {
+        long deletedId = managerService.deleteEmployee(id);
         return ResponseEntity.ok("Employee with id: " + deletedId + "deleted successfully");
     }
 
     @PutMapping("/manager/editEmployee/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER') || hasRole('ROLE_ADMIN')")
-    public UserResponse editEmployee(@RequestBody UserRequest request, @PathVariable Long id) {
+    public UserResponse editEmployee(@RequestBody UserRequest request, @PathVariable long id) {
         return managerService.editEmployee(request, id);
     }
 
     @PutMapping("/manager/changeStatus/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER') || hasRole('ROLE_ADMIN')")
-    public UserResponse editEmployee(@PathVariable Long id) {
+    public UserResponse editEmployee(@PathVariable long id) {
         return managerService.changeStatus(id);
     }
 }

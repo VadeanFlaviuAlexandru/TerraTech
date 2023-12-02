@@ -1,10 +1,11 @@
 package TerraTech.BranchManagementBackend.controllers.auth;
 
-import TerraTech.BranchManagementBackend.dto.auth.SignInResponse;
 import TerraTech.BranchManagementBackend.dto.auth.SignInRequest;
+import TerraTech.BranchManagementBackend.dto.auth.SignInResponse;
 import TerraTech.BranchManagementBackend.dto.auth.SignUpRequest;
 import TerraTech.BranchManagementBackend.exceptions.auth.AuthenticateException;
 import TerraTech.BranchManagementBackend.exceptions.manager.RegisterException;
+import TerraTech.BranchManagementBackend.models.User;
 import TerraTech.BranchManagementBackend.repositories.UserRepository;
 import TerraTech.BranchManagementBackend.services.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class AuthenticationController {
 
     @PostMapping("/signIn")
     public SignInResponse signIn(@RequestBody SignInRequest request) {
-        var user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new AuthenticateException("No account with this email found!"));
         return authenticationService.signIn(user, request);
     }

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProductRequest {
     private String name;
-    private Integer price;
+    private int price;
     private String producer;
-    private Integer inStock;
+    private int inStock;
 }

@@ -20,15 +20,15 @@ import java.util.List;
 public class Product {
     @Id
     @GeneratedValue
-    Long id;
+    long id;
     @Column(nullable = false, unique = true)
     String name;
     @Column(nullable = false)
-    Integer price;
+    int price;
     @Column(nullable = false)
     String producer;
     @Column(nullable = false)
-    Integer inStock;
+    int inStock;
     @Column(nullable = false)
     LocalDate addedAt;
     @JsonIgnore

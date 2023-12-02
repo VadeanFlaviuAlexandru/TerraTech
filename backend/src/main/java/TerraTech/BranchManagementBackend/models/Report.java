@@ -19,15 +19,15 @@ import java.time.LocalDate;
 public class Report {
     @Id
     @GeneratedValue
-    Long id;
+    long id;
     @Column(nullable = false)
     String description;
     @Column(nullable = false)
     LocalDate createDate;
     @Column(nullable = false)
-    Integer peopleNotified;
+    int peopleNotified;
     @Column(nullable = false)
-    Integer peopleSold;
+    int peopleSold;
     @JsonIgnore
     @ManyToOne
     User user;

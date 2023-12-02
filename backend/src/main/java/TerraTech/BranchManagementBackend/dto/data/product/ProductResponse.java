@@ -5,13 +5,13 @@ import TerraTech.BranchManagementBackend.models.User;
 import java.time.LocalDate;
 
 public record ProductResponse(
-        Long id,
+        long id,
         String name,
         String producer,
         LocalDate addedAt,
-        Integer inStock,
-        Integer price,
-        Integer numberOfReports,
+        int inStock,
+        int price,
+        int numberOfReports,
         User manager
 ) {
 }
