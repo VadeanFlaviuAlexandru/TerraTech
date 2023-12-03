@@ -28,7 +28,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState(-1);
   const [fetch, setFetch] = useState(false);
-  console.log(statistics);
+
   useEffect(() => {
     if (selected !== -1) {
       fetchStatistics(selected).then((response) => {

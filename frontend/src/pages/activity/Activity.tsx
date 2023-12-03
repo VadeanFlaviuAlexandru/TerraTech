@@ -30,16 +30,16 @@ export default function Activity() {
 
   useEffect(() => {
     fetchProductTableData(
-      currentUser.user.role === "ROLE_EMPLOYEE"
-        ? currentUser.managerId
-        : currentUser.user.id
+      currentUser?.user?.role === "ROLE_EMPLOYEE"
+        ? currentUser?.managerId
+        : currentUser?.user?.id
     ).then((response) => {
       dispatch(productTableSetter(response));
     });
     return () => {
       resetProductTable();
     };
-  }, [currentUser.user.id]);
+  }, [currentUser?.user?.id]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,9 +64,9 @@ export default function Activity() {
       <form onSubmit={handleSubmit}>
         <div className="dropdownContainer">
           <label>Select a product associated with this report:</label>
-          {products.length > 0 ? (
+          {products?.length > 0 ? (
             <select value={report?.productId} onChange={handleSelectChange}>
-              {products.map((product) => (
+              {products?.map((product) => (
                 <option key={product?.id} value={product?.id}>
                   {product?.name}
                 </option>
