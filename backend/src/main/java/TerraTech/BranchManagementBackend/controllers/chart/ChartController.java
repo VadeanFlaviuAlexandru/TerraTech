@@ -3,7 +3,10 @@ package TerraTech.BranchManagementBackend.controllers.chart;
 import TerraTech.BranchManagementBackend.services.chart.ChartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import TerraTech.BranchManagementBackend.dto.chart.StatisticsResponse;
 
 @RestController

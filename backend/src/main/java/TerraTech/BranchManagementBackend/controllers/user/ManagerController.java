@@ -1,20 +1,17 @@
 package TerraTech.BranchManagementBackend.controllers.user;
 
 import TerraTech.BranchManagementBackend.dto.auth.SignUpRequest;
+import TerraTech.BranchManagementBackend.dto.data.user.UserRequest;
 import TerraTech.BranchManagementBackend.dto.data.user.UserResponse;
 import TerraTech.BranchManagementBackend.dto.services.SearchEmployeeResponse;
-import TerraTech.BranchManagementBackend.dto.data.user.UserRequest;
 import TerraTech.BranchManagementBackend.exceptions.manager.EmployeeRegistrationException;
 import TerraTech.BranchManagementBackend.exceptions.manager.NotFoundException;
 import TerraTech.BranchManagementBackend.models.User;
-import TerraTech.BranchManagementBackend.repositories.ReportRepository;
 import TerraTech.BranchManagementBackend.repositories.UserRepository;
-import TerraTech.BranchManagementBackend.services.jwt.JwtService;
 import TerraTech.BranchManagementBackend.services.user.ManagerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
