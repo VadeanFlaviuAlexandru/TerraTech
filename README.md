@@ -15,7 +15,7 @@
 
 ## Key Features
 
-* React with Material UI, React Redux and React Router for the UI and UX
+* React with TypeScript, Material UI, React Redux and React Router for the UI and UX
 * React toastify and React Persist for the UX again 🏖️
 * Old school user-friendly UI inspired by the 90's (I'm kinda bad at design...)
 * User Roles:
