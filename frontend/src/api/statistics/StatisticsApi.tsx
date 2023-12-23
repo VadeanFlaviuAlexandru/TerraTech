@@ -15,6 +15,7 @@ export const fetchStatistics = async (id: number) => {
 
   if (response.ok) {
     const data = await response.json();
+    console.log(data);
     return data;
   } else if (response.status === 403) {
     errorToast("Invalid credentials and/or access level");

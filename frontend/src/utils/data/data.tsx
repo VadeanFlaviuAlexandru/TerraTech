@@ -23,10 +23,8 @@ export const processedData = (data: SelectedUserState["chartInfo"]["data"]) =>
 
     return {
       ...dataPoint,
-      peopleNotified: isFutureMonth
-        ? null
-        : dataPoint.peopleNotified || 0,
-        peopleSold: isFutureMonth ? null : dataPoint.peopleSold || 0,
+      peopleNotified: isFutureMonth ? null : dataPoint.peopleNotified || 0,
+      peopleSold: isFutureMonth ? null : dataPoint.peopleSold || 0,
     };
   });
 
@@ -40,7 +38,21 @@ export function getRandomColor() {
     "#ff0000",
     "#ffd500",
     "#ff00bf",
+    "#00ff00",
+    "#0066ff",
+    "#ff6600",
+    "#9900ff",
+    "#ffcc00",
+    "#00ffcc",
+    "#cc00ff",
+    "#66ff00",
+    "#ff3399",
+    "#33ffcc",
+    "#ff9933",
+    "#3366ff",
+    "#ffcc33",
   ];
+
   const randomIndex = Math.floor(Math.random() * presetColors.length);
   return presetColors[randomIndex];
 }

@@ -33,7 +33,6 @@ public class ChartService {
                 .chartData(chartData)
                 .build();
     }
-
     private List<ChartData> mapToChartData(List<Object[]> data) {
         return data.stream()
                 .map(row -> ChartData.builder()

@@ -40,10 +40,10 @@ public class SeedDataConfig implements CommandLineRunner {
             List<Report> listOfReports2 = new ArrayList<>();
             //----------------------------------------------------------------------
             User admin = User.builder()
-                    .firstName("admin~")
-                    .lastName("~admin")
+                    .firstName("Adminuta ")
+                    .lastName("Floricica")
                     .phone("1929374999")
-                    .email("ad@ad.com")
+                    .email("admin@admin.com")
                     .password(passwordEncoder.encode("admin"))
                     .role(Role.ROLE_ADMIN)
                     .createdAt(LocalDate.now())
@@ -54,7 +54,7 @@ public class SeedDataConfig implements CommandLineRunner {
             //----------------------------------------------------------------------manager 1 data
             User manager1 = User.builder()
                     .firstName("[Manager1]")
-                    .lastName("Admin")
+                    .lastName("Alex")
                     .phone("1928374651")
                     .email("adminManager1@admin.com")
                     .password(passwordEncoder.encode("admin"))
@@ -70,8 +70,8 @@ public class SeedDataConfig implements CommandLineRunner {
                 LocalDate localDate = LocalDate.parse(date + "-10");
 
                 User employee = User.builder()
-                        .firstName("M" + i + "hai")
-                        .lastName("P" + i + "stol")
+                        .firstName("Ionut")
+                        .lastName("Diamant"+i+"Carate")
                         .phone("1234" + i + "6789")
                         .email("dummyEmployee" + i + "@admin.com")
                         .password(passwordEncoder.encode("admin"))
@@ -107,7 +107,7 @@ public class SeedDataConfig implements CommandLineRunner {
             //----------------------------------------------------------------------manager 2 data
             User manager2 = User.builder()
                     .firstName("[Manager2]")
-                    .lastName("Admin")
+                    .lastName("Andrei")
                     .phone("9988778899")
                     .email("adminManager2@admin.com")
                     .password(passwordEncoder.encode("admin"))

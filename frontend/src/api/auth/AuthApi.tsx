@@ -15,7 +15,8 @@ export const logInUser = async (payload = {}) => {
   });
   if (response.ok) {
     const data = await response.json();
-    Cookies.set("TerraTech_Access_Token", data.token, { expires: 7 });
+    console.log(data.token);
+    Cookies.set("TerraTech_Access_Token", data.token);
     return data;
   } else if (response.status === 403) {
     longErrorToast("Failed to log in. Please re-enter your credentials.");

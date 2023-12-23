@@ -35,15 +35,23 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
     List<ReportRequest> findReports(@Param("id") long id);
 
     @Query("""
-            SELECT SUM(report.peopleNotified) FROM Report report WHERE YEAR(report.createDate) = YEAR(CURRENT_DATE) AND report.product.manager.id = :id
+                    SELECT COALESCE(SUM(report.peopleNotified), 0)
+                    FROM Report report
+                    WHERE YEAR(report.createDate) = YEAR(CURRENT_DATE) AND report.product.manager.id = :id
             """)
     long totalNotifiedPeople(@Param("id") long id);
 
     @Query("""
-            SELECT SUM(report.peopleNotified) * 100.0 / (SELECT SUM(report2.peopleNotified) FROM Report report2 
-            WHERE YEAR(report2.createDate) = YEAR(CURRENT_DATE) AND report2.product.manager.id = :id) 
-            FROM Report report WHERE YEAR(report.createDate) = YEAR(CURRENT_DATE) AND report.product.manager.id = :id 
-            AND MONTH(report.createDate) = MONTH(CURRENT_DATE)
+                    SELECT COALESCE(
+                        SUM(report.peopleNotified) * 100.0 / NULLIF(
+                            (SELECT SUM(report2.peopleNotified)
+                             FROM Report report2
+                             WHERE YEAR(report2.createDate) = YEAR(CURRENT_DATE) AND report2.product.manager.id = :id),
+                            0),
+                        0.0)
+                    FROM Report report
+                    WHERE YEAR(report.createDate) = YEAR(CURRENT_DATE) AND report.product.manager.id = :id
+                        AND MONTH(report.createDate) = MONTH(CURRENT_DATE)
             """)
     double totalNotifiedPeoplePercentage(@Param("id") long id);
 
