@@ -33,7 +33,7 @@
 ## Tech Stack
 
 For the front-end:
-  * React, React Router
+  * React, Vite, React Router
   * Material-UI, MUI X Data Grid
   * Redux Toolkit, Redux Persist
   * Axios for API requests
