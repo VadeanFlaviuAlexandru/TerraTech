@@ -50,6 +50,12 @@ For the back-end:
   
 ## Screenshots
 
+<p align="center">
+  <br><br>❗<br>
+<b>❗Just a quick heads-up—this project is a constant work in progress! Despite setting a tight deadline for myself, I've managed to make the following progress. However, I continue to tweak and enhance it whenever I can.❗</b>
+    <br><br>❗<br>
+</p>
+
 ![image](https://github.com/VadeanFlaviuAlexandru/TerraTech/assets/103831098/d3fc23aa-df44-4b9a-8e03-50e95106bbb1)
 
 <h3>What a manager can see:</h3>
@@ -59,8 +65,12 @@ For the back-end:
 <h3>( Please ignore the names, I didn't have a lot of inspiration 😔 )</h3>
 
 ![image](https://github.com/VadeanFlaviuAlexandru/TerraTech/assets/103831098/08d15224-7d41-41e0-b3e8-6302a44e5c4d)
+![image](https://github.com/VadeanFlaviuAlexandru/TerraTech/assets/103831098/c34ffdf8-a45a-4e01-b9ff-ec67db2c5182)
 ![image](https://github.com/VadeanFlaviuAlexandru/TerraTech/assets/103831098/4b8a54f7-f5ec-49a1-86a3-34b1c10951f0)
+![image](https://github.com/VadeanFlaviuAlexandru/TerraTech/assets/103831098/b602eda1-3211-4fac-bbb9-bc7659fa6be2)
+![image](https://github.com/VadeanFlaviuAlexandru/TerraTech/assets/103831098/7272d329-c738-44e0-be2d-efa89071f310)
 ![image](https://github.com/VadeanFlaviuAlexandru/TerraTech/assets/103831098/68399a07-4f20-4e6e-bcd4-a493972b9a26)
+![image](https://github.com/VadeanFlaviuAlexandru/TerraTech/assets/103831098/b866544e-7a1c-44fa-b822-22033ef0826c)
 
 <h3>What an employee can see:</h3>
 
