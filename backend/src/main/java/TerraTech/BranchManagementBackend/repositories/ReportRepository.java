@@ -12,26 +12,28 @@ import java.util.List;
 public interface ReportRepository extends JpaRepository<Report, Long> {
 
     @Query("""
-            SELECT MONTHS.MONTH as month, COALESCE(SUM(report.peopleNotified), 0) as notifiedCount, 
-            COALESCE(SUM(report.peopleSold), 0) as soldCount FROM (SELECT 1 as MONTH UNION SELECT 2 UNION SELECT 3 
-            UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9 
-            UNION SELECT 10 UNION SELECT 11 UNION SELECT 12) MONTHS LEFT JOIN Report report 
-            ON MONTH(report.createDate) = MONTHS.MONTH AND YEAR(report.createDate) = :year 
+            SELECT MONTHS.MONTH as month, COALESCE(SUM(report.peopleNotified), 0) as notifiedCount,
+            COALESCE(SUM(report.peopleSold), 0) as soldCount FROM (SELECT 1 as MONTH UNION SELECT 2 UNION SELECT 3
+            UNION SELECT 4 UNION SELECT 5 UNION SELECT 6 UNION SELECT 7 UNION SELECT 8 UNION SELECT 9
+            UNION SELECT 10 UNION SELECT 11 UNION SELECT 12) MONTHS LEFT JOIN Report report
+            ON MONTH(report.createDate) = MONTHS.MONTH AND YEAR(report.createDate) = :year
             AND report.user.id = :id GROUP BY MONTHS.MONTH
             """)
     List<Object[]> userMonthlyReport(@Param("year") int year, @Param("id") long id);
 
     @Query("""
-            SELECT NEW TerraTech.BranchManagementBackend.dto.chart.TopDealUsersRequest(user.firstName, user.email, SUM(report.peopleSold)) 
-            FROM Report report INNER JOIN report.user user WHERE user.manager.id = :id AND YEAR(user.createdAt) = YEAR(CURRENT_DATE) 
+            SELECT NEW TerraTech.BranchManagementBackend.dto.chart.TopDealUsersRequest(user.firstName, user.email, SUM(report.peopleSold))
+            FROM Report report INNER JOIN report.user user WHERE user.manager.id = :id AND YEAR(user.createdAt) = YEAR(CURRENT_DATE)
             GROUP BY user.id ORDER BY SUM(report.peopleSold) DESC
             """)
     List<TopDealUsersRequest> findTopProfitUsers(@Param("id") long id);
 
     @Query("""
-            SELECT NEW TerraTech.BranchManagementBackend.dto.chart.user.ReportRequest(report.id, report.product.id, report.description, report.product.name, report.createDate, report.peopleNotified, report.peopleSold) 
-            FROM Report report INNER JOIN report.user user WHERE user.id = :id AND YEAR(user.createdAt) = YEAR(CURRENT_DATE) 
-            GROUP BY user.id, report.id, report.description, report.product.name, report.createDate, report.peopleNotified, report.peopleSold ORDER BY report.createDate DESC""")
+            SELECT NEW TerraTech.BranchManagementBackend.dto.chart.user.ReportRequest(report.id, report.product.id, report.description, report.product.name, report.createDate, report.peopleNotified, report.peopleSold)
+            FROM Report report INNER JOIN report.user user WHERE user.id = :id AND YEAR(user.createdAt) = YEAR(CURRENT_DATE)
+            GROUP BY user.id, report.id, report.description, report.product.name, report.createDate, report.peopleNotified, report.peopleSold 
+            ORDER BY report.createDate DESC
+            """)
     List<ReportRequest> findReports(@Param("id") long id);
 
     @Query("""

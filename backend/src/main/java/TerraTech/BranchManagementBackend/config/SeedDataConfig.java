@@ -41,7 +41,7 @@ public class SeedDataConfig implements CommandLineRunner {
             //----------------------------------------------------------------------
             User admin = User.builder()
                     .firstName("Adminuta ")
-                    .lastName("Floricica")
+                    .lastName("Ionela")
                     .phone("1929374999")
                     .email("admin@admin.com")
                     .password(passwordEncoder.encode("admin"))
