@@ -2,7 +2,7 @@
   
   ![logo](https://github.com/VadeanFlaviuAlexandru/TerraTech/assets/103831098/31528161-b6eb-4e6b-9083-e996fe4a0ae7)
   <h4 align="center">This project simulates a branch management system for a fictional company, TerraTech.</h4>
- <h5 align="center">(This has been a personal project where I aimed to learn Spring Boot within a tight deadline. It's still a work in progress and I plan to continue my work when I have the time. For this reason, this project does not have a responsive design.)</h5>
+ <h5 align="center">❗(This has been a personal project where I aimed to learn Spring Boot within a tight deadline. It's still a work in progress and I plan to continue my work when I have the time. For this reason, this project does not have a responsive design.)❗</h5>
 </h1>
 <p align="center">
   <a href="#key-features">Key Features</a> •
@@ -51,9 +51,9 @@ For the back-end:
 ## Screenshots
 
 <p align="center">
-  <br><br>❗<br>
-<b>❗Just a quick heads-up—this project is a constant work in progress! Despite setting a tight deadline for myself, I've managed to make the following progress. However, I continue to tweak and enhance it whenever I can.❗</b>
-    <br><br>❗<br>
+  <br>❗<br>❗<br>
+<b>Just a quick heads-up—this project is a constant work in progress! Despite setting a tight deadline for myself, I've managed to make the following progress. However, I continue to tweak and enhance it whenever I can.</b>
+    <br>❗<br>❗<br>
 </p>
 
 ![image](https://github.com/VadeanFlaviuAlexandru/TerraTech/assets/103831098/d3fc23aa-df44-4b9a-8e03-50e95106bbb1)
