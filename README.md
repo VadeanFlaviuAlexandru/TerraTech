@@ -25,6 +25,10 @@
 * Charts and Statistics:
     * Charts using Chart.js and Recharts to visualize data.
     * Monthly breakdown of product purchases and notifications.
+* I used this nice colour template:
+
+  
+![image](https://github.com/VadeanFlaviuAlexandru/TerraTech/assets/103831098/b5024c34-76fa-4026-8be8-69ad7ce40c89)
 
 ## Description
 
