@@ -26,10 +26,12 @@
     * Charts using Chart.js and Recharts to visualize data.
     * Monthly breakdown of product purchases and notifications.
 * I used this nice colour template:
+  
+    <img src="https://github.com/VadeanFlaviuAlexandru/TerraTech/assets/103831098/b5024c34-76fa-4026-8be8-69ad7ce40c89" alt="Harap-Alb-Icon" width="600">
+
+
 
   
-![image](https://github.com/VadeanFlaviuAlexandru/TerraTech/assets/103831098/b5024c34-76fa-4026-8be8-69ad7ce40c89)
-
 ## Description
 
 <h4>The primary purpose of TerraTech is to simulate a robust branch management environment with distinct roles for Admins, Managers, and Employees. Through a user-friendly interface, the application empowers Managers to create and oversee their teams, manage products, and generate insightful reports. Admins, on the other hand, gain a comprehensive overview of the entire organizational structure and can analyze critical statistics.</h3>  
